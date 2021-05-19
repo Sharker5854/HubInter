@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load cache %}
+
+
+{% block title %} Hubinter {% endblock %}
+
+{% block alert %}{% endblock %}
+
+{% block content %}
+    <!-- Portfolio Projects -->
+    <div class="row">
+
+    	<div class="span3">
+        	{% include 'inc/_theme_sidebar.html' %}
+        </div>
+        
+        <div class="span9">
+        	<div class="row">
+            	<section id="projects">
+                	<ul id="thumbs">
+                    	
+                    	
+					    <!-- Item Project and Filter Name -->
+						<li class="item-thumbs span3 layout">
+					    	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+					    	<a class="hover-wrap fancybox" href="#">
+					        	<span class="overlay-img"></span>
+					            <span class="overlay-img-thumb font-icon-plus"></span>
+					        </a>
+					        <!-- Thumb Image and Description -->
+					        <img src="{% static 'images/work/thumbs/image-01.jpg' %}" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+					    </li>
+					    
+						<!-- Item Project and Filter Name -->
+						<li class="item-thumbs span3 frontend">
+					    	<a class="hover-wrap fancybox" href="#">
+					        	<span class="overlay-img"></span>
+					            <span class="overlay-img-thumb font-icon-plus"></span>
+					        </a>
+					        <img src="{% static 'images/work/thumbs/image-03.jpg' %}" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+					    </li>
+					    
+						<!-- Item Project and Filter Name -->
+						<li class="item-thumbs span3 backend">
+					    	<a class="hover-wrap fancybox" href="#">
+					        	<span class="overlay-img"></span>
+					            <span class="overlay-img-thumb font-icon-plus"></span>
+					        </a>
+					        <img src="{% static 'images/work/thumbs/image-08.jpg' %}" alt="Video">
+					    </li>
+
+					    <li class="item-thumbs span3 game">
+					    	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
+					    	<a class="hover-wrap fancybox" href="#">
+					        	<span class="overlay-img"></span>
+					            <span class="overlay-img-thumb font-icon-plus"></span>
+					        </a>
+					        <!-- Thumb Image and Description -->
+					        <img src="{% static 'images/work/thumbs/image-01.jpg' %}" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
+					    </li>
+
+
+                    </ul>
+                </section>            
+        	</div>
+        </div>
+
+    </div>
+{% endblock %}
