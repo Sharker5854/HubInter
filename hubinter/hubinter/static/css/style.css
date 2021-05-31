@@ -1,4 +1,22 @@
+/* GLOBAL STYLES  */
+
 #alert-block {
 	display: flex; 
 	justify-content: center;
+}
+
+
+
+
+/* ========= index.html ========== */
+
+.preview-block-link:hover .tab-content{
+	background-color: #FF5D5F !important;
+	transition: 0.7s;
+}
+
+.preview-video-title {
+	color: #FFF;
+	font-weight: 300;
+	font-size: 22px;
 }

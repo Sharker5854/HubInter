@@ -342,13 +342,13 @@
 }
 
 .tab-content {
-  	overflow: auto;
+  	overflow: hidden;
 	padding: 20px;
 	background: #26292E;
 }
 
 .tab-content > .tab-pane {
-  	display: none;
+  	display: block;
 }
 
 .tab-content > .active {

@@ -1,4 +1,16 @@
+/* GLOBAL STYLES  */
+
 #alert-block {
 	display: flex; 
 	justify-content: center;
+}
+
+
+
+
+
+/* video.html  */
+.video-container {
+	width: 90%;
+	padding: auto;
 }

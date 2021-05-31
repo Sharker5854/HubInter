@@ -1,0 +1,9 @@
+<nav id="options" class="work-nav">
+    <ul id="filters" class="option-set" data-option-key="filter">
+        <li class="type-work">Themes</li>
+        <li><a href="#filter" data-option-value="*" class="selected">All Videos</a></li>
+        {% for theme in themes %}
+            <li><a href="#filter" data-option-value=".{{ theme.name | lower }}">{{ theme.name }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>

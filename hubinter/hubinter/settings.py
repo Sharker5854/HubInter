@@ -7,7 +7,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 from pathlib import Path
 import os
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +24,6 @@ ALLOWED_HOSTS = []
 
 INTERNAL_IPS = ['127.0.0.1'] # for django-debug-toolbar
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'videos',
+    'imagekit',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

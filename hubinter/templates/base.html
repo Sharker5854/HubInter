@@ -110,7 +110,6 @@
         <nav id="menu">
         	<ul id="menu-nav">
             	<li class="current"><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'home' %}">Our Work</a></li>
                 <li><a href="{% url 'about' %}">About us</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
 				<li><a href="shortcodes.html" class="external">Shortcodes</a></li>
@@ -141,10 +140,10 @@
 <!-- Our Work Section -->
 <div id="work" class="page">
 	<div class="container">
-        {% block content %}
+	    {% block content %}
 
 	    {% endblock %}
-    </div>
+	</div>
 </div>
 
 
@@ -195,7 +194,7 @@
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> <!-- jQuery Core -->
+<script src="https://code.jquery.com/jquery-latest.min.js"></script> <!-- jQuery Core -->
 <script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Bootstrap -->
 <script src="{% static 'js/supersized.3.2.7.min.js' %}"></script> <!-- Slider -->
 <script src="{% static 'js/waypoints.js' %}"></script> <!-- WayPoints -->

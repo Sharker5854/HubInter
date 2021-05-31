@@ -1,8 +1,17 @@
+import os
 from django.db import models
+from django.conf import settings
 from django.shortcuts import reverse
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import AbstractUser
+from django.dispatch import receiver
+from django.db.models import signals
+from django.utils.text import slugify
 from delorean import Delorean
+from urllib.parse import unquote
+from .utils import *
+from imagekit.models.fields import ImageSpecField
+from imagekit.processors import ResizeToFit
 
 
 class User(AbstractUser):
@@ -44,46 +53,94 @@ class Theme(models.Model):
 	def __str__(self):
 		return self.name
 
+	class Meta:
+		verbose_name = 'Theme'
+		verbose_name_plural = 'Themes'
+		ordering = ['name']
+
+@receiver(signals.pre_save, sender=Theme)
+def populate_slug(sender, instance, **kwargs):
+	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
+	should use presave signal to change slug again'''
+	instance.slug = slugify(instance.name)
+
 
 
 class Tag(models.Model):
 	name = models.CharField(verbose_name='Tag', max_length=50, unique=True)
 	slug = models.SlugField(verbose_name='Slug', unique=True)
-	theme = models.ForeignKey('Theme', on_delete=models.CASCADE, verbose_name='Relative theme')
+	theme = models.ForeignKey('Theme', on_delete=models.CASCADE, verbose_name='Theme')
 	created_at = models.DateTimeField(verbose_name='Tag added', auto_now_add=True)
 
 	def __str__(self):
 		return self.name
 
+	def humanize_created_at(self):
+		pass
+
+	class Meta:
+		verbose_name = 'Tag'
+		verbose_name_plural = 'Tags'
+		ordering = ['theme']
+
+@receiver(signals.pre_save, sender=Tag)
+def populate_slug(sender, instance, **kwargs):
+	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
+	should use presave signal to change slug again'''
+	instance.slug = slugify(instance.name)
+
 
 
 class Video(models.Model):
-	title = models.CharField(verbose_name='Video', max_length=255)
+	title = models.CharField(verbose_name='Title', max_length=255)
 	slug = models.SlugField(verbose_name='Slug', unique=True)
 	description = models.TextField(verbose_name='Description')
-	author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Author')
-	created_at = models.DateTimeField(verbose_name='Video added', auto_now_add=True)
-	updated_at = models.DateTimeField(verbose_name='Video updated', auto_now=True)
-	preview = models.ImageField(
+	author = models.ForeignKey(
+		settings.AUTH_USER_MODEL, editable=False, 
+		default=None, null=True, blank=True,
+		on_delete=models.CASCADE, verbose_name='Author'
+	)
+	theme = models.ForeignKey('Theme', on_delete=models.PROTECT, verbose_name='Theme')
+	tags = models.ManyToManyField('Tag', related_name='videos', verbose_name='Tags')
+	created_at = models.DateTimeField(verbose_name='Published', auto_now_add=True)
+	updated_at = models.DateTimeField(verbose_name='Updated', auto_now=True)
+	preview = models.ImageField( # original preview
 		upload_to='previews/%Y/%m/%d/', 
-		validators=[ FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'svg']), ],
+		validators=[ FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'svg', 'gmp']), ],
 		verbose_name='Preview file', blank=True
+	)
+	cropped_preview = ImageSpecField( 
+		processors=[ResizeToFit(width=270, height=212, upscale=True, mat_color='#26292E')], 
+		source='preview', format='PNG'
 	)
 	video = models.FileField(
 		upload_to='videos/%Y/%m/%d/', 
 		validators=[ FileExtensionValidator(allowed_extensions=['mov', 'mp4', 'mpeg4', 'avi', 'mpegps', 'flv']), ],
 		verbose_name='Video file'
 	)
+	is_published = models.BooleanField(default=True, verbose_name='Is Published')
 	views = models.IntegerField(verbose_name='Views', default=0)
 	likes = models.IntegerField(verbose_name='Likes', default=0)
 	dislikes = models.IntegerField(verbose_name='Dislikes', default=0)
-	comments_amount = models.IntegerField(verbose_name='Comments amount', default=0)
+	comments_amount = models.IntegerField(verbose_name='Comments', default=0)
 
 	def __str__(self):
 		return self.title
 
 	def get_absolute_url(self):
 		return reverse('video', kwargs={'slug' : self.slug})
+
+	class Meta:
+		verbose_name = 'Video'
+		verbose_name_plural = 'Videos'
+		ordering = ['-created_at']
+
+@receiver(signals.pre_save, sender=Video)
+def populate_slug(sender, instance, **kwargs):
+	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
+	should use presave signal to change slug again'''
+	instance.slug = slugify(instance.title)
+
 
 
 '''
@@ -97,12 +154,21 @@ class YoutubeVideo(models.Model):
 
 
 class Comment(models.Model):
-	answer_for = models.ForeignKey('self', default='', verbose_name='Relative comment', on_delete=models.CASCADE)
-	author = models.ForeignKey(User, verbose_name='Author', on_delete=models.CASCADE)
+	answer_for = models.ForeignKey('self', default=None, editable=False, verbose_name='Relative comment', on_delete=models.CASCADE)
+	author = models.ForeignKey(
+		settings.AUTH_USER_MODEL, editable=False, 
+		#default=None, null=True, blank=True,
+		verbose_name='Author', on_delete=models.CASCADE
+	)
 	text = models.TextField(verbose_name='Text', max_length=1000)
-	video = models.ForeignKey('Video', on_delete=models.CASCADE, verbose_name='Video')
-	created_at = models.DateTimeField(auto_now_add=True, verbose_name='Comment added')
-	updated_at = models.DateTimeField(auto_now=True, verbose_name='Comment updated')
+	video = models.ForeignKey('Video', on_delete=models.CASCADE, editable=False, verbose_name='Video')
+	created_at = models.DateTimeField(auto_now_add=True, verbose_name='Added')
+	updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated')
 
 	def __str__(self):
 		return self.title
+
+	class Meta:
+		verbose_name = 'Comment'
+		verbose_name_plural = 'Comments'
+		ordering = ['-created_at']

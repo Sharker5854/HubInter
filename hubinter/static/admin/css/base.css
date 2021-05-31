@@ -12,6 +12,9 @@ html {
 #container {
 	border: 4px solid #26292E !important;
 }
+.messagelist a {
+    color: #FF5D5F !important;
+}
 .colM {
 	background-color: #2F3238 !important;
 }
@@ -37,6 +40,9 @@ thead tr th a:hover {
 }
 tr {
 	background-color: #41454D !important;
+}
+tbody tr td {
+    color: #FFFFFF !important;
 }
 #content-related {
 	background-color: #2F3238 !important;
@@ -86,6 +92,9 @@ button {
 	color: #FFFFFF !important;
 	border-color: #DBA571 !important;
 }
+.readonly {
+    color: #FFFFFF !important;
+}
 
 
 #toolbar {
@@ -105,6 +114,9 @@ button {
 	color: #FFFFFF !important;
 	border-color: #777777 !important;
 }
+#result_list span {
+    color: #FFFFFF;
+}
 
 
 .paginator {
@@ -117,6 +129,26 @@ button {
 	background-color: #2F3238 !important;
 }
 
+.errornote {
+    background-color: #E56C69 !important;
+    border-color: #E56C69 !important;
+    color: #FFF !important;
+}
+.errorlist {
+    background: #41454D !important;
+}
+.errorlist li {
+    background: #41454D !important;
+    color: #E56C69 !important;
+}
+
+
+.djdt-scroll thead tr th {
+    background-color: #FFF !important;
+}
+.djdt-scroll tbody tr td {
+    background-color: #FFF !important;
+}
 
 
 /* =========================================================== */

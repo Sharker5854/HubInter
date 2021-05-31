@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{{ video.title }}
+{% endblock title %}
+
+
+{% block content %}
+	<style>
+		#work {
+			padding: 2.5% 0;
+		}
+
+		#work .container {
+			width: 80%;
+		}
+	</style>
+
+	<h2>{{ video.title }}</h2>
+{% endblock content %}

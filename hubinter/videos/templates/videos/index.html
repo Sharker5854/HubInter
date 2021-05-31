@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load theme_sidebar %}
 
 {% load static %}
 {% load cache %}
@@ -13,7 +14,7 @@
     <div class="row">
 
     	<div class="span3">
-        	{% include 'inc/_theme_sidebar.html' %}
+    		{% get_theme_sidebar %}
         </div>
         
         <div class="span9">
@@ -21,46 +22,20 @@
             	<section id="projects">
                 	<ul id="thumbs">
                     	
-                    	
-					    <!-- Item Project and Filter Name -->
-						<li class="item-thumbs span3 layout">
-					    	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
-					    	<a class="hover-wrap fancybox" href="#">
-					        	<span class="overlay-img"></span>
-					            <span class="overlay-img-thumb font-icon-plus"></span>
-					        </a>
-					        <!-- Thumb Image and Description -->
-					        <img src="{% static 'images/work/thumbs/image-01.jpg' %}" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-					    </li>
-					    
-						<!-- Item Project and Filter Name -->
-						<li class="item-thumbs span3 frontend">
-					    	<a class="hover-wrap fancybox" href="#">
-					        	<span class="overlay-img"></span>
-					            <span class="overlay-img-thumb font-icon-plus"></span>
-					        </a>
-					        <img src="{% static 'images/work/thumbs/image-03.jpg' %}" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-					    </li>
-					    
-						<!-- Item Project and Filter Name -->
-						<li class="item-thumbs span3 backend">
-					    	<a class="hover-wrap fancybox" href="#">
-					        	<span class="overlay-img"></span>
-					            <span class="overlay-img-thumb font-icon-plus"></span>
-					        </a>
-					        <img src="{% static 'images/work/thumbs/image-08.jpg' %}" alt="Video">
-					    </li>
-
-					    <li class="item-thumbs span3 game">
-					    	<!-- Fancybox - Gallery Enabled - Title - Full Image -->
-					    	<a class="hover-wrap fancybox" href="#">
-					        	<span class="overlay-img"></span>
-					            <span class="overlay-img-thumb font-icon-plus"></span>
-					        </a>
-					        <!-- Thumb Image and Description -->
-					        <img src="{% static 'images/work/thumbs/image-01.jpg' %}" alt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elementum odio. Curabitur pellentesque, dolor vel pharetra mollis.">
-					    </li>
-
+					    {% for video in videos %}
+							<li class="item-thumbs span3 {{ video.theme | lower }}">
+						    	<a class="preview-block-link" href="{{ video.get_absolute_url }}">
+						        	<img src="{{ video.cropped_preview.url }}" alt="{{ video.title }}" style="width: 100%;">
+									<div class="tab-content">
+										<div class="tab-pane fade active in" id="tab3">
+											<p class="preview-video-title">
+												{{ video.title | truncatewords:8 | truncatechars:75 }}
+											</p>
+										</div>
+									</div>
+								</a>
+						    </li>
+						{% endfor %}
 
                     </ul>
                 </section>            
@@ -69,3 +44,8 @@
 
     </div>
 {% endblock %}
+
+{# class="hover-wrap fancybox" #}
+
+{# <span class="overlay-img"></span>
+<span class="overlay-img-thumb font-icon-plus"></span> #}
