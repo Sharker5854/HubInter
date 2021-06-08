@@ -12,6 +12,7 @@ from urllib.parse import unquote
 from .utils import *
 from imagekit.models.fields import ImageSpecField
 from imagekit.processors import ResizeToFit
+import json
 
 
 class User(AbstractUser):
@@ -21,7 +22,7 @@ class User(AbstractUser):
 	username = models.CharField(max_length=100, verbose_name='Username', unique=True)
 	registered_at = models.DateTimeField(verbose_name='Registered', auto_now_add=True)
 	avatar = models.ImageField(
-		validators=[ FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'svg']), ],
+		validators=[ FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'svg', 'gmp']), ],
 		upload_to='avatars/%Y/%m', verbose_name='Avatar', blank=True
 	)
 	subscribers = models.ManyToManyField(
@@ -30,7 +31,11 @@ class User(AbstractUser):
 	)
 	notifications = models.ManyToManyField(
 		'self', related_name='notified', 
-		verbose_name='Notificatiosn'
+		verbose_name='Notifications'
+	)
+	viewed_videos = models.ManyToManyField(
+		'Video', related_name='viewed_by', 
+		verbose_name='Viewed videos'
 	)
 	liked_videos = models.ManyToManyField(
 		'Video', related_name='liked_by', 
@@ -43,6 +48,8 @@ class User(AbstractUser):
 
 	def __str__(self):
 		return self.username
+
+
 
 
 
@@ -63,6 +70,8 @@ def populate_slug(sender, instance, **kwargs):
 	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
 	should use presave signal to change slug again'''
 	instance.slug = slugify(instance.name)
+
+
 
 
 
@@ -91,8 +100,10 @@ def populate_slug(sender, instance, **kwargs):
 
 
 
+
+
 class Video(models.Model):
-	title = models.CharField(verbose_name='Title', max_length=255)
+	title = models.CharField(verbose_name='Title', max_length=255, blank=False, null=False)
 	slug = models.SlugField(verbose_name='Slug', unique=True)
 	description = models.TextField(verbose_name='Description')
 	author = models.ForeignKey(
@@ -130,6 +141,10 @@ class Video(models.Model):
 	def get_absolute_url(self):
 		return reverse('video', kwargs={'slug' : self.slug})
 
+	def get_created_at(self):
+		delta = Delorean(datetime=self.created_at, timezone='Europe/Moscow')
+		return delta.humanize().capitalize()
+
 	class Meta:
 		verbose_name = 'Video'
 		verbose_name_plural = 'Videos'
@@ -137,9 +152,11 @@ class Video(models.Model):
 
 @receiver(signals.pre_save, sender=Video)
 def populate_slug(sender, instance, **kwargs):
-	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
+	''' Due to the fact that the slug doesn't change while editing the name in admin panel,
 	should use presave signal to change slug again'''
 	instance.slug = slugify(instance.title)
+
+
 
 
 
@@ -150,6 +167,8 @@ class YoutubeVideo(models.Model):
 	def is_yotube_link(self, link):
 		pass
 '''
+
+
 
 
 

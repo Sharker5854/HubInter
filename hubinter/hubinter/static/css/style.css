@@ -5,18 +5,130 @@
 	justify-content: center;
 }
 
+.searchbar {
+	width: 85%;
+	margin: auto;
+	margin-bottom: 50px;
+}
+
+.searchbar input {
+	border: none;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	box-shadow: none;	
+	background: #26292E;
+    color: #FFFFFF;
+    font-size: 20px;
+    height: 60px;
+    padding: 15px;
+	margin: 0;
+    resize: none;
+    width: 100%;
+}
+.searchbar input::placeholder {
+	font-size: 25px;
+}
+.searchbar input[type="text"]:focus {
+	border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: 0 0 8px rgba(255,93,95);
+    box-shadow: 0 0 8px rgba(255,93,95);
+}
+.font-icon-search-btn {
+	margin-left: 1vw;
+	outline: none;
+	border: none;
+	display: inline-block;
+	width: 64px;
+	height: 60px;
+
+	background: #26292E;
+	
+	-webkit-transition: all 400ms ease-out 0s;	
+	   -moz-transition: all 400ms ease-out 0s;
+		 -o-transition: all 400ms ease-out 0s;
+		    transition: all 400ms ease-out 0s;
+		  
+	-webkit-transform: rotateY(0deg);
+	   -moz-transform: rotateY(0deg);
+		-ms-transform: rotateY(0deg);
+		 -o-transform: rotateY(0deg);
+			transform: rotateY(0deg);
+}
+.font-icon-search-btn:hover {
+	background: #FF5D5F;
+}
+.font-icon-search-btn:hover span {
+	opacity: 1;
+	color: #FFFFFF;
+}
+.font-icon-search-btn span {
+	display: inline-block;
+	margin: 0;
+	color: #55606a;
+	font-size: 32px;
+	line-height: 60px;
+}
+
+.sign-in-link {
+	font-weight: 600 !important;
+	font-size: 20px !important;
+}
 
 
 
 /* ========= index.html ========== */
 
+#tag-accordion {
+	margin-top: 30%;
+}
+.tag-button {
+	background-color: #FF5D5F;
+	color: #FFFFFF;
+	margin-bottom: 6%;
+}
+.selected-tag {
+	background-color: #CD9B6C !important;
+}
+.selected-tag:hover {
+	background-color: #CDAB8A !important;
+}
+#scroll-down-hint {
+	margin-top: 12px;
+	margin-bottom: 0;
+	display: none;
+}
+
+
+.tab-content {
+	padding-bottom: 0;
+}
 .preview-block-link:hover .tab-content{
 	background-color: #FF5D5F !important;
 	transition: 0.7s;
 }
-
+.preview-block-link:hover .preview-video-title .red-text {
+	color: #FFF;
+}
 .preview-video-title {
 	color: #FFF;
 	font-weight: 300;
-	font-size: 22px;
+	font-size: 20px;
+}
+
+.red-text {
+	color: #FF5D5F !important;
+}
+.yellow-text {
+	color: #DBA571 !important;
+}
+.white-text {
+	color: #FFFFFF !important;
 }

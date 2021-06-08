@@ -1,0 +1,17 @@
+<div class="accordion-group" id="tag-accordion">
+    <div class="accordion-heading accordionize">
+        <a class="accordion-toggle white-text" data-toggle="collapse" data-parent="#accordionArea" href="#oneArea">
+            <b id="tag-accordion-title" style="font-weight: 300;">ALL TAGS</b>
+            <span class="font-icon-arrow-simple-down"></span>
+        </a>
+    </div>
+    <div id="oneArea" class="accordion-body collapse">
+        <div class="accordion-inner">
+            {% for tag in tags %}
+                <a onclick="show_videos_by_tag( '{{ tag.name | lower }}' )" 
+                id="tag-btn-{{ tag.name | lower }}" class="button button-mini tag-button {{ tag.theme }}">{{ tag.name }}</a>
+            {% endfor %}
+            <p id="scroll-down-hint">If you can't see the videos, scroll down below &#9660;</p>
+        </div>
+    </div>
+</div>

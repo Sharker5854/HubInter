@@ -1,0 +1,12 @@
+<div class="searchbar">
+	<form action="{% url 'search' %}" method="GET" style="display: flex;">
+		<input name="q" type="text" placeholder="Search..." autocomplete="off" 
+			{% if search_query %}
+				value="{{ search_query }}"
+			{% endif %} >
+		
+		<button type="submit" class="font-icon-search-btn">
+			<span class="font-icon-search"></span>
+		</button>	
+	</form>
+</div>

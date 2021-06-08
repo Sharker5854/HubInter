@@ -120,10 +120,10 @@ BRUSHED.filter = function (){
 	
 		
 		// filter items when filter link is clicked
-		var $optionSets = $('#options .option-set'),
+		var $optionSets = $('.option-set'),
 			$optionLinks = $optionSets.find('a');
 	
-		  $optionLinks.click(function(){
+		$optionLinks.click(function(){
 			var $this = $(this);
 			// don't proceed if already selected
 			if ( $this.hasClass('selected') ) {
@@ -152,6 +152,7 @@ BRUSHED.filter = function (){
 		});
 	}
 }
+
 
 
 /* ==================================================

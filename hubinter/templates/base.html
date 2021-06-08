@@ -105,16 +105,18 @@
 			<a id="goUp" href="{% url 'home' %}">
 				<img src="{% static 'images/hubinter_logo.png' %}" width="180">
 			</a>
-        </div> 
+        </div>
 
         <nav id="menu">
         	<ul id="menu-nav">
-            	<li class="current"><a href="{% url 'home' %}">Home</a></li>
+            	<li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'about' %}">About us</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
-				<li><a href="shortcodes.html" class="external">Shortcodes</a></li>
+				<li class="current">
+					<a href="" class="external sign-in-link">Sign in</a>
+				</li>
             </ul>
-        </nav>    
+        </nav>
     </div>
 </header>
 

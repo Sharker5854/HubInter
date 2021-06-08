@@ -1,20 +1,24 @@
 {% extends 'base.html' %}
-{% load theme_sidebar %}
+{% load sidebars %}
 
-{% load static %}
 {% load cache %}
 
 
-{% block title %} Hubinter {% endblock %}
+{% block title %} Hubinter {% endblock title %}
 
-{% block alert %}{% endblock %}
+{% block alert %}{% endblock alert %}
 
 {% block content %}
+	{% include "inc/_searchbar.html" %}
+
     <!-- Portfolio Projects -->
     <div class="row">
 
     	<div class="span3">
-    		{% get_theme_sidebar %}
+    		{# {% cache 180 sidebars %} #}
+	    		{% get_theme_sidebar %}
+				{% get_tag_sidebar %}
+			{# {% endcache %} #}
         </div>
         
         <div class="span9">
@@ -23,13 +27,19 @@
                 	<ul id="thumbs">
                     	
 					    {% for video in videos %}
-							<li class="item-thumbs span3 {{ video.theme | lower }}">
+							<li class="item-thumbs span3 {{ video.theme | lower }} {% for tag in video.tags.all %}{{ tag | lower }}{% endfor %}">
 						    	<a class="preview-block-link" href="{{ video.get_absolute_url }}">
 						        	<img src="{{ video.cropped_preview.url }}" alt="{{ video.title }}" style="width: 100%;">
 									<div class="tab-content">
 										<div class="tab-pane fade active in" id="tab3">
 											<p class="preview-video-title">
 												{{ video.title | truncatewords:8 | truncatechars:75 }}
+												<br><br>
+												<span class="red-text">{{ video.author | truncatechars:30 }}</span>
+												<br><br>
+												<i><span>{{ video.get_created_at }}</span></i>
+												<br><br>
+												<span class="yellow-text">{{ video.views }} views</span>
 											</p>
 										</div>
 									</div>
