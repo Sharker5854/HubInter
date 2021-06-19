@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Add video{% endblock title %}
+
+{% block alert %}{% endblock alert %}
+
+
+{% block content %}
+
+	<div class="container">
+		    <!-- Title Page -->
+		    <div class="row">
+		        <div class="span12">
+		            <div class="title-page">
+		                <h2 class="title">Add Video</h2>
+		                <h3 class="title-description">You can upload a new video or provide a link to your YouTube video.</h3>
+		            </div>
+		        </div>
+		    </div>
+		    
+		    <div class="row">
+		    	<!-- Form -->
+		    	<div class="span9">    
+					<form enctype="multipart/form-data" action="{% url 'add_video' %}" method="POST" class="add-video-form" id="contact-form">
+						{% csrf_token %}
+						{{ form.as_table }}
+						<input type="submit" class="submit-video" value="Save">
+					</form>
+		        </div>
+		        <!-- Hints -->      
+		        <div class="span3">
+		        	<div class="contact-details">
+		        		<h3>Contact Details</h3>
+		                <ul>
+		                    <li><a href="#">hello@brushed.com</a></li>
+		                    <li>8 (961) 668-93-22</li>
+		                    <li>
+		                        Brushed Studio
+		                        <br>
+		                        5240 Vanish Island. 105
+		                        <br>
+		                        Unknow
+		                    </li>
+		                </ul>
+		            </div>
+		        </div>		        
+		    </div>
+
+{% endblock content %}

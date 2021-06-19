@@ -1,4 +1,22 @@
 /* GLOBAL STYLES  */
+::-webkit-scrollbar {
+    width: 15px;
+}
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 50%);
+    background: #FF5D5F;
+    border-radius: 15px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background: #26292E;
+}
+
+
+
+
+
+
 
 #alert-block {
 	display: flex; 
@@ -124,11 +142,106 @@
 }
 
 .red-text {
-	color: #FF5D5F !important;
+	color: #FF5D5F;
 }
 .yellow-text {
 	color: #DBA571 !important;
 }
 .white-text {
 	color: #FFFFFF !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ========= add_video.html ========== */
+#contact-form .submit-video {
+    background: #DE5E60;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 16px 40px;
+    text-align: center;
+    vertical-align: middle;
+    width: auto;
+	margin-bottom: 10%;
+	
+	-webkit-transition: background 0.1s linear 0s, color 0.1s linear 0s;	
+	   -moz-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		 -o-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		    transition: background 0.1s linear 0s, color 0.1s linear 0s;
+}
+
+#contact-form .submit-video:hover {
+    background: #DE6F70; 
+}
+
+
+.add-video-form label {
+	font-size: 17px;
+}
+
+
+#id_theme {
+	background-color: #26292E !important;
+	border: 1px solid #141518;
+	color: #FFFFFF;
+	width: 275px;
+	height: 40px;
+	box-shadow: none;
+	content: "▼";
+}
+#id_theme:focus {
+	outline: none !important;
+}
+
+#id_tags {
+	background-color: #26292E !important;
+	border: 1px solid #141518;
+	color: #FFFFFF;
+	width: 275px;
+	height: 150px;
+	box-shadow: none;
+}
+#id_tags:focus {
+	outline: none !important;
+}
+#id_tags::-webkit-scrollbar {
+    width: 10px;
+}
+#id_tags::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 50%);
+    background: #FF5D5F;
+    border-radius: 5px;
+}
+#id_tags::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background: #26292E;
+}
+
+#id_preview, #id_video:hover {
+	cursor: pointer;
+}
+#id_preview, #id_video:focus {
+	outline: none;
 }

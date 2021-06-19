@@ -8,11 +8,9 @@ from django.dispatch import receiver
 from django.db.models import signals
 from django.utils.text import slugify
 from delorean import Delorean
-from urllib.parse import unquote
 from .utils import *
 from imagekit.models.fields import ImageSpecField
 from imagekit.processors import ResizeToFit
-import json
 
 
 class User(AbstractUser):
@@ -84,8 +82,9 @@ class Tag(models.Model):
 	def __str__(self):
 		return self.name
 
-	def humanize_created_at(self):
-		pass
+	def get_created_at(self):
+		delta = Delorean(datetime=self.created_at, timezone='Europe/Moscow')
+		return delta.humanize().capitalize()
 
 	class Meta:
 		verbose_name = 'Tag'
@@ -104,11 +103,10 @@ def populate_slug(sender, instance, **kwargs):
 
 class Video(models.Model):
 	title = models.CharField(verbose_name='Title', max_length=255, blank=False, null=False)
-	slug = models.SlugField(verbose_name='Slug', unique=True)
-	description = models.TextField(verbose_name='Description')
+	slug = models.SlugField(verbose_name='Slug', max_length=300, unique=True)
+	description = models.TextField(verbose_name='Description', max_length=2550)
 	author = models.ForeignKey(
-		settings.AUTH_USER_MODEL, editable=False, 
-		default=None, null=True, blank=True,
+		settings.AUTH_USER_MODEL,default=None,
 		on_delete=models.CASCADE, verbose_name='Author'
 	)
 	theme = models.ForeignKey('Theme', on_delete=models.PROTECT, verbose_name='Theme')
@@ -118,7 +116,7 @@ class Video(models.Model):
 	preview = models.ImageField( # original preview
 		upload_to='previews/%Y/%m/%d/', 
 		validators=[ FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'svg', 'gmp']), ],
-		verbose_name='Preview file', blank=True
+		verbose_name='Preview file', blank=True, default=os.path.join(settings.BASE_DIR, 'media/default_pictures/default_preview.png')
 	)
 	cropped_preview = ImageSpecField( 
 		processors=[ResizeToFit(width=270, height=212, upscale=True, mat_color='#26292E')], 
@@ -145,16 +143,20 @@ class Video(models.Model):
 		delta = Delorean(datetime=self.created_at, timezone='Europe/Moscow')
 		return delta.humanize().capitalize()
 
+	def get_updated_at(self):
+		delta = Delorean(datetime=self.updated_at, timezone='Europe/Moscow')
+		return delta.humanize().capitalize()
+
 	class Meta:
 		verbose_name = 'Video'
 		verbose_name_plural = 'Videos'
 		ordering = ['-created_at']
 
-@receiver(signals.pre_save, sender=Video)
-def populate_slug(sender, instance, **kwargs):
-	''' Due to the fact that the slug doesn't change while editing the name in admin panel,
-	should use presave signal to change slug again'''
-	instance.slug = slugify(instance.title)
+# @receiver(signals.pre_save, sender=Video)
+# def populate_slug(sender, instance, **kwargs):
+# 	''' Due to the fact that the slug doesn't change while editing the name in admin panel,
+# 	should use presave signal to change slug again'''
+# 	instance.slug = slugify(instance.title)
 
 
 
@@ -186,6 +188,14 @@ class Comment(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	def get_created_at(self):
+		delta = Delorean(datetime=self.created_at, timezone='Europe/Moscow')
+		return delta.humanize().capitalize()
+
+	def get_updated_at(self):
+		delta = Delorean(datetime=self.updated_at, timezone='Europe/Moscow')
+		return delta.humanize().capitalize()
 
 	class Meta:
 		verbose_name = 'Comment'

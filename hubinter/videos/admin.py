@@ -26,8 +26,7 @@ class TagAdmin(admin.ModelAdmin):
 	list_display = ('name', 'theme', 'humanize_created_at')
 
 	def humanize_created_at(self, obj):
-		delta = Delorean(datetime=obj.created_at, timezone='Europe/Moscow')
-		return delta.humanize().capitalize()
+		return obj.get_created_at()
 
 	humanize_created_at.short_description = 'Tag added'
 
@@ -100,12 +99,10 @@ class VideoAdmin(admin.ModelAdmin):
 		''')
 
 	def humanize_created_at(self, obj):
-		delta = Delorean(datetime=obj.created_at, timezone='Europe/Moscow')
-		return delta.humanize().capitalize()
+		return obj.get_created_at()
 
 	def humanize_updated_at(self, obj):
-		delta = Delorean(datetime=obj.updated_at, timezone='Europe/Moscow')
-		return delta.humanize().capitalize()
+		return obj.get_updated_at()
 
 	get_preview_list_display.short_description = 'Preview'
 	get_preview.short_description = 'Preview'
@@ -131,12 +128,10 @@ class CommentAdmin(admin.ModelAdmin):
 		return False
 
 	def humanize_created_at(self, obj):
-		delta = Delorean(datetime=obj.created_at, timezone='Europe/Moscow')
-		return delta.humanize().capitalize()
+		return obj.get_created_at()
 
 	def humanize_updated_at(self, obj):
-		delta = Delorean(datetime=obj.updated_at, timezone='Europe/Moscow')
-		return delta.humanize().capitalize()
+		return obj.get_updated_at()
 
 	humanize_created_at.short_description = 'Written'
 	humanize_updated_at.short_description = 'Updated'

@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.utils.text import slugify
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.views.generic import ListView, DetailView, TemplateView, FormView
+from django.db import IntegrityError
+from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
 from django.db.models import Q
 from .models import *
 from .utils import *
+from .forms import AddVideoForm
 from delorean import Delorean
 import loguru
+import uuid
 
 
 # НАЧАЛ ДЕЛАТЬ САЙТ 10 МАЯ
@@ -20,12 +24,19 @@ import loguru
 	Доступ к редактированию видео админом
 
 - ВИДЕО:
-	Форма добавления видео
+	Форма добавления видео (отображение тэгов в соответствии с выбранной темой, ajax-запрос при сабмите)
 	Страница видео (DetailView)
 
 - ВЗАИМОДЕЙСТВИЕ:
+	Оптимизация SQL-запросов на главной странице
 	Авторизация/Регистрация
 	Пагинация (где надо)
+
+
+
+- ДОДЕЛАТЬ:
+	Анимацию фильтрации по тэгам на главной
+	Стили для формы добавления видео
 '''
 
 
@@ -35,8 +46,7 @@ class Home(ListView):
 	model = Video
 	template_name = 'videos/index.html'
 	context_object_name = 'videos'
-	queryset = Video.objects.order_by('-created_at')
-
+	queryset = Video.objects.filter(is_published=True).order_by('-created_at')
 
 
 
@@ -70,7 +80,6 @@ class SearchVideos(ListView):
 
 
 
-
 class VideoDetail(DetailView):
 	model = Video
 	template_name = 'videos/video.html'
@@ -84,14 +93,39 @@ class VideoDetail(DetailView):
 
 
 
+
+
+class AddVideo(CreateView):
+	model = Video
+	form_class = AddVideoForm
+	template_name = "videos/add_video.html"
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+
+		self.object.author = self.request.user	
+		self.object.slug = slugify(self.object.title)
+
+		try:
+			self.object.save()
+		except IntegrityError: #add 5 random symbols to slug, if it is not unique
+			self.object.slug = slugify(self.object.title) + "_" + str(uuid.uuid4())[:5]
+			self.object.save() #and try to save again
+
+		return HttpResponseRedirect(self.get_success_url())
+
+
+
+
+
 @method_decorator( cache_page(60 * 5), name="dispatch" )
 class About(TemplateView):
-	template_name = 'videos/about.html'
+	template_name = 'about.html'
 
 
 class Contact(FormView):
-	template_name = 'videos/contact.html'
-	form_class = About
+	template_name = 'contact.html'
+	form_class = About #
 
 
 
