@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'videos',
+    'ajax.apps.AjaxConfig',
     'imagekit',
     'django_cleanup.apps.CleanupConfig',
 ]
@@ -145,5 +146,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 '''For customing admin panel'''
 X_FRAME_OPTIONS='SAMEORIGIN'
 
-'''Unnecessary if I redefind base django User model'''
+'''Unnecessary if redefinded base django User model'''
 AUTH_USER_MODEL = 'videos.User'

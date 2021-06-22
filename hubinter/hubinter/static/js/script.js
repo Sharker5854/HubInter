@@ -109,3 +109,61 @@ function show_videos_by_tag(tag_name) {
 
 
 }
+
+
+
+
+
+
+// Show tags by current selected theme in add-video form
+const select_theme_block = document.getElementById('id_theme')
+const select_tag_block = document.getElementById('id_tags')
+
+select_theme_block.addEventListener('change', function() { // triggered when changing the selection
+    $.ajax({
+        type: "POST",
+        url: location.protocol + '//' + location.host + '/ajax/tags_by_theme/',
+        data: {'theme' : select_theme_block.options[select_theme_block.selectedIndex].text}, // send chosen theme name
+        success: function(response) {              
+            tag_list = merge_into_single_array(response) // get one list of tags by chosen theme
+            show_tags_by_theme(tag_list) // show only suitable ones
+        },
+        error: function(error) {
+            show_tags_by_theme("all") // if something went wrong, leave all tags visible
+        }
+    });
+})
+
+function merge_into_single_array(ajax_response) { // need to merge, because json returns array of arrays
+    if (ajax_response['tags'] == "all") {
+        tag_list = "all" // if current theme is not chosen, will show all tags
+        return tag_list;
+    }
+    else {
+        tag_list = []; // if chosen, merge tags into one array
+        for (let tag_name of ajax_response['tags']) {
+            tag_list.push(tag_name[0])
+        }
+        return tag_list;
+    }
+};
+
+function show_tags_by_theme(tag_list) { // show tags by theme only in add-video form
+    if (tag_list == "all") {
+        for (let tag_option_btn of select_tag_block.options) { // if not chosen, just show all tags 
+            tag_option_btn.style.display = 'block';
+            tag_option_btn.selected = false // remove all selections
+        }      
+    }
+    else {
+        for (let tag_option_btn of select_tag_block.options) {
+            if ( tag_list.includes(tag_option_btn.text) ) { // if tag in tag_list, leave it visible
+                tag_option_btn.style.display = 'block';
+                tag_option_btn.selected = false
+            }
+            else {
+                tag_option_btn.style.display = 'none';
+            }
+        }
+    }
+}

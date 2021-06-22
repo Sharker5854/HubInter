@@ -24,7 +24,7 @@ import uuid
 	Доступ к редактированию видео админом
 
 - ВИДЕО:
-	Форма добавления видео (отображение тэгов в соответствии с выбранной темой, ajax-запрос при сабмите)
+	Форма добавления видео (ajax-запрос при сабмите, оформление ошибок, flash-сообщение при успешном добавлении)
 	Страница видео (DetailView)
 
 - ВЗАИМОДЕЙСТВИЕ:
@@ -126,18 +126,3 @@ class About(TemplateView):
 class Contact(FormView):
 	template_name = 'contact.html'
 	form_class = About #
-
-
-
-
-
-
-
-
-
-# ==================== AJAX VIEWS ==================== #
-'''
-def get_videos_by_tag(request):
-	videos_by_tag = [1, 2, 3]
-	print(videos_by_tag)
-	return JsonResponse({'videos_by_tag':videos_by_tag}, status=200)'''

@@ -19,16 +19,16 @@
 		    </div>
 		    
 		    <div class="row">
-		    	<!-- Form -->
-		    	<div class="span9">    
+				<!-- Form -->
+				<div class="span12">    
 					<form enctype="multipart/form-data" action="{% url 'add_video' %}" method="POST" class="add-video-form" id="contact-form">
 						{% csrf_token %}
-						{{ form.as_table }}
+						{{ form.as_p }}
 						<input type="submit" class="submit-video" value="Save">
 					</form>
-		        </div>
-		        <!-- Hints -->      
-		        <div class="span3">
+				</div>
+		        <!-- Hints       
+		        {# <div class="span3">
 		        	<div class="contact-details">
 		        		<h3>Contact Details</h3>
 		                <ul>
@@ -43,7 +43,8 @@
 		                    </li>
 		                </ul>
 		            </div>
-		        </div>		        
+		        </div> -->       
 		    </div>
+	</div>
 
 {% endblock content %}
