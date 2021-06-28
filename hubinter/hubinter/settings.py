@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'videos',
-    'ajax.apps.AjaxConfig',
+    'accounts',
+    'ajax',
     'imagekit',
     'django_cleanup.apps.CleanupConfig',
 ]
@@ -147,4 +148,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 X_FRAME_OPTIONS='SAMEORIGIN'
 
 '''Unnecessary if redefinded base django User model'''
-AUTH_USER_MODEL = 'videos.User'
+AUTH_USER_MODEL = 'accounts.User'

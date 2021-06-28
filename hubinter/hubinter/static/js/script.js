@@ -1,4 +1,6 @@
 
+// ------------------------- Home page ------------------------- //
+
 // This func activate while pressing theme link
 function show_theme_tags_and_videos(theme) {
     var tag_buttons = document.getElementsByClassName('tag-button')
@@ -97,11 +99,9 @@ function show_videos_by_tag(tag_name) {
             }
         }
         else { // if NO tag is already enabled (WE DISABLED LAST TAG ABOVE)
-            for (let video of videos) {
-                if( !video.classList.contains(tag_name) ) { // just show all videos
-                    scroll_down_hint.style.display = "none"
-                    video.style.opacity = "1"
-                }
+            for (let video of videos) { // just show all videos
+                scroll_down_hint.style.display = "none"
+                video.style.opacity = "1"
             }
         }
 
@@ -113,13 +113,14 @@ function show_videos_by_tag(tag_name) {
 
 
 
-
+// ------------------------- Add video form ------------------------- //
 
 // Show tags by current selected theme in add-video form
 const select_theme_block = document.getElementById('id_theme')
 const select_tag_block = document.getElementById('id_tags')
 
-select_theme_block.addEventListener('change', function() { // triggered when changing the selection
+// triggered when changing the selection
+select_theme_block.addEventListener('change', function() { 
     $.ajax({
         type: "POST",
         url: location.protocol + '//' + location.host + '/ajax/tags_by_theme/',
@@ -131,10 +132,11 @@ select_theme_block.addEventListener('change', function() { // triggered when cha
         error: function(error) {
             show_tags_by_theme("all") // if something went wrong, leave all tags visible
         }
-    });
-})
+    })
+});
 
-function merge_into_single_array(ajax_response) { // need to merge, because json returns array of arrays
+// need to merge, because json returns array of arrays
+function merge_into_single_array(ajax_response) {
     if (ajax_response['tags'] == "all") {
         tag_list = "all" // if current theme is not chosen, will show all tags
         return tag_list;
@@ -148,7 +150,8 @@ function merge_into_single_array(ajax_response) { // need to merge, because json
     }
 };
 
-function show_tags_by_theme(tag_list) { // show tags by theme only in add-video form
+// show tags by theme only in add-video form
+function show_tags_by_theme(tag_list) {
     if (tag_list == "all") {
         for (let tag_option_btn of select_tag_block.options) { // if not chosen, just show all tags 
             tag_option_btn.style.display = 'block';
@@ -166,4 +169,4 @@ function show_tags_by_theme(tag_list) { // show tags by theme only in add-video 
             }
         }
     }
-}
+};

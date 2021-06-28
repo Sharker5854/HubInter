@@ -2,8 +2,6 @@
 
 {% block title %}Add video{% endblock title %}
 
-{% block alert %}{% endblock alert %}
-
 
 {% block content %}
 
@@ -24,7 +22,7 @@
 					<form enctype="multipart/form-data" action="{% url 'add_video' %}" method="POST" class="add-video-form" id="contact-form">
 						{% csrf_token %}
 						{{ form.as_p }}
-						<input type="submit" class="submit-video" value="Save">
+						<input type="submit" class="submit-add-video" value="Save">
 					</form>
 				</div>
 		        <!-- Hints       

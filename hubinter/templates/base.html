@@ -121,12 +121,17 @@
 </header>
 
 
-<!-- Start Alerts -->
+<!-- Alerts -->
 <div id="alert-block" class="container">
-	<div class="span8">
-		{% block alert %}      
-
-		{% endblock alert %}
+	<div class="span8"> 
+		{% if messages %}
+			{% for alert in messages %}
+			    <div class="alert alert-{{ alert.level_tag }} fade in">
+	                <a class="close" data-dismiss="alert" href="#">&times;</a>
+	                <strong>{{ alert.message }}</strong> 
+	            </div>			
+			{% endfor %}
+		{% endif %}
     </div>
 </div>
 

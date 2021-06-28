@@ -27,7 +27,7 @@
                 	<ul id="thumbs">
                     	
 					    {% for video in videos %}
-							<li class="item-thumbs span3 {{ video.theme | lower }} {% for tag in video.tags.all %}{{ tag | lower }}{% endfor %}">
+							<li class="item-thumbs span3 {{ video.theme | lower }} {% for tag in video.tags.all %} {{ tag | lower }}{% endfor %}">
 						    	<a class="preview-block-link" href="{{ video.get_absolute_url }}">
 						        	<img src="{{ video.cropped_preview.url }}" alt="{{ video.title }}" style="width: 100%;">
 									<div class="tab-content">

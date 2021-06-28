@@ -21,6 +21,7 @@
 #alert-block {
 	display: flex; 
 	justify-content: center;
+	margin-top: 1.5%;
 }
 
 .searchbar {
@@ -173,7 +174,7 @@
 
 
 /* ========= add_video.html ========== */
-#contact-form .submit-video {
+#contact-form .submit-add-video {
     background: #DE5E60;
     color: #FFFFFF;
     cursor: pointer;
@@ -192,7 +193,7 @@
 		    transition: background 0.1s linear 0s, color 0.1s linear 0s;
 }
 
-#contact-form .submit-video:hover {
+#contact-form .submit-add-video:hover {
     background: #DE6F70; 
 }
 
@@ -244,4 +245,13 @@
 }
 #id_preview, #id_video:focus {
 	outline: none;
+}
+
+.errorlist {
+	margin-left: 0;
+	margin-top: 1.5%;
+}
+.errorlist li {
+	list-style-type: none;
+	color: #DE5E60;
 }

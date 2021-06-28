@@ -6,10 +6,13 @@ from django.views.decorators.cache import cache_page
 from django.db import IntegrityError
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
 from django.db.models import Q
+from django.contrib import messages
+
 from .models import *
 from .utils import *
 from .forms import AddVideoForm
 from delorean import Delorean
+import iuliia
 import loguru
 import uuid
 
@@ -24,12 +27,16 @@ import uuid
 	Доступ к редактированию видео админом
 
 - ВИДЕО:
-	Форма добавления видео (ajax-запрос при сабмите, оформление ошибок, flash-сообщение при успешном добавлении)
+	Теряются видео при выборе по тэгам
 	Страница видео (DetailView)
 
 - ВЗАИМОДЕЙСТВИЕ:
+	Авторизация/Регистрация, разграничить доступ авторизованным юзерам
 	Оптимизация SQL-запросов на главной странице
-	Авторизация/Регистрация
+	Добавление видео с YouTube
+	Видеопроигрыватель
+	Комменты, лайки, подписки, уведомления, "Поделиться"
+	Профиль
 	Пагинация (где надо)
 
 
@@ -103,8 +110,9 @@ class AddVideo(CreateView):
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
 
-		self.object.author = self.request.user	
-		self.object.slug = slugify(self.object.title)
+		self.object.author = self.request.user
+		self.object.slug = slugify( iuliia.translate(self.object.title, iuliia.TELEGRAM) )
+		# if title on Russian, will transliterate slug. Else - leave without changes
 
 		try:
 			self.object.save()
@@ -112,7 +120,13 @@ class AddVideo(CreateView):
 			self.object.slug = slugify(self.object.title) + "_" + str(uuid.uuid4())[:5]
 			self.object.save() #and try to save again
 
+		form.save_m2m() #unecessary, to save selected tags
+		messages.success(self.request, 'Video added successfully!')
 		return HttpResponseRedirect(self.get_success_url())
+
+	def form_invalid(self, form):
+		messages.error(self.request, 'Please fill in all the fields correctly!')
+		return super(AddVideo, self).form_invalid(form)
 
 
 
