@@ -1,8 +1,14 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
 
+import os
+
+
 class User(AbstractUser):
+	USERNAME_FIELD = 'username' #provide ability for django's backend to determine a username field for AUTHENTICATION
+
 	email = models.EmailField(max_length=255, unique=True, verbose_name='Email')
 	password = models.TextField(verbose_name='Password')
 	name = models.CharField(max_length=100, verbose_name='Name')
@@ -10,7 +16,8 @@ class User(AbstractUser):
 	registered_at = models.DateTimeField(verbose_name='Registered', auto_now_add=True)
 	avatar = models.ImageField(
 		validators=[ FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'svg', 'gmp']), ],
-		upload_to='avatars/%Y/%m', verbose_name='Avatar', blank=True
+		upload_to='avatars/%Y/%m', verbose_name='Avatar', blank=True, 
+		default=os.path.join(settings.BASE_DIR, 'media/default_pictures/default_avatar.jpg')
 	)
 	subscribers = models.ManyToManyField(
 		'self', related_name='subscriptions', 

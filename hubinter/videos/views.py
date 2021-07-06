@@ -11,6 +11,7 @@ from django.contrib import messages
 from .models import *
 from .utils import *
 from .forms import AddVideoForm
+from mixins import LoginRequired_WithMessage_Mixin
 from delorean import Delorean
 import iuliia
 import loguru
@@ -27,21 +28,24 @@ import uuid
 	Доступ к редактированию видео админом
 
 - ВИДЕО:
-	Теряются видео при выборе по тэгам
 	Страница видео (DetailView)
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Авторизация/Регистрация, разграничить доступ авторизованным юзерам
+	Авторизация через соцсети, настроить Users в админке
 	Оптимизация SQL-запросов на главной странице
 	Добавление видео с YouTube
 	Видеопроигрыватель
 	Комменты, лайки, подписки, уведомления, "Поделиться"
 	Профиль
+	Алгоритм рекомендаций...
+	Отправка почты (Contact)
 	Пагинация (где надо)
 
 
 
 - ДОДЕЛАТЬ:
+	Проверка CSRF при ajax-запросах
+	Не забыть про автозаполнение слага при редактировании объекта
 	Анимацию фильтрации по тэгам на главной
 	Стили для формы добавления видео
 '''
@@ -54,6 +58,7 @@ class Home(ListView):
 	template_name = 'videos/index.html'
 	context_object_name = 'videos'
 	queryset = Video.objects.filter(is_published=True).order_by('-created_at')
+
 
 
 
@@ -87,6 +92,7 @@ class SearchVideos(ListView):
 
 
 
+
 class VideoDetail(DetailView):
 	model = Video
 	template_name = 'videos/video.html'
@@ -101,8 +107,7 @@ class VideoDetail(DetailView):
 
 
 
-
-class AddVideo(CreateView):
+class AddVideo(LoginRequired_WithMessage_Mixin, CreateView):
 	model = Video
 	form_class = AddVideoForm
 	template_name = "videos/add_video.html"

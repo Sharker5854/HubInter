@@ -1,4 +1,3 @@
-import os
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
@@ -6,10 +5,13 @@ from django.core.validators import FileExtensionValidator
 from django.dispatch import receiver
 from django.db.models import signals
 from django.utils.text import slugify
-from delorean import Delorean
-from .utils import *
 from imagekit.models.fields import ImageSpecField
 from imagekit.processors import ResizeToFit
+
+import os
+from delorean import Delorean
+from .utils import *
+
 
 
 class Theme(models.Model):
@@ -29,7 +31,6 @@ def populate_slug(sender, instance, **kwargs):
 	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
 	should use presave signal to change slug again'''
 	instance.slug = slugify(instance.name)
-
 
 
 
@@ -57,7 +58,6 @@ def populate_slug(sender, instance, **kwargs):
 	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
 	should use presave signal to change slug again'''
 	instance.slug = slugify(instance.name)
-
 
 
 
@@ -122,7 +122,6 @@ class Video(models.Model):
 
 
 
-
 '''
 class YoutubeVideo(models.Model):
 	youtube_link = models.TextField(verbose_name='Youtube link')
@@ -130,7 +129,6 @@ class YoutubeVideo(models.Model):
 	def is_yotube_link(self, link):
 		pass
 '''
-
 
 
 

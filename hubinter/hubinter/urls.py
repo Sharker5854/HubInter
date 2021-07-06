@@ -22,5 +22,5 @@ urlpatterns = [
     path('__debug__/', include(debug_toolbar.urls)),
     path('', include('videos.urls')),
     path('ajax/', include('ajax.urls')),
-    path('account/', include('accounts.urls'))
+    path('account/', include('accounts.urls')),
 ]

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+
+
+{% block content %}
+	<div class="container">
+
+	    <!-- Title Page -->
+	    <div class="row">
+	        <div class="span12">
+	            <div class="title-page">
+	                <h2 class="title">Registration</h2>
+	            </div>
+	        </div>
+	    </div>
+
+		<form action="{% url 'register' %}" method="POST" class="login-register-form" id="contact-form">
+			{% csrf_token %}
+			<p>{{ form.name.errors }}</p>
+			<p>{{ form.name }}</p>
+			<p>{{ form.email.errors }}</p>
+			<p>{{ form.email }}</p>
+			<p>{{ form.username.errors }}</p>
+			<p>{{ form.username }}</p>
+			<p>{{ form.password2.errors }}</p>
+			<p>{{ form.password1 }}</p>
+			<p>{{ form.password2 }}</p>
+			<input type="submit" style="margin-top: 4% !important;" class="submit-login-register" value="Register">
+		</form>
+
+	</div>
+{% endblock content %}

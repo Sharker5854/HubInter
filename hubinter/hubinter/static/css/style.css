@@ -100,6 +100,16 @@
 	font-weight: 600 !important;
 	font-size: 20px !important;
 }
+.sign-in-link:hover {
+	color: #DE7678;
+}
+.sign-in-link:focus {
+	color: #DE7678;
+}
+
+
+
+
 
 
 
@@ -151,16 +161,6 @@
 .white-text {
 	color: #FFFFFF !important;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -254,4 +254,108 @@
 .errorlist li {
 	list-style-type: none;
 	color: #DE5E60;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ========= login.html ========== */
+.login-register-form {
+	
+}
+.login-register-form p {
+	width: 60%;
+	margin: auto;
+}
+@media (max-width: 979px) {
+	.login-register-form p {
+		width: 85%;
+		
+	}
+	.login-register-form {
+		margin-top: -12% !important;
+	}
+	.login-register-form .errorlist {
+		margin-bottom: 3.5% !important;
+	}
+}
+.login-register-form input[type="text"], input[type="password"], input[type="email"] {
+	height: 60px !important;
+	font-size: 19px !important;
+}
+
+.forgotten-psw-link {
+	color: #DBA571;
+	font-weight: 300 !important;
+	font-size: 19px !important;
+	margin-left: 1% !important;
+}
+.forgotten-psw-link:hover {
+	color: #DBB271;
+}
+.forgotten-psw-link:focus {
+	color: #DBB271;
+}
+
+.login-register-form h3 {
+	margin-top: 2%;
+	margin-bottom: 35px;
+	text-align: center;
+}
+.no-account-link {
+	color: #DBA571;
+	font-weight: 300 !important;
+	font-size: 19px !important;
+	margin-left: 1% !important;
+}
+.no-account-link:hover {
+	color: #DBB271;
+}
+.no-account-link:focus {
+	color: #DBB271;
+}
+
+.submit-login-register {
+    background: #DE5E60 !important;
+    color: #FFFFFF !important;
+    cursor: pointer !important;
+    display: block !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    padding: 16px 60px !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    width: auto !important;
+    margin: auto !important;
+	margin-bottom: 10% !important;
+	
+	-webkit-transition: background 0.1s linear 0s, color 0.1s linear 0s;	
+	   -moz-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		 -o-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		    transition: background 0.1s linear 0s, color 0.1s linear 0s;
+}
+.submit-login-register:hover {
+	background: #DE6F70 !important;
+}
+
+.login-register-form .errorlist {
+	margin-left: 0;
+	margin-top: 1.5%;
+	margin-bottom: 1.7%;
+}
+.login-register-form .errorlist li {
+	list-style-type: none;
+	color: #DE5E60;
+	margin: auto;
+	text-align: center;
+	font-size: 18px;
 }

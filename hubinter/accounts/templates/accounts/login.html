@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+
+
+{% block content %}
+	<div class="container">
+
+	    <!-- Title Page -->
+	    <div class="row">
+	        <div class="span12">
+	            <div class="title-page">
+	                <h2 class="title">Authentication</h2>
+	            </div>
+	        </div>
+	    </div>
+
+		<form action="{% url 'login' %}" method="POST" class="login-register-form" id="contact-form">
+			{% csrf_token %}
+			<p>{{ form.non_field_errors }}</p>
+			<p>{{ form.username }}</p>
+			<p style="margin-bottom: 30px !important;"><a href="{% url 'register' %}" class="no-account-link">I don't have an account</a></p>
+			<p>{{ form.password }}</p>
+			<p style="margin-bottom: 40px !important;"><a href="{% url 'password_reset' %}" class="forgotten-psw-link">I forgot my password</a></p>
+			<input type="submit" class="submit-login-register" value="Login">
+			<input type="hidden" name="next" value="{{ next }}">
+		</form>
+
+	</div>
+{% endblock content %}

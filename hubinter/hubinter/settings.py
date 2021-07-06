@@ -108,9 +108,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'OPTIONS': {
+            'min_length': 4,
+        },
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
@@ -149,3 +149,15 @@ X_FRAME_OPTIONS='SAMEORIGIN'
 
 '''Unnecessary if redefinded base django User model'''
 AUTH_USER_MODEL = 'accounts.User'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
+
+"""Сonfiguring e-mail to send from"""
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'popych54@mail.ru'
+EMAIL_HOST_PASSWORD = 'Azp3AMrYdt1'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'popych54@mail.ru'
