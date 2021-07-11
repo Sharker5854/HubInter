@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('videos.urls')),
     path('ajax/', include('ajax.urls')),
     path('account/', include('accounts.urls')),
+    path('social_auth/', include('social_django.urls'))
 ]

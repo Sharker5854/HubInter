@@ -336,7 +336,7 @@
     vertical-align: middle !important;
     width: auto !important;
     margin: auto !important;
-	margin-bottom: 10% !important;
+	margin-bottom: 70px !important;
 	
 	-webkit-transition: background 0.1s linear 0s, color 0.1s linear 0s;	
 	   -moz-transition: background 0.1s linear 0s, color 0.1s linear 0s;
@@ -358,4 +358,30 @@
 	margin: auto;
 	text-align: center;
 	font-size: 18px;
+}
+
+.social-auth-title-block {
+	width: 75%;
+	text-align: center;
+	margin: auto !important;
+	margin-left: 2%;
+}
+.social-auth-title {
+	font-size: 27px;
+	margin-left: 3% !important;
+}
+.social-auth-icons-block {
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+}
+.social-auth-icons-block img {
+	width: 64px;
+	height: 64px;
+}
+.vk-oauth {
+	margin-right: 30px;
+}
+.google-oauth {
+	margin-left: 30px;
 }

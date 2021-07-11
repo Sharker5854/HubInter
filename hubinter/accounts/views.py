@@ -19,6 +19,7 @@ from .forms import (
 	ResetPasswordConfirmForm
 )
 from mixins import LoginRequired_WithMessage_Mixin
+from .models import User
 
 
 
@@ -48,6 +49,14 @@ class Login(LoginView):
 	def form_valid(self, form):
 		messages.success(self.request, 'You authorized successfully!')
 		return super(Login, self).form_valid(form)
+
+def save_social_authed_user(backend, user, response, *args, **kwargs):
+	"""Correct user data before saving, if he authenticated through social network"""
+	if backend.name == "google-oauth2":
+		user.username = response.get("given_name", response["name"])
+		user.name = response["name"]
+		user.avatar = response["picture"]
+		user.save()
 
 
 

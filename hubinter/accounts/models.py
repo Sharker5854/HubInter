@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
 
 import os
+from urllib.parse import unquote
 
 
 class User(AbstractUser):
@@ -39,6 +40,13 @@ class User(AbstractUser):
 		'videos.Video', related_name='disliked_by', 
 		verbose_name='Disliked videos'
 	)
+	
+	def get_avatar_url(self):
+		""" If avatar.url is external link, return it without prefix '/media/' """
+		url = unquote(self.avatar.url)
+		if "https:/" in url or "http:/" in url:
+			return url.replace("/media/", "")
+		return url
 
 	def __str__(self):
 		return self.username
