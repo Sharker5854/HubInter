@@ -16,7 +16,7 @@ def get_theme_sidebar():
 
 @register.inclusion_tag('videos/inclusion_tags/_tag_sidebar.html')
 def get_tag_sidebar():
-	tags = Tag.objects.all()
+	tags = Tag.objects.select_related('theme')
 	context = {
 		'tags' : tags,
 	}

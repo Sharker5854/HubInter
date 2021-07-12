@@ -6,6 +6,7 @@ from django.views.decorators.cache import cache_page
 from django.db import IntegrityError
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
 from django.db.models import Q
+from django.db.models import Prefetch
 from django.contrib import messages
 
 from .models import *
@@ -31,8 +32,6 @@ import uuid
 	Страница видео (DetailView)
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Авторизация через соцсети
-	Оптимизация SQL-запросов на главной странице
 	Добавление видео с YouTube
 	Видеопроигрыватель
 	Комменты, лайки, подписки, уведомления, "Поделиться"
@@ -58,7 +57,9 @@ class Home(ListView):
 	model = Video
 	template_name = 'videos/index.html'
 	context_object_name = 'videos'
-	queryset = Video.objects.filter(is_published=True).order_by('-created_at')
+	queryset = Video.objects.prefetch_related(
+		Prefetch('tags')
+	).select_related('theme', 'author').filter(is_published=True).order_by('-created_at')
 
 
 
@@ -83,11 +84,14 @@ class SearchVideos(ListView):
 
 	def get_queryset(self):
 		query = self.request.GET.get('q')
-		queryset = self.model.objects.filter( 
+		queryset = self.model.objects.prefetch_related(
+			Prefetch('tags')
+		).select_related('theme', 'author').filter(
 			Q(title__icontains=query) | 
 			Q(description__icontains=query) | 
 			Q(tags__name__icontains=query) |
-			Q(theme__name__icontains=query)
+			Q(theme__name__icontains=query),
+			is_published=True
 		)
 		return queryset
 
