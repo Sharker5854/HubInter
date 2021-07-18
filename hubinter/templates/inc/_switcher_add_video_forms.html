@@ -1,0 +1,27 @@
+<div class="switcher-add-video">
+	<a class="button switcher-upload-btn" href="{% url 'add_video' %}">Upload video</a>
+	<a class="button switcher-youtube-btn" href="{% url 'add_youtube_video' %}">My YouTube video</a>
+
+	<script>
+		// I had to place this script in the template, 
+		// since it should be executed when loading ONLY THIS PAGE
+		function display_current_switcher(cur_form_type) {
+		    upload_switcher = document.getElementsByClassName('switcher-upload-btn')[0]
+		    youtube_switcher = document.getElementsByClassName('switcher-youtube-btn')[0]
+
+		    if(cur_form_type == 'upload') {
+		        upload_switcher.style.background = "#FF5D5F"
+		        upload_switcher.style.color = "#FFFFFF"
+		    }
+		    else if(cur_form_type == 'youtube') {
+		        youtube_switcher.style.background = "#FF5D5F"
+		        youtube_switcher.style.color = "#FFFFFF"
+		    }
+		}
+
+		window.onload = display_current_switcher( "{{ current_form_type }}" );
+	</script>
+</div>
+
+
+		

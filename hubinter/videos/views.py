@@ -7,11 +7,12 @@ from django.db import IntegrityError
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
 from django.db.models import Q
 from django.db.models import Prefetch
+from django.core import files
 from django.contrib import messages
 
 from .models import *
 from .utils import *
-from .forms import AddVideoForm
+from .forms import AddVideoForm, AddYoutubeVideoForm
 from mixins import LoginRequired_WithMessage_Mixin
 from delorean import Delorean
 import iuliia
@@ -32,13 +33,14 @@ import uuid
 	Страница видео (DetailView)
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Добавление видео с YouTube
+	Настройка YouTube видео в админке, довести маршрутизацию до ума, доделать установку дефолтной превьюшки
 	Видеопроигрыватель
 	Комменты, лайки, подписки, уведомления, "Поделиться"
 	Профиль
 	Алгоритм рекомендаций...
-	Отправка почты (Contact)
+	Отправка почты (Contact), About
 	Пагинация (где надо)
+	Кэширование, логирование
 	*ДЕПЛОЙ* (после него, настроить авторизацию через соц. сети, https-протокол, бд на AWS)
 
 
@@ -100,7 +102,7 @@ class SearchVideos(ListView):
 
 class VideoDetail(DetailView):
 	model = Video
-	template_name = 'videos/video.html'
+	template_name = 'videos/video_detail.html'
 	context_object_name = 'video'
 
 	def get_queryset(self):
@@ -108,6 +110,20 @@ class VideoDetail(DetailView):
 			return Video.objects.filter(slug=self.kwargs['slug'])
 		else:
 			return Video.objects.first()
+
+
+
+
+class YoutubeVideoDetail(DetailView):
+	model = YoutubeVideo
+	template_name = 'videos/video_detail.html'
+	context_object_name = 'video'
+
+	def get_queryset(self):
+		if self.kwargs['slug']:
+			return YoutubeVideo.objects.filter(slug=self.kwargs['slug'])
+		else:
+			return YoutubeVideo.objects.first()
 
 
 
@@ -127,16 +143,64 @@ class AddVideo(LoginRequired_WithMessage_Mixin, CreateView):
 		try:
 			self.object.save()
 		except IntegrityError: #add 5 random symbols to slug, if it is not unique
-			self.object.slug = slugify(self.object.title) + "_" + str(uuid.uuid4())[:5]
+			self.object.slug = slugify( 
+				iuliia.translate(self.object.title, iuliia.TELEGRAM)
+			) + "_" + str(uuid.uuid4())[:5]
 			self.object.save() #and try to save again
 
 		form.save_m2m() #unecessary, to save selected tags
-		messages.success(self.request, 'Video added successfully!')
+		messages.success(self.request, 'Video uploaded successfully!')
 		return HttpResponseRedirect(self.get_success_url())
+
 
 	def form_invalid(self, form):
 		messages.error(self.request, 'Please fill in all the fields correctly!')
 		return super(AddVideo, self).form_invalid(form)
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['current_form_type'] = 'upload'
+		return context
+
+
+
+
+class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
+	model = YoutubeVideo
+	form_class = AddYoutubeVideoForm
+	template_name = "videos/add_video.html"
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['current_form_type'] = 'youtube'
+		return context
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		parser = form.cleaned_data['parser']
+
+		self.object.iframe_code = parser.iframe
+		self.object.title = parser.get_title()			
+		self.object.slug = slugify( iuliia.translate(self.object.title, iuliia.TELEGRAM) )
+		self.object.added_by = self.request.user
+		self.object.preview = files.File( parser.get_preview_file(), name=str(uuid.uuid4())[10:]+".png" )
+		
+		try:
+			self.object.save()
+		except IntegrityError:
+			self.object.slug = slugify( 
+				iuliia.translate(self.object.title, iuliia.TELEGRAM) 
+			) + "_" + str(uuid.uuid4())[:5]
+			self.object.save()
+
+		form.save_m2m()
+		messages.success(self.request, 'Your YouTube video added successfully!')
+		return HttpResponseRedirect(self.get_success_url())
+
+
+	def form_invalid(self, form):
+		messages.error(self.request, 'Please fill in all the fields correctly!')
+		return super(AddYoutubeVideo, self).form_invalid(form)
 
 
 
@@ -149,4 +213,4 @@ class About(TemplateView):
 
 class Contact(FormView):
 	template_name = 'contact.html'
-	form_class = About #
+	form_class = About # 

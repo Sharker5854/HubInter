@@ -11,7 +11,7 @@
             border-radius: 0;
   	background-color: #3C3F45;
   	color: #23262C;
-  	vertical-align: middle;
+  	vertical-align: middle !important;
   	text-align: center;
   	text-transform: uppercase;
   	font-weight:500;

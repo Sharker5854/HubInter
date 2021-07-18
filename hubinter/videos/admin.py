@@ -113,6 +113,13 @@ class VideoAdmin(admin.ModelAdmin):
 
 
 
+
+@admin.register(YoutubeVideo)
+class YoutubeVideoAdmin(admin.ModelAdmin):
+	pass
+
+
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
 	fields = ('author', 'text', 'answer_for', 'video', 'created_at', 'updated_at')

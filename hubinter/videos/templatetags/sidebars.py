@@ -1,5 +1,7 @@
 from django import template
+
 from videos.models import Theme, Tag
+
 
 register = template.Library()
 

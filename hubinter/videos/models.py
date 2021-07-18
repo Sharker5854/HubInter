@@ -67,7 +67,7 @@ class Video(models.Model):
 	slug = models.SlugField(verbose_name='Slug', max_length=300, unique=True)
 	description = models.TextField(verbose_name='Description', max_length=2550)
 	author = models.ForeignKey(
-		settings.AUTH_USER_MODEL,default=None,
+		settings.AUTH_USER_MODEL, default=None,
 		on_delete=models.CASCADE, verbose_name='Author'
 	)
 	theme = models.ForeignKey('Theme', on_delete=models.PROTECT, verbose_name='Theme')
@@ -113,22 +113,40 @@ class Video(models.Model):
 		verbose_name_plural = 'Videos'
 		ordering = ['-created_at']
 
-# @receiver(signals.pre_save, sender=Video)
-# def populate_slug(sender, instance, **kwargs):
-# 	''' Due to the fact that the slug doesn't change while editing the name in admin panel,
-# 	should use presave signal to change slug again'''
-# 	instance.slug = slugify(instance.title)
 
 
 
-
-'''
 class YoutubeVideo(models.Model):
-	youtube_link = models.TextField(verbose_name='Youtube link')
+	iframe_code = models.TextField(verbose_name="Video's HTML code", blank=False, null=False)
+	title = models.CharField(verbose_name='Youtube Title', max_length=255, blank=False, null=False)
+	slug = models.SlugField(verbose_name='Slug', max_length=300, unique=True)
+	added_by = models.ForeignKey(
+		settings.AUTH_USER_MODEL, default=None,
+		on_delete=models.CASCADE, verbose_name='Added by'
+	)
+	theme = models.ForeignKey('Theme', on_delete=models.PROTECT, verbose_name='Theme')
+	tags = models.ManyToManyField('Tag', related_name='youtube_videos', verbose_name='Tags')
+	added_at = models.DateTimeField(verbose_name='Added', auto_now_add=True)
+	views = models.IntegerField(verbose_name='Views on Hubinter', default=0)
+	preview = models.ImageField( # original preview
+		upload_to='youtube_previews/%Y/%m/%d/',
+		verbose_name='YouTube Preview', blank=True, 
+		default=os.path.join(settings.BASE_DIR, 'media/default_pictures/default_preview.png')
+	)
+	cropped_preview = ImageSpecField( 
+		processors=[ResizeToFit(width=270, height=212, upscale=True, mat_color='#26292E')], 
+		source='preview', format='PNG'
+	)
 
-	def is_yotube_link(self, link):
-		pass
-'''
+	def __str__(self):
+		return self.title
+
+	def get_absolute_url(self):
+		return reverse('youtube_video', kwargs={'slug' : self.slug})
+
+	def get_added_at(self):
+		delta = Delorean(datetime=self.added_at, timezone='Europe/Moscow')
+		return delta.humanize().capitalize()
 
 
 
