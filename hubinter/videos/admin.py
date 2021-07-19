@@ -37,33 +37,33 @@ class TagAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
 	fieldsets = (
 		(None, {
-			'fields': ('title', 'slug', 'description', 'theme', 'tags', 'preview', 'video',)
+			'fields': ('title', 'slug', 'author', 'description', 'theme', 'tags', 'get_preview')
 		}),
 		('Statistics', {
 			'classes': ('collapse',),
 			'fields': ('is_published', 'views', 'likes', 'dislikes', 'comments_amount', 
-				'humanize_created_at', 'humanize_updated_at'),
+				'created_at', 'updated_at'),
 		}),
 	)
 	readonly_fields = (
 		'views', 'likes', 'dislikes', 'comments_amount', 
-		'humanize_created_at', 'humanize_updated_at', 'is_published'
+		'created_at', 'updated_at', 'is_published'
 	)
 	prepopulated_fields = {'slug' : ('title',)}
 	search_fields = ('title', 'author')
 	list_filter = ('theme', 'tags', 'created_at', 'is_published')
 	list_display = (
-		'title', 'theme', 'views', 
-		'humanize_created_at', 'get_preview_list_display', 'is_published',
+		'title', 'author', 'theme',  
+		'created_at', 'get_preview_list_display', 'is_published',
 	)
 	ordering = ('-created_at',)
-	'''
+
 	def has_add_permission(self, request, obj=None):
 		return False
 
 	def has_change_permission(self, request, obj=None):
 		return False
-
+	'''
 	def has_delete_permission(self, request, obj=None):
 		return False
 	'''
@@ -88,16 +88,9 @@ class VideoAdmin(admin.ModelAdmin):
 
 	def get_preview(self, obj):
 		if obj.preview:
-			return mark_safe(f'<img src="{unquote(obj.preview.url)}" width="120">')
+			return mark_safe(f'<img src="{unquote(obj.preview.url)}" width="200">')
 		else:
 			return '-'
-
-	def get_video(self, obj):
-		return mark_safe(f'''
-			<video controls="controls" width="200">
-				<source src="{unquote(obj.video.url)}">
-			</video>
-		''')
 
 	def humanize_created_at(self, obj):
 		return obj.get_created_at()
@@ -107,7 +100,6 @@ class VideoAdmin(admin.ModelAdmin):
 
 	get_preview_list_display.short_description = 'Preview'
 	get_preview.short_description = 'Preview'
-	get_video.short_description = 'Video'
 	humanize_created_at.short_description = 'Published'
 	humanize_updated_at.short_description = 'Updated'
 
@@ -116,7 +108,52 @@ class VideoAdmin(admin.ModelAdmin):
 
 @admin.register(YoutubeVideo)
 class YoutubeVideoAdmin(admin.ModelAdmin):
-	pass
+	fieldsets = (
+		(None, {
+			'fields': ('title', 'slug', 'added_by', 'theme', 'tags', 'get_preview')
+		}),
+		('Statistics', {
+			'classes': ('collapse',),
+			'fields': ('views', 'added_at'),
+		}),
+	)
+	readonly_fields = (
+		'title', 'slug', 'theme', 'tags', 'preview',
+		'views', 'added_at'
+	)
+	search_fields = ('title', 'added_by')
+	list_filter = ('theme', 'tags', 'added_at')
+	list_display = (
+		'title', 'added_by', 'theme',  
+		'humanize_added_at', 'get_preview_list_display',
+	)
+	ordering = ('-added_at',)
+
+	def has_add_permission(self, request, obj=None):
+		return False
+
+	def has_change_permission(self, request, obj=None):
+		return False
+
+	def get_preview_list_display(self, obj):
+		if obj.preview:
+			return mark_safe(f'<img src="{unquote(obj.cropped_preview.url)}" width="100">')
+		else:
+			return '-'
+
+	def get_preview(self, obj):
+		if obj.preview:
+			return mark_safe(f'<img src="{unquote(obj.preview.url)}" width="200">')
+		else:
+			return '-'
+
+	def humanize_added_at(self, obj):
+		return obj.get_added_at()
+
+	get_preview_list_display.short_description = 'Preview'
+	get_preview.short_description = 'Preview'
+	humanize_added_at.short_description = 'Published'
+
 
 
 

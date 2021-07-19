@@ -26,7 +26,7 @@
             	<section id="projects">
                 	<ul id="thumbs">
                     	
-					    {% for video in videos %}
+					    {% for video in all_videos %}
 							<li class="item-thumbs span3 {{ video.theme | lower }} {% for tag in video.tags.all %} {{ tag | lower }}{% endfor %}">
 						    	<a class="preview-block-link" href="{{ video.get_absolute_url }}">
 						        	<img src="{{ video.cropped_preview.url }}" alt="{{ video.title }}" style="width: 100%;">
@@ -35,9 +35,21 @@
 											<p class="preview-video-title">
 												{{ video.title | truncatewords:8 | truncatechars:75 }}
 												<br><br>
-												<span class="red-text">{{ video.author | truncatechars:30 }}</span>
+												<span class="red-text">
+													{% if video.author %}
+														{{ video.author | truncatechars:30 }}
+													{% else %}
+														{{ video.added_by | truncatechars:30 }}
+													{% endif %}						
+												</span>
 												<br><br>
-												<i><span>{{ video.get_created_at }}</span></i>
+												<i><span>
+													{% if video.get_created_at %}
+														{{ video.get_created_at }}
+													{% else %}
+														{{ video.get_added_at }}
+													{% endif %}
+												</span></i>
 												<br><br>
 												<span class="yellow-text">{{ video.views }} views</span>
 											</p>

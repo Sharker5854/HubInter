@@ -13,11 +13,13 @@ from django.contrib import messages
 from .models import *
 from .utils import *
 from .forms import AddVideoForm, AddYoutubeVideoForm
+from itertools import chain
 from mixins import LoginRequired_WithMessage_Mixin
 from delorean import Delorean
 import iuliia
 import loguru
 import uuid
+import random
 
 
 # НАЧАЛ ДЕЛАТЬ САЙТ 10 МАЯ
@@ -33,7 +35,7 @@ import uuid
 	Страница видео (DetailView)
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Настройка YouTube видео в админке, довести маршрутизацию до ума, доделать установку дефолтной превьюшки
+	запушить на git
 	Видеопроигрыватель
 	Комменты, лайки, подписки, уведомления, "Поделиться"
 	Профиль
@@ -56,18 +58,33 @@ import uuid
 # ==================== CLASSES ==================== #
 
 class Home(ListView):
-	model = Video
 	template_name = 'videos/index.html'
-	context_object_name = 'videos'
-	queryset = Video.objects.prefetch_related(
-		Prefetch('tags')
-	).select_related('theme', 'author').filter(is_published=True).order_by('-created_at')
+	context_object_name = 'all_videos'
+
+	def get_queryset(self):
+		"""Return mixed list of all videos (uploaded and youtube)"""
+		queryset = list( chain(self.get_videos(), self.get_youtube_videos()) )
+		random.shuffle(queryset)
+		return queryset
+
+	@staticmethod
+	def get_videos():
+		queryset = Video.objects.prefetch_related(
+			Prefetch('tags')
+		).select_related('theme', 'author').filter(is_published=True).order_by('-created_at')
+		return queryset
+
+	@staticmethod
+	def get_youtube_videos():
+		queryset = YoutubeVideo.objects.prefetch_related(
+			Prefetch('tags')
+		).select_related('theme', 'added_by').order_by('-added_at')
+		return queryset
 
 
 
 
 class SearchVideos(ListView):
-	model = Video
 	template_name = 'videos/video_search.html'
 	context_object_name = 'found_videos'
 
@@ -86,15 +103,26 @@ class SearchVideos(ListView):
 
 	def get_queryset(self):
 		query = self.request.GET.get('q')
-		queryset = self.model.objects.prefetch_related(
+
+		queried_videos = Video.objects.prefetch_related(
 			Prefetch('tags')
 		).select_related('theme', 'author').filter(
 			Q(title__icontains=query) | 
-			Q(description__icontains=query) | 
+			Q(description__icontains=query) |
 			Q(tags__name__icontains=query) |
 			Q(theme__name__icontains=query),
 			is_published=True
 		)
+
+		queried_youtube_videos = YoutubeVideo.objects.prefetch_related(
+			Prefetch('tags')
+		).select_related('theme', 'added_by').filter(
+			Q(title__icontains=query) |
+			Q(tags__name__icontains=query) |
+			Q(theme__name__icontains=query)
+		)
+
+		queryset = set( chain(queried_videos, queried_youtube_videos) )
 		return queryset
 
 
@@ -107,9 +135,9 @@ class VideoDetail(DetailView):
 
 	def get_queryset(self):
 		if self.kwargs['slug']:
-			return Video.objects.filter(slug=self.kwargs['slug'])
+			return self.model.objects.filter(slug=self.kwargs['slug'])
 		else:
-			return Video.objects.first()
+			return self.model.objects.first()
 
 
 
@@ -121,9 +149,9 @@ class YoutubeVideoDetail(DetailView):
 
 	def get_queryset(self):
 		if self.kwargs['slug']:
-			return YoutubeVideo.objects.filter(slug=self.kwargs['slug'])
+			return self.model.objects.filter(slug=self.kwargs['slug'])
 		else:
-			return YoutubeVideo.objects.first()
+			return self.model.objects.first()
 
 
 
@@ -183,7 +211,12 @@ class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
 		self.object.title = parser.get_title()			
 		self.object.slug = slugify( iuliia.translate(self.object.title, iuliia.TELEGRAM) )
 		self.object.added_by = self.request.user
-		self.object.preview = files.File( parser.get_preview_file(), name=str(uuid.uuid4())[10:]+".png" )
+
+		preview_file = parser.get_preview_file()
+		if preview_file:
+			self.object.preview = files.File( preview_file, name=str(uuid.uuid4())[10:]+".png" )
+		else:
+			pass
 		
 		try:
 			self.object.save()

@@ -90,7 +90,7 @@ class AddYoutubeVideoForm(forms.ModelForm):
 		except ValidationError:
 			raise
 		else:
-			parser.get_iframe_code() # save the iframe code in attribute before sending it to the server, to immediately raise a ValidationError in the form
+			parser.get_iframe_code() # save the iframe code in attribute before sending it to the server, to immediately raise a ValidationError in the form if smth is wrong
 			self.cleaned_data['parser'] = parser
 
 	def is_theme_tags(self, data):

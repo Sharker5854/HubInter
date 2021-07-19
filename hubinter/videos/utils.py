@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
+from django.http import FileResponse
 
 from .descriptors import YoutubeUrl_Descriptor
 from yt_iframe import yt
@@ -36,7 +37,7 @@ class YT_Video_DataParser:
 			file = tempfile.TemporaryFile()
 			file.write(response.content)
 		else:
-			file = None # не должно возвращать None (если неверный ID), т.к. у него нет метода .read()
+			file = None
 
 		return file
 
