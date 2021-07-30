@@ -35,11 +35,7 @@ function show_theme_tags_and_videos(theme) {
             }
         }
     }
-}
-
-
-
-
+};
 
 
 
@@ -108,7 +104,7 @@ function show_videos_by_tag(tag_name) {
     }
 
 
-}
+};
 
 
 
@@ -122,11 +118,15 @@ const select_theme_block = document.getElementById('id_theme')
 const select_tag_block = document.getElementById('id_tags')
 
 // triggered when changing the selection
-select_theme_block.addEventListener('change', function() { 
+select_theme_block.addEventListener('change', function() {
+    token = get_csrf_token();
     $.ajax({
         type: "POST",
         url: location.protocol + '//' + location.host + '/ajax/tags_by_theme/',
-        data: {'theme' : select_theme_block.options[select_theme_block.selectedIndex].text}, // send chosen theme name
+        data: {
+            'theme' : select_theme_block.options[select_theme_block.selectedIndex].text, // send chosen theme name
+            "csrfmiddlewaretoken" : token
+        }, 
         success: function(response) {              
             tag_list = merge_into_single_array(response) // get one list of tags by chosen theme
             show_tags_by_theme(tag_list) // show only suitable ones
@@ -158,7 +158,7 @@ function show_tags_by_theme(tag_list) {
         for (let tag_option_btn of select_tag_block.options) { // if not chosen, just show all tags 
             tag_option_btn.style.display = 'block';
             tag_option_btn.selected = false // remove all selections
-        }      
+        }
     }
     else {
         for (let tag_option_btn of select_tag_block.options) {
@@ -172,3 +172,133 @@ function show_tags_by_theme(tag_list) {
         }
     }
 };
+
+
+
+
+
+
+// ------------------------- Video Detail ------------------------- //
+
+// Process the like and dislike click event
+function put_remove__like_dislike(btn_id, video_slug) {
+    var button = document.getElementById(btn_id)
+
+    // determine which button was pressed
+    if (btn_id == 'like-btn') {
+        like_control(button, video_slug);
+    }
+    else {
+        dislike_control(button, video_slug);         
+    }
+};
+
+// Control highlighting if pressed "LIKE" and call another func to send ajax-query
+function like_control(button_obj, slug) { 
+    if (button_obj.classList.contains('active')) { // if was already pressed, turn off it
+        turn_off('like', slug);
+        button_obj.classList.remove('active')
+        button_obj.style.background = "#3C3F45"
+    }
+    else { // if it wasn't pressed, add it AND turn off opposite button
+        turn_on('like', slug);
+        var dislike_btn = document.getElementById('dislike-btn')
+        dislike_btn.classList.remove('active')
+        dislike_btn.style.background = "#3C3F45"
+        button_obj.classList.add('active')
+        button_obj.style.background = "#DE5E60"
+    }
+};
+// Control highlighting if pressed "DISLIKE" and call another func to send ajax-query
+function dislike_control(button_obj, slug) {
+    if (button_obj.classList.contains('active')) { // the same as above...
+        turn_off('dislike', slug);
+        button_obj.classList.remove('active')
+        button_obj.style.background = "#3C3F45"
+    }
+    else { // the same as above...
+        turn_on('dislike', slug);
+        var like_btn = document.getElementById('like-btn')
+        like_btn.classList.remove('active')
+        like_btn.style.background = "#3C3F45"
+        button_obj.classList.add('active')
+        button_obj.style.background = "#DE5E60"
+    }
+};
+
+// Send ajax query to TURN ON like or dislike for video
+function turn_on(marker_type, slug) {
+    token = get_csrf_token();
+    $.ajax({
+        type: "POST",
+        url: location.protocol + '//' + location.host + '/ajax/turn_on_marker/',
+        data: {
+            "marker_type" : marker_type,
+            "slug" : slug, 
+            "csrfmiddlewaretoken" : token
+        },
+        success: function(response) {              
+            like_counter = document.getElementById('like-counter')
+            dislike_counter = document.getElementById('dislike-counter')
+            like_counter.textContent = response['current_likes']
+            dislike_counter.textContent = response['current_dislikes']
+        },
+        error: function(error) {
+            $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>Oops... Something went wrong! :(</strong></div>')
+            $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+        }
+    });
+};
+
+// Send ajax query to TURN OFF like or dislike for video
+function turn_off(marker_type, slug) {
+    token = get_csrf_token();
+    $.ajax({
+        type: "POST",
+        url: location.protocol + '//' + location.host + '/ajax/turn_off_marker/',
+        data: {
+            "marker_type" : marker_type, 
+            "slug" : slug,
+            "is_ajax" : true,
+            "csrfmiddlewaretoken" : token
+        },
+        success: function(response) {
+            like_counter = document.getElementById('like-counter')
+            dislike_counter = document.getElementById('dislike-counter')
+            like_counter.textContent = response['current_likes']
+            dislike_counter.textContent = response['current_dislikes']
+        },
+        error: function(error) {
+            $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>Oops... Something went wrong! :(</strong></div>')
+            $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+        }
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------- Other utils ------------------------- //
+function get_csrf_token() {
+    var a = document.cookie.split(';');
+    var token = ''
+    for (i = 0; i < a.length; i++) {
+        var b = a[i].split('=')
+        b[0] = b[0].replace(/\s+/g, '')
+        if (b[0] == 'csrftoken') {
+            token = b[1]
+        }
+    }
+    return token;
+}

@@ -20,6 +20,7 @@ import iuliia
 import loguru
 import uuid
 import random
+import time
 
 
 # НАЧАЛ ДЕЛАТЬ САЙТ 10 МАЯ
@@ -28,26 +29,21 @@ import random
 ЗАДАЧИ:
 
 - АДМИНКА:
-	Динамическое отображение нужных тэгов при выборе темы в админке (для Video)
 	Доступ к редактированию видео админом
 
-- ВИДЕО:
-	Страница видео (DetailView)
-
 - ВЗАИМОДЕЙСТВИЕ:
-	запушить на git
-	Видеопроигрыватель
-	Комменты, лайки, подписки, уведомления, "Поделиться"
+	Комменты, лайки, подписки, уведомления, "Поделиться" (оформить каунтер лайков, сделать миграции с PositiveIntegerField, запушить на github; дальше, оформить и реализовать Share, добавление просмотров)
+	Пагинация (Бесконечная подгрузка)
 	Профиль
 	Алгоритм рекомендаций...
 	Отправка почты (Contact), About
-	Пагинация (где надо)
 	Кэширование, логирование
 	*ДЕПЛОЙ* (после него, настроить авторизацию через соц. сети, https-протокол, бд на AWS)
 
 
 
 - ДОДЕЛАТЬ:
+	Перемотка видеоплеера
 	Проверка CSRF при ajax-запросах
 	Не забыть про автозаполнение слага при редактировании объекта
 	Анимацию фильтрации по тэгам на главной
@@ -67,15 +63,13 @@ class Home(ListView):
 		random.shuffle(queryset)
 		return queryset
 
-	@staticmethod
-	def get_videos():
+	def get_videos(self):
 		queryset = Video.objects.prefetch_related(
 			Prefetch('tags')
 		).select_related('theme', 'author').filter(is_published=True).order_by('-created_at')
 		return queryset
 
-	@staticmethod
-	def get_youtube_videos():
+	def get_youtube_videos(self):
 		queryset = YoutubeVideo.objects.prefetch_related(
 			Prefetch('tags')
 		).select_related('theme', 'added_by').order_by('-added_at')
@@ -139,6 +133,11 @@ class VideoDetail(DetailView):
 		else:
 			return self.model.objects.first()
 
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['video_type'] = "uploaded"
+		return context
+
 
 
 
@@ -152,6 +151,11 @@ class YoutubeVideoDetail(DetailView):
 			return self.model.objects.filter(slug=self.kwargs['slug'])
 		else:
 			return self.model.objects.first()
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['video_type'] = "youtube"
+		return context
 
 
 

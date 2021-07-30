@@ -72,7 +72,7 @@ class AddVideoForm(forms.ModelForm):
 			'description' : '',
 			'theme' : 'Video Theme',
 			'tags' : 'Tags (hold down “Control” to select more than one)',
-			'preview' : 'Preview',
+			'preview' : 'Preview (Recommended: 1350x1060 px)',
 			'video' : 'Video',
 			'is_published' : 'Publish Now'
 		}

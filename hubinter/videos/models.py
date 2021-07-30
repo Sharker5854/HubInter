@@ -85,14 +85,14 @@ class Video(models.Model):
 	)
 	video = models.FileField(
 		upload_to='videos/%Y/%m/%d/', 
-		validators=[ FileExtensionValidator(allowed_extensions=['mov', 'mp4', 'mpeg4', 'avi', 'mpegps', 'flv']), ],
+		validators=[ FileExtensionValidator(allowed_extensions=['mp4', 'webm']), ],
 		verbose_name='Video file'
 	)
 	is_published = models.BooleanField(default=True, verbose_name='Is Published')
-	views = models.IntegerField(verbose_name='Views', default=0)
-	likes = models.IntegerField(verbose_name='Likes', default=0)
-	dislikes = models.IntegerField(verbose_name='Dislikes', default=0)
-	comments_amount = models.IntegerField(verbose_name='Comments', default=0)
+	views = models.PositiveIntegerField(verbose_name='Views', default=0)
+	likes = models.PositiveIntegerField(verbose_name='Likes', default=0)
+	dislikes = models.PositiveIntegerField(verbose_name='Dislikes', default=0)
+	comments_amount = models.PositiveIntegerField(verbose_name='Comments', default=0)
 
 	def __str__(self):
 		return self.title
@@ -127,7 +127,7 @@ class YoutubeVideo(models.Model):
 	theme = models.ForeignKey('Theme', on_delete=models.PROTECT, verbose_name='Theme')
 	tags = models.ManyToManyField('Tag', related_name='youtube_videos', verbose_name='Tags')
 	added_at = models.DateTimeField(verbose_name='Added', auto_now_add=True)
-	views = models.IntegerField(verbose_name='Views on Hubinter', default=0)
+	views = models.PositiveIntegerField(verbose_name='Views on Hubinter', default=0)
 	preview = models.ImageField( # original preview
 		upload_to='youtube_previews/%Y/%m/%d/',
 		verbose_name='YouTube Preview', blank=True, 
@@ -154,8 +154,7 @@ class YoutubeVideo(models.Model):
 class Comment(models.Model):
 	answer_for = models.ForeignKey('self', default=None, editable=False, verbose_name='Relative comment', on_delete=models.CASCADE)
 	author = models.ForeignKey(
-		settings.AUTH_USER_MODEL, editable=False, 
-		#default=None, null=True, blank=True,
+		settings.AUTH_USER_MODEL, editable=False,
 		verbose_name='Author', on_delete=models.CASCADE
 	)
 	text = models.TextField(verbose_name='Text', max_length=1000)

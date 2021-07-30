@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 	{{ video.title }}
@@ -15,12 +16,93 @@
 			width: 80%;
 		}
 	</style>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/afterglowplayer@1.x"></script>
 
+	<!-- Videoplayer -->
+	{% if video_type == "uploaded" %}
+		<video class="afterglow" data-skin="dark" id="videoplayer-unique" width="1280" height="720" poster="{{ video.preview.url }}">
+			<source type='video/mp4;' src="{{ video.video.url }}"/>
+			<source type='video/webm;' src="{{ video.video.url }}"/>
+		</video>
 
+		<!-- Video's information, likes and sharing -->
+		<div class="video__information-interaction__area">
+			<div class="video__information-interaction">
+				<div class="video__title">
+					<h3 class="video-title">{{ video.title }}</h3>
+				</div>
+				<div class="video__like-share">
 
-	<div class="video_player-area">
-		{{ video.iframe_code | safe }}
+					<ul class="nav nav-tabs like-dislike-switcher" id="myTab">
+						<li{% if video in user.liked_videos.all %} class="active" {% endif %}>
+							<a 
+							class="no-padding {% if video in user.liked_videos.all %} active {% endif %}" 
+							id="like-btn" onclick="put_remove__like_dislike('like-btn', '{{ video.slug }}')" data-toggle="tab">
+								<div class="counter-icon__area">
+									<span class="marker-counter" id="like-counter">{{ video.likes }}</span>
+									<img width="32" src="{% static '\images\video_interactive\like.png' %}">
+								</div>
+							</a>
+						</li>
+						<li{% if video in user.disliked_videos.all %} class="active" {% endif %}>
+							<a 
+							class="no-padding {% if video in user.disliked_videos.all %} active {% endif %}" 
+							id="dislike-btn" onclick="put_remove__like_dislike('dislike-btn', '{{ video.slug }}')" data-toggle="tab">
+								<div class="counter-icon__area">
+									<span class="marker-counter" id="dislike-counter">{{ video.dislikes }}</span>
+									<img width="32" src="{% static '\images\video_interactive\dislike.png' %}">
+								</div>
+							</a>
+						</li>
+					</ul>
+
+					<ul class="nav nav-tabs share-switcher">
+						<li><a class="share-btn">Share...</a></li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+	{% else %}
+		<div class="video_player-area">
+			{{ video.iframe_code | safe }}
+		</div>
+
+		<!-- Video YT information and sharing -->
+		<div class="video__information-interaction__area">
+			<div class="video__information-interaction">
+				<div class="video-yt__title">
+					<h3 class="video-title">{{ video.title }}</h3>
+				</div>
+				<div class="video-yt__share">
+					<ul class="nav nav-tabs share-switcher">
+						<li><a class="share-btn">Share...</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+		<h5>
+			<span class="yellow-text">{{ video.views }} views</span>
+			<span class="side-margins">&#8226;</span>
+			Published: <span class="yellow-text">
+				{% if video_type == "youtube" %}
+					{{ video.get_added_at }}
+				{% else %}
+					{{ video.get_created_at }}
+				{% endif %}
+			</span>
+		</h5>
+
+	<!-- Author, description, subscribe button -->
+	<div>
+		pass
 	</div>
 
-	<h2 class="video-title">{{ video.title }}</h2>
+	<!-- Comments -->
+	<div>
+		pass
+	</div>
+
 {% endblock content %}

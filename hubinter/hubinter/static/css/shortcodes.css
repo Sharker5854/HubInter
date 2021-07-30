@@ -323,7 +323,7 @@
 	border: none;
   	background-color: #DE5E60;
 	color: #FFFFFF;
-  	cursor: default;
+  	cursor: pointer;
 }
 
 .tabbable {
