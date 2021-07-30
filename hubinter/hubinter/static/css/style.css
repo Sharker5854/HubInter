@@ -341,6 +341,25 @@
   	text-align: center;
   	background: #3C3F45;
 }
+.share-popup-content {
+	background-color: #2F3238;
+}
+.share-popup-body {
+	border-bottom: none;
+	min-height: 100px;
+	display: flex;
+	justify-content: space-around;
+	padding: 30px 0 10px 0;
+}
+.share-popup-footer {
+	background-color: #26292E;
+	border-top: none;
+	box-shadow: none;
+}
+.share-popup-close {
+	background-color: #FF5D5F !important;
+	color: #FFFFFF !important;
+}
 
 
 

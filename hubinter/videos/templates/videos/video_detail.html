@@ -57,7 +57,7 @@
 					</ul>
 
 					<ul class="nav nav-tabs share-switcher">
-						<li><a class="share-btn">Share...</a></li>
+						<li><a class="share-btn" data-toggle="modal" data-target="#exampleModalCenter">Share...</a></li>
 					</ul>
 
 				</div>
@@ -76,7 +76,7 @@
 				</div>
 				<div class="video-yt__share">
 					<ul class="nav nav-tabs share-switcher">
-						<li><a class="share-btn">Share...</a></li>
+						<li><a class="share-btn" data-toggle="modal" data-target="#exampleModalCenter">Share...</a></li>
 					</ul>
 				</div>
 			</div>
@@ -106,3 +106,42 @@
 	</div>
 
 {% endblock content %}
+
+
+
+{% block unlimited_content %}
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content share-popup-content">
+				<div style="border-bottom: none;" class="modal-header">
+					<h3 class="modal-title" id="exampleModalLongTitle">Share this video via:</h3>
+				</div>
+				<div class="modal-body share-popup-body">
+					<div class="share-icon">
+						<a href="http://vk.com/share.php?url=http://localhost:8000{{ video.get_absolute_url }}" target="_blank" rel="nofollow">
+							<img src="{% static 'images/social_icons/vk-square-icon.png' %}" width="64">
+						</a>
+					</div>
+					<div class="share-icon">
+						<a href="https://twitter.com/share?url=http://localhost:8000{{ video.get_absolute_url }}" target="_blank" rel="nofollow">
+							<img src="{% static 'images/social_icons/twitter-square-icon.png' %}" width="64">
+						</a>
+					</div>
+					<div class="share-icon">
+						<a href="https://plus.google.com/share?url=http://localhost:8000{{ video.get_absolute_url }}" target="_blank" rel="nofollow">
+							<img src="{% static 'images/social_icons/google-plus-square-icon.png' %}" width="64">
+						</a>
+					</div>
+					<div class="share-icon">
+						<a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:8000{{ video.get_absolute_url }}" target="_blank" rel="nofollow">
+							<img src="{% static 'images/social_icons/facebook-square-icon.png' %}" width="64">
+						</a>
+					</div>
+				</div>
+				<div class="modal-footer share-popup-footer">
+					<button type="button" class="button button-mini share-popup-close" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock unlimited_content %}
