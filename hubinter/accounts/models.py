@@ -32,6 +32,10 @@ class User(AbstractUser):
 		'videos.Video', related_name='viewed_by', 
 		verbose_name='Viewed videos'
 	)
+	viewed_yt_videos = models.ManyToManyField(
+		'videos.YoutubeVideo', related_name='yt_viewed_by', 
+		verbose_name='Viewed YouTube videos'
+	)
 	liked_videos = models.ManyToManyField(
 		'videos.Video', related_name='liked_by', 
 		verbose_name='Liked videos'

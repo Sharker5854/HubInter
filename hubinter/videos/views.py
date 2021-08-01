@@ -11,7 +11,7 @@ from django.core import files
 from django.contrib import messages
 
 from .models import *
-from .utils import *
+from .utils import YT_Video_DataParser, add_view_to_video
 from .forms import AddVideoForm, AddYoutubeVideoForm
 from itertools import chain
 from mixins import LoginRequired_WithMessage_Mixin
@@ -32,7 +32,7 @@ import time
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Комменты, лайки, подписки, уведомления, "Поделиться" (дальше, оформить и реализовать Share, добавление просмотров)
+	Комменты, подписки, уведомления (добавление просмотров)
 	Пагинация (Бесконечная подгрузка)
 	Профиль
 	Алгоритм рекомендаций...
@@ -127,11 +127,23 @@ class VideoDetail(DetailView):
 	template_name = 'videos/video_detail.html'
 	context_object_name = 'video'
 
+	def get(self, request, *args, **kwargs):
+		video = self.model.objects.filter(slug=self.kwargs['slug']).first()
+		if not request.user.viewed_videos.filter(slug=video.slug).exists():
+			request.user.viewed_videos.add(video)
+			video.views += 1
+			request.user.save()
+			video.save()
+
+		return super().get(request, *args, **kwargs)
+
+
 	def get_queryset(self):
 		if self.kwargs['slug']:
 			return self.model.objects.filter(slug=self.kwargs['slug'])
 		else:
 			return self.model.objects.first()
+
 
 	def get_context_data(self, *, object_list=None, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -146,11 +158,23 @@ class YoutubeVideoDetail(DetailView):
 	template_name = 'videos/video_detail.html'
 	context_object_name = 'video'
 
+	def get(self, request, *args, **kwargs):
+		video = self.model.objects.filter(slug=self.kwargs['slug']).first()
+		if not request.user.viewed_yt_videos.filter(slug=video.slug).exists():
+			request.user.viewed_yt_videos.add(video) 
+			video.views += 1
+			request.user.save()
+			video.save()
+
+		return super().get(request, *args, **kwargs)
+
+
 	def get_queryset(self):
 		if self.kwargs['slug']:
 			return self.model.objects.filter(slug=self.kwargs['slug'])
 		else:
 			return self.model.objects.first()
+
 
 	def get_context_data(self, *, object_list=None, **kwargs):
 		context = super().get_context_data(**kwargs)

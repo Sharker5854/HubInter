@@ -71,3 +71,29 @@ class YT_Video_DataParser:
 	def get_preview_url(self):
 		"""Helper method: return URL to the video's preview according to ID"""
 		return "https://img.youtube.com/vi/{}/maxresdefault.jpg".format(self.video_id)
+
+
+
+
+def add_view_to_video(instance, request, owner_cls):
+	"""Add one view to uploaded-video OR yt-video if user open it for the first time"""
+	video_obj = instance.model.objects.filter(slug=instance.kwargs['slug']).first()
+
+	if isinstance(video_obj, owner_cls):
+		if not request.user.viewed_videos.filter(slug=video_obj.slug).exists():
+			request.user.viewed_videos.add(video_obj)
+			video_obj.views += 1
+
+			request.user.save()
+			video_obj.save()
+
+	elif isinstance(video_obj, owner_cls):
+		if not request.user.viewed_yt_videos.filter(slug=video_obj.slug).exists():
+			request.user.viewed_yt_videos.add(video_obj)
+			video_obj.views += 1
+
+			request.user.save()
+			video_obj.save()
+
+	else:
+		pass
