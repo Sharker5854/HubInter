@@ -11,7 +11,7 @@ from django.core import files
 from django.contrib import messages
 
 from .models import *
-from .utils import YT_Video_DataParser, add_view_to_video
+from .utils import YT_Video_DataParser, get_author_info
 from .forms import AddVideoForm, AddYoutubeVideoForm
 from itertools import chain
 from mixins import LoginRequired_WithMessage_Mixin
@@ -32,7 +32,7 @@ import time
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Комменты, подписки, уведомления (добавление просмотров)
+	Комменты, подписки, уведомления
 	Пагинация (Бесконечная подгрузка)
 	Профиль
 	Алгоритм рекомендаций...
@@ -128,12 +128,12 @@ class VideoDetail(DetailView):
 	context_object_name = 'video'
 
 	def get(self, request, *args, **kwargs):
-		video = self.model.objects.filter(slug=self.kwargs['slug']).first()
-		if not request.user.viewed_videos.filter(slug=video.slug).exists():
-			request.user.viewed_videos.add(video)
-			video.views += 1
+		self.video = self.model.objects.filter(slug=self.kwargs['slug']).first()
+		if not request.user.viewed_videos.filter(slug=self.video.slug).exists():
+			request.user.viewed_videos.add(self.video)
+			self.video.views += 1
 			request.user.save()
-			video.save()
+			self.video.save()
 
 		return super().get(request, *args, **kwargs)
 
@@ -148,6 +148,7 @@ class VideoDetail(DetailView):
 	def get_context_data(self, *, object_list=None, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['video_type'] = "uploaded"
+		context = get_author_info(self.video, context)
 		return context
 
 
@@ -159,12 +160,12 @@ class YoutubeVideoDetail(DetailView):
 	context_object_name = 'video'
 
 	def get(self, request, *args, **kwargs):
-		video = self.model.objects.filter(slug=self.kwargs['slug']).first()
-		if not request.user.viewed_yt_videos.filter(slug=video.slug).exists():
-			request.user.viewed_yt_videos.add(video) 
-			video.views += 1
+		self.video = self.model.objects.filter(slug=self.kwargs['slug']).first()
+		if not request.user.viewed_yt_videos.filter(slug=self.video.slug).exists():
+			request.user.viewed_yt_videos.add(self.video) 
+			self.video.views += 1
 			request.user.save()
-			video.save()
+			self.video.save()
 
 		return super().get(request, *args, **kwargs)
 
@@ -179,6 +180,7 @@ class YoutubeVideoDetail(DetailView):
 	def get_context_data(self, *, object_list=None, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['video_type'] = "youtube"
+		context = get_author_info(self.video, context)
 		return context
 
 

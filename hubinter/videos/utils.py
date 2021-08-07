@@ -75,25 +75,17 @@ class YT_Video_DataParser:
 
 
 
-def add_view_to_video(instance, request, owner_cls):
-	"""Add one view to uploaded-video OR yt-video if user open it for the first time"""
-	video_obj = instance.model.objects.filter(slug=instance.kwargs['slug']).first()
 
-	if isinstance(video_obj, owner_cls):
-		if not request.user.viewed_videos.filter(slug=video_obj.slug).exists():
-			request.user.viewed_videos.add(video_obj)
-			video_obj.views += 1
 
-			request.user.save()
-			video_obj.save()
 
-	elif isinstance(video_obj, owner_cls):
-		if not request.user.viewed_yt_videos.filter(slug=video_obj.slug).exists():
-			request.user.viewed_yt_videos.add(video_obj)
-			video_obj.views += 1
-
-			request.user.save()
-			video_obj.save()
-
-	else:
-		pass
+def get_author_info(video_obj, context):
+	"""Get author's avatar-url, username and subs"""
+	if context['video_type'] == "uploaded":
+		context['author_avatar'] = video_obj.author.avatar.url
+		context['author_username'] = video_obj.author.username
+		context['author_subscribers'] = video_obj.author.subscribers_amount
+	elif context['video_type'] == "youtube":
+		context['author_avatar'] = video_obj.added_by.avatar.url
+		context['author_username'] = video_obj.added_by.username
+		context['author_subscribers'] = video_obj.added_by.subscribers_amount
+	return context

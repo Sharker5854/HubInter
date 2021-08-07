@@ -40,7 +40,7 @@
 							id="like-btn" onclick="put_remove__like_dislike('like-btn', '{{ video.slug }}')" data-toggle="tab">
 								<div class="counter-icon__area">
 									<span class="marker-counter" id="like-counter">{{ video.likes }}</span>
-									<img width="32" src="{% static '\images\video_interactive\like.png' %}">
+									<img class="like-dis__icon" src="{% static '\images\video_interactive\like.png' %}">
 								</div>
 							</a>
 						</li>
@@ -50,14 +50,14 @@
 							id="dislike-btn" onclick="put_remove__like_dislike('dislike-btn', '{{ video.slug }}')" data-toggle="tab">
 								<div class="counter-icon__area">
 									<span class="marker-counter" id="dislike-counter">{{ video.dislikes }}</span>
-									<img width="32" src="{% static '\images\video_interactive\dislike.png' %}">
+									<img class="like-dis__icon" src="{% static '\images\video_interactive\dislike.png' %}">
 								</div>
 							</a>
 						</li>
 					</ul>
 
 					<ul class="nav nav-tabs share-switcher">
-						<li><a class="share-btn" data-toggle="modal" data-target="#exampleModalCenter">Share...</a></li>
+						<li style="margin-right: 0;"><a class="share-btn" data-toggle="modal" data-target="#exampleModalCenter">Share...</a></li>
 					</ul>
 
 				</div>
@@ -76,7 +76,7 @@
 				</div>
 				<div class="video-yt__share">
 					<ul class="nav nav-tabs share-switcher">
-						<li><a class="share-btn" data-toggle="modal" data-target="#exampleModalCenter">Share...</a></li>
+						<li style="margin-right: 0;"><a class="share-btn" data-toggle="modal" data-target="#exampleModalCenter">Share...</a></li>
 					</ul>
 				</div>
 			</div>
@@ -95,9 +95,34 @@
 			</span>
 		</h5>
 
-	<!-- Author, description, subscribe button -->
-	<div>
-		pass
+	<!-- Author, subscribers, description, subscribe button -->
+	<div class="author__information__area">
+		<div class="author__avatar-username">
+			<div class="avatar-area">
+				<a href="###">
+					<img src="{{ author_avatar }}" class="author-avatar">
+				</a>
+			</div>
+			<div class="username-area">
+				<h3>{{ author_username | truncatechars:30 }}</h3>
+				<h6 class="red-text" style="margin-top: -20px;">{{ author_subscribers }} subs</h6>
+			</div>
+		</div>
+
+		<div class="author__subscribe-btn">
+			<div class="wrapper_subscribe-btn">
+				<a class="share-btn subscribe-btn">SUBSCRIBE</a>
+			</div>
+			<div class="icons-example wrapper_notifications-btn">
+				<ul>
+					<li style="margin: 0 !important;">
+						<a class="btn-with-icon">
+							<span style="line-height: 62px; font-size: 26px; max-height: 100%;" class="font-icon-bell"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 
 	<!-- Comments -->
@@ -111,7 +136,7 @@
 
 {% block unlimited_content %}
 
-	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div style="display: none;" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content share-popup-content">
 				<div style="border-bottom: none;" class="modal-header">

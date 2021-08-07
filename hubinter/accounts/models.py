@@ -24,6 +24,9 @@ class User(AbstractUser):
 		'self', related_name='subscriptions', 
 		verbose_name='Subscribers'
 	)
+	subscribers_amount = models.PositiveIntegerField(
+		verbose_name='Subscribers amount', default=0
+	)
 	notifications = models.ManyToManyField(
 		'self', related_name='notified', 
 		verbose_name='Notifications'
