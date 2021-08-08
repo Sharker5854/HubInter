@@ -129,11 +129,18 @@ class VideoDetail(DetailView):
 
 	def get(self, request, *args, **kwargs):
 		self.video = self.model.objects.filter(slug=self.kwargs['slug']).first()
-		if not request.user.viewed_videos.filter(slug=self.video.slug).exists():
-			request.user.viewed_videos.add(self.video)
-			self.video.views += 1
-			request.user.save()
-			self.video.save()
+		if request.user.is_authenticated:
+			if not request.user.viewed_videos.filter(slug=self.video.slug).exists():
+				request.user.viewed_videos.add(self.video)
+				self.video.views += 1
+				request.user.save()
+				self.video.save()
+		else:
+			if self.video.slug in request.COOKIES.keys(): # if already viewed by anonymous
+				pass
+			else:
+				self.video.views += 1
+				self.video.save()
 
 		return super().get(request, *args, **kwargs)
 
@@ -152,6 +159,13 @@ class VideoDetail(DetailView):
 		return context
 
 
+	def render_to_response(self, context, **response_kwargs):
+		"""Mark current video as viewed for anonymous user for 30 days"""
+		response = super().render_to_response(context, **response_kwargs)
+		response.set_cookie(self.kwargs["slug"], True, max_age=3600*24*30)
+		return response
+
+
 
 
 class YoutubeVideoDetail(DetailView):
@@ -161,11 +175,19 @@ class YoutubeVideoDetail(DetailView):
 
 	def get(self, request, *args, **kwargs):
 		self.video = self.model.objects.filter(slug=self.kwargs['slug']).first()
-		if not request.user.viewed_yt_videos.filter(slug=self.video.slug).exists():
-			request.user.viewed_yt_videos.add(self.video) 
-			self.video.views += 1
-			request.user.save()
-			self.video.save()
+		if request.user.is_authenticated:
+			if request.user.is_authenticated:
+				if not request.user.viewed_yt_videos.filter(slug=self.video.slug).exists():
+					request.user.viewed_yt_videos.add(self.video) 
+					self.video.views += 1
+					request.user.save()
+					self.video.save()
+		else:
+			if self.video.slug in request.COOKIES.keys(): # if already viewed by anonymous
+				pass
+			else:
+				self.video.views += 1
+				self.video.save()
 
 		return super().get(request, *args, **kwargs)
 
@@ -182,6 +204,13 @@ class YoutubeVideoDetail(DetailView):
 		context['video_type'] = "youtube"
 		context = get_author_info(self.video, context)
 		return context
+
+
+	def render_to_response(self, context, **response_kwargs):
+		"""Mark current video as viewed for anonymous user for 30 days"""
+		response = super().render_to_response(context, **response_kwargs)
+		response.set_cookie(self.kwargs["slug"], True, max_age=3600*24*30)
+		return response
 
 
 

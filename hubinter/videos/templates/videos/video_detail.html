@@ -34,7 +34,7 @@
 				<div class="video__like-share">
 
 					<ul class="nav nav-tabs like-dislike-switcher" id="myTab">
-						<li{% if video in user.liked_videos.all %} class="active" {% endif %}>
+						<li id="like-block" {% if video in user.liked_videos.all %} class="active" {% endif %}>
 							<a 
 							class="no-padding {% if video in user.liked_videos.all %} active {% endif %}" 
 							id="like-btn" onclick="put_remove__like_dislike('like-btn', '{{ video.slug }}')" data-toggle="tab">
@@ -44,7 +44,7 @@
 								</div>
 							</a>
 						</li>
-						<li{% if video in user.disliked_videos.all %} class="active" {% endif %}>
+						<li id="dislike-block" {% if video in user.disliked_videos.all %} class="active" {% endif %}>
 							<a 
 							class="no-padding {% if video in user.disliked_videos.all %} active {% endif %}" 
 							id="dislike-btn" onclick="put_remove__like_dislike('dislike-btn', '{{ video.slug }}')" data-toggle="tab">

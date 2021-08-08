@@ -237,7 +237,19 @@ function turn_on(marker_type, slug) {
             "slug" : slug, 
             "csrfmiddlewaretoken" : token
         },
-        success: function(response) {              
+        success: function(response) {
+            if (response["need_to_login"]) {
+                $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should authenticate to interact with the video!</strong></div>')
+                $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+                like_btn = document.getElementById("like-btn")
+                dislike_btn = document.getElementById("dislike-btn")
+                document.getElementById("like-block").classList.remove("active")
+                document.getElementById("dislike-block").classList.remove("active")
+                like_btn.classList.remove("active")
+                dislike_btn.classList.remove("active")
+                like_btn.style.background = "#3C3F45"
+                dislike_btn.style.background = "#3C3F45"
+            }
             like_counter = document.getElementById('like-counter')
             dislike_counter = document.getElementById('dislike-counter')
             like_counter.textContent = response['current_likes']
@@ -263,6 +275,18 @@ function turn_off(marker_type, slug) {
             "csrfmiddlewaretoken" : token
         },
         success: function(response) {
+            if (response["need_to_login"]) {
+                $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should authenticate to interact with the video!</strong></div>')
+                $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+                like_btn = document.getElementById("like-btn")
+                dislike_btn = document.getElementById("dislike-btn")
+                document.getElementById("like-block").classList.remove("active")
+                document.getElementById("dislike-block").classList.remove("active")
+                like_btn.classList.remove("active")
+                dislike_btn.classList.remove("active")
+                like_btn.style.background = "#3C3F45"
+                dislike_btn.style.background = "#3C3F45"
+            }
             like_counter = document.getElementById('like-counter')
             dislike_counter = document.getElementById('dislike-counter')
             like_counter.textContent = response['current_likes']
