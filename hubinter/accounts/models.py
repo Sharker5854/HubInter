@@ -27,7 +27,7 @@ class User(AbstractUser):
 	subscribers_amount = models.PositiveIntegerField(
 		verbose_name='Subscribers amount', default=0
 	)
-	notifications = models.ManyToManyField(
+	notifications = models.ManyToManyField( # people, who notified about new videos of THIS USER
 		'self', related_name='notified', 
 		verbose_name='Notifications'
 	)

@@ -32,7 +32,7 @@ import time
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Комменты, подписки, уведомления
+	Комменты, уведомления (реализовать отправку уведомлений)
 	Пагинация (Бесконечная подгрузка)
 	Профиль
 	Алгоритм рекомендаций...
@@ -43,8 +43,8 @@ import time
 
 
 - ДОДЕЛАТЬ:
+	Нормальный поиск видео
 	Перемотка видеоплеера
-	Проверка CSRF при ajax-запросах
 	Не забыть про автозаполнение слага при редактировании объекта
 	Анимацию фильтрации по тэгам на главной
 	Стили для формы добавления видео
@@ -154,6 +154,7 @@ class VideoDetail(DetailView):
 
 	def get_context_data(self, *, object_list=None, **kwargs):
 		context = super().get_context_data(**kwargs)
+		context['current_user'] = self.request.user
 		context['video_type'] = "uploaded"
 		context = get_author_info(self.video, context)
 		return context
@@ -201,6 +202,7 @@ class YoutubeVideoDetail(DetailView):
 
 	def get_context_data(self, *, object_list=None, **kwargs):
 		context = super().get_context_data(**kwargs)
+		context['current_user'] = self.request.user
 		context['video_type'] = "youtube"
 		context = get_author_info(self.video, context)
 		return context

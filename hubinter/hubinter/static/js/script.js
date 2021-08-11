@@ -1,4 +1,3 @@
-
 // ------------------------- Home page ------------------------- //
 
 // This func activate while pressing theme link
@@ -239,8 +238,7 @@ function turn_on(marker_type, slug) {
         },
         success: function(response) {
             if (response["need_to_login"]) {
-                $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should authenticate to interact with the video!</strong></div>')
-                $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+                need_to_login__alert();
                 like_btn = document.getElementById("like-btn")
                 dislike_btn = document.getElementById("dislike-btn")
                 document.getElementById("like-block").classList.remove("active")
@@ -256,8 +254,19 @@ function turn_on(marker_type, slug) {
             dislike_counter.textContent = response['current_dislikes']
         },
         error: function(error) {
-            $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>Oops... Something went wrong! :(</strong></div>')
-            $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+            smth_wrong__alert();
+            if (marker_type == "like") {
+                btn = document.getElementById("like-btn")
+                document.getElementById("like-block").classList.remove("active")
+            }
+            else {
+                btn = document.getElementById("dislike-btn")
+                document.getElementById("dislike-block").classList.remove("active")
+            }
+            btn.classList.remove("active")
+            btn.classList.remove("active")
+            btn.style.background = "#3C3F45"
+            btn.style.background = "#3C3F45"
         }
     });
 };
@@ -276,8 +285,7 @@ function turn_off(marker_type, slug) {
         },
         success: function(response) {
             if (response["need_to_login"]) {
-                $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should authenticate to interact with the video!</strong></div>')
-                $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+                need_to_login__alert();
                 like_btn = document.getElementById("like-btn")
                 dislike_btn = document.getElementById("dislike-btn")
                 document.getElementById("like-block").classList.remove("active")
@@ -293,11 +301,163 @@ function turn_off(marker_type, slug) {
             dislike_counter.textContent = response['current_dislikes']
         },
         error: function(error) {
-            $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>Oops... Something went wrong! :(</strong></div>')
-            $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+            smth_wrong__alert();
         }
     });
 };
+
+
+
+
+// Process subscribe click event
+function subscribe_unsubscribe(author_username) {
+    var subscribe_btn = document.getElementById("subscribe-btn")
+
+    if ( !subscribe_btn.classList.contains("subscribed") ) { // if not subscribed (btn is red)
+        subscribe_btn.classList.add("subscribed")
+        subscribe_btn.text = "SUBSCRIBED"
+        subscribe(author_username);
+    }
+    else {
+        subscribe_btn.classList.remove("subscribed")
+        subscribe_btn.text = "SUBSCRIBE"
+        unsubscribe(author_username);
+    }
+}
+
+// Send ajax-query to SUBSCRIBE current user on video's author
+function subscribe(username) {
+    token = get_csrf_token();
+    $.ajax({
+        type: "POST",
+        url: location.protocol + '//' + location.host + '/ajax/subscribe_user/',
+        data: {
+            "author_username" : username,
+            "csrfmiddlewaretoken" : token
+        },
+        success: function(response) {
+            if (response["need_to_login"]) {
+                var subscribe_btn = document.getElementById("subscribe-btn")
+                subscribe_btn.classList.remove("subscribed")
+                need_to_login__alert();
+            }
+            else if ("current_subs" in response) {
+                var subs_counter = document.getElementById("subs-counter")
+                subs_counter.innerHTML = String(response["current_subs"]) + " subs"
+                if (!response["current_user_is_author"]) {
+                    $(".wrapper_notifications-btn").css("display", "block")
+                }
+            }
+        },
+        error: function(error) {
+            smth_wrong__alert();
+        }
+    });
+}
+
+// Send ajax-query to UNSUBSCRIBE current user from video's author
+function unsubscribe(username) {
+    token = get_csrf_token();
+    $.ajax({
+        type: "POST",
+        url: location.protocol + '//' + location.host + '/ajax/unsubscribe_user/',
+        data: {
+            "author_username" : username,
+            "csrfmiddlewaretoken" : token
+        },
+        success: function(response) {
+            if (response["need_to_login"]) {
+                var subscribe_btn = document.getElementById("subscribe-btn")
+                subscribe_btn.classList.remove("subscribed")
+                need_to_login__alert();
+            }
+            else if ("current_subs" in response) {
+                var subs_counter = document.getElementById("subs-counter")
+                subs_counter.innerHTML = String(response["current_subs"]) + " subs"
+                $("#notification-btn").removeClass("notified")
+                $(".wrapper_notifications-btn").css("display", "none")
+            }
+        },
+        error: function(error) {
+            smth_wrong__alert();
+        }
+    });
+}
+
+
+
+// Process notification click event
+function notification(author_username) {
+    var notification_btn = document.getElementById("notification-btn")
+
+    if ( !notification_btn.classList.contains("notified") ) { // if not notified (btn is grey)
+        notification_btn.classList.add("notified")
+        notify(author_username);
+    }
+    else {
+        notification_btn.classList.remove("notified")
+        not_notify(author_username);
+    }
+}
+
+// Send ajax-query to NOTIFY current user about new author videos
+function notify(username) {
+    token = get_csrf_token();
+    $.ajax({
+        type: "POST",
+        url: location.protocol + '//' + location.host + '/ajax/notify_user/',
+        data: {
+            "author_username" : username,
+            "csrfmiddlewaretoken" : token
+        },
+        success: function(response) {
+            if (response["need_to_login"]) {
+                var notification_btn = document.getElementById("notification-btn")
+                notification_btn.classList.remove("notified")
+                need_to_login__alert();
+            }
+            if (response["need_to_subscribe"]) {
+                var notification_btn = document.getElementById("notification-btn")
+                notification_btn.classList.remove("notified")
+                $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should subscribe to the channel to enable notifications!</strong></div>')
+                $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+            }
+        },
+        error: function(error) {
+            smth_wrong__alert();
+        }
+    });
+}
+
+// Send ajax-query to NOT NOTIFY current user about new author videos
+function not_notify(username) {
+    token = get_csrf_token();
+    $.ajax({
+        type: "POST",
+        url: location.protocol + '//' + location.host + '/ajax/not_notify_user/',
+        data: {
+            "author_username" : username,
+            "csrfmiddlewaretoken" : token
+        },
+        success: function(response) {
+            if (response["need_to_login"]) {
+                var notification_btn = document.getElementById("notification-btn")
+                notification_btn.classList.remove("notified")
+                need_to_login__alert();
+            }
+            if (response["need_to_subscribe"]) {
+                var notification_btn = document.getElementById("notification-btn")
+                notification_btn.classList.remove("notified")
+                $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should subscribe to the channel to enable notifications!</strong></div>')
+                $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+            }
+        },
+        error: function(error) {
+            smth_wrong__alert();
+        }
+    });
+}
+
 
 
 
@@ -314,6 +474,8 @@ function turn_off(marker_type, slug) {
 
 
 // ------------------------- Other utils ------------------------- //
+
+// Get current CSRF-token from cookies
 function get_csrf_token() {
     var a = document.cookie.split(';');
     var token = ''
@@ -325,4 +487,18 @@ function get_csrf_token() {
         }
     }
     return token;
+}
+
+
+// Show alert, that user must log in
+function need_to_login__alert() {
+    $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should authenticate to interact with the videos!</strong></div>')
+    $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+}
+
+
+// Show alert, that something went wrong on back-end
+function smth_wrong__alert() {
+    $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>Oops... Something went wrong! :(</strong></div>')
+    $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
 }

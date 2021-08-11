@@ -382,6 +382,7 @@
 	width: 50px;
 	height: 50px;
 }
+
 .author__subscribe-btn {
 	display: flex;
 	justify-content: flex-end;
@@ -397,12 +398,23 @@
 	font-weight: 600;
 	padding: 15px 45px !important;
 }
+.subscribed {
+	background-color: #3C3F45 !important;
+	color: #26292E !important;
+}
+
 .wrapper_notifications-btn {
 	margin-left: 20px;
 }
 .btn-with-icon {
 	width: 59px !important;
 	height: 59px !important;
+}
+.notified {
+	background-color: #FF5D5F !important;
+}
+.font-icon-bell::before {
+	color: #FFFFFF !important;
 }
 
 

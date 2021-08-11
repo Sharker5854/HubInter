@@ -4,9 +4,11 @@ from django.http import JsonResponse
 from django.contrib import messages
 
 from videos.models import Tag, Video
+from accounts.models import User
 
 
 """ ----- Add video form ----- """
+
 def tags_by_theme(request):
 	"""Get list of tags by passed theme"""
 	tags = Tag.objects.filter(theme__name=request.POST.get('theme')).values_list('name')
@@ -19,7 +21,9 @@ def tags_by_theme(request):
 
 
 
+
 """ ----- Video detail ----- """
+
 def turn_on_marker(request):
 	"""Add mark for video (and delete opposite mark if necessary)"""
 	user = request.user
@@ -76,7 +80,6 @@ def turn_on_marker(request):
 	})
 
 
-
 def turn_off_marker(request):
 	"""Remove mark from video"""
 	user = request.user
@@ -109,4 +112,123 @@ def turn_off_marker(request):
 		'status' : '200',
 		'current_likes' : video.likes,
 		'current_dislikes' : video.dislikes,
+	})
+
+
+
+def subscribe(request):
+	"""Subscribe request-user to the author"""
+	user = request.user
+
+	if user.is_authenticated:
+		author = User.objects.get(username=request.POST.get("author_username"))
+
+		if user in author.subscribers.all(): # if already subscribed
+			return JsonResponse({
+				"status" : "200",
+			})
+		else:
+			author.subscribers.add(user)
+			author.subscribers_amount += 1
+			author.save()
+
+	else:
+		return JsonResponse({
+			"status" : "200",
+			"need_to_login" : True
+		})
+
+	return JsonResponse({
+		"status" : "200",
+		"current_subs" : author.subscribers_amount,
+		"current_user_is_author" : True if user == author else False
+		# current_user_is_author - this arg is for that the author of the video doesn't see the notification button after subscribing to himself
+	})
+
+
+def unsubscribe(request):
+	"""Unsubscribe request-user from the author"""
+	user = request.user
+
+	if user.is_authenticated:
+		author = User.objects.get(username=request.POST.get("author_username"))
+		
+		if user not in author.subscribers.all(): # if already unsubscribed
+			return JsonResponse({
+				"status" : "200",
+			})
+		else:
+			author.subscribers.remove(user)
+			author.subscribers_amount -= 1
+			if user in author.notifications.all(): # also turn off notifications
+				author.notifications.remove(user)
+			author.save()
+
+	else:
+		return JsonResponse({
+			"status" : "200",
+			"need_to_login" : True
+		})
+
+	return JsonResponse({
+		"status" : "200",
+		"current_subs" : author.subscribers_amount,
+	})
+
+
+
+def notify(request):
+	"""Notify request-user about new author's video"""
+	user = request.user
+
+	if user.is_authenticated:
+		author = User.objects.get(username=request.POST.get("author_username"))
+
+		if user not in author.subscribers.all(): # must be subscribed to get notifications
+			return JsonResponse({
+				"status" : "200",
+				"need_to_subscribe" : True,
+			})
+		else:
+			if user in author.notifications.all():
+				return JsonResponse({
+					"status" : "200",
+				})
+			else:
+				author.notifications.add(user)
+				author.save()
+
+	else:
+		return JsonResponse({
+			"status" : "200",
+			"need_to_login" : True,
+		})
+
+	return JsonResponse({
+		"status" : "200",
+	})
+
+
+def not_notify(request):
+	"""DONT notify request-user about new author's video"""
+	user = request.user
+
+	if user.is_authenticated:
+		author = User.objects.get(username=request.POST.get("author_username"))
+
+		if user not in author.notifications.all():
+			return JsonResponse({
+				"status" : "200",
+			})
+		else:
+			author.notifications.remove(user)
+			author.save()
+	else:
+		return JsonResponse({
+			"status" : "200",
+			"need_to_login" : True,
+		})
+
+	return JsonResponse({
+		"status" : "200",
 	})

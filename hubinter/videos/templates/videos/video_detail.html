@@ -105,18 +105,37 @@
 			</div>
 			<div class="username-area">
 				<h3>{{ author_username | truncatechars:30 }}</h3>
-				<h6 class="red-text" style="margin-top: -20px;">{{ author_subscribers }} subs</h6>
+				<h6 id="subs-counter" class="red-text" style="margin-top: -20px;">{{ author_subscribers }} subs</h6>
 			</div>
 		</div>
 
 		<div class="author__subscribe-btn">
 			<div class="wrapper_subscribe-btn">
-				<a class="share-btn subscribe-btn">SUBSCRIBE</a>
+				<a id="subscribe-btn" onclick="subscribe_unsubscribe('{{ author_username }}')" 
+				{% if current_user in author_object.subscribers.all %}
+					class="share-btn subscribe-btn subscribed">SUBSCRIBED</a>
+				{% else %}
+					class="share-btn subscribe-btn">SUBSCRIBE</a>
+				{% endif %}
 			</div>
-			<div class="icons-example wrapper_notifications-btn">
+			<div class="icons-example wrapper_notifications-btn"
+				{% if author_object == current_user %}
+					style="display: none !important;" 
+				{% elif current_user not in author_object.subscribers.all %}
+					style="display: none !important;"
+				{% elif current_user.is_anonymous %}
+					style="display: none !important;" 
+				{% endif %} 
+			>
 				<ul>
 					<li style="margin: 0 !important;">
-						<a class="btn-with-icon">
+						<a id="notification-btn" onclick="notification('{{ author_username }}')" 
+							{% if current_user in author_object.notifications.all %}
+								class="btn-with-icon notified"
+							{% else %}
+								class="btn-with-icon"
+							{% endif %}	
+						>
 							<span style="line-height: 62px; font-size: 26px; max-height: 100%;" class="font-icon-bell"></span>
 						</a>
 					</li>

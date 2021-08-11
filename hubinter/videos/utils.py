@@ -81,10 +81,12 @@ class YT_Video_DataParser:
 def get_author_info(video_obj, context):
 	"""Get author's avatar-url, username and subs"""
 	if context['video_type'] == "uploaded":
+		context['author_object'] = video_obj.author
 		context['author_avatar'] = video_obj.author.avatar.url
 		context['author_username'] = video_obj.author.username
 		context['author_subscribers'] = video_obj.author.subscribers_amount
 	elif context['video_type'] == "youtube":
+		context['author_object'] = video_obj.added_by
 		context['author_avatar'] = video_obj.added_by.avatar.url
 		context['author_username'] = video_obj.added_by.username
 		context['author_subscribers'] = video_obj.added_by.subscribers_amount
