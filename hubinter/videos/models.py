@@ -2,9 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
 from django.core.validators import FileExtensionValidator
-from django.dispatch import receiver
-from django.db.models import signals
-from django.utils.text import slugify
 from imagekit.models.fields import ImageSpecField
 from imagekit.processors import ResizeToFit
 
@@ -26,11 +23,6 @@ class Theme(models.Model):
 		verbose_name_plural = 'Themes'
 		ordering = ['name']
 
-@receiver(signals.pre_save, sender=Theme)
-def populate_slug(sender, instance, **kwargs):
-	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
-	should use presave signal to change slug again'''
-	instance.slug = slugify(instance.name)
 
 
 
@@ -52,12 +44,6 @@ class Tag(models.Model):
 		verbose_name = 'Tag'
 		verbose_name_plural = 'Tags'
 		ordering = ['theme']
-
-@receiver(signals.pre_save, sender=Tag)
-def populate_slug(sender, instance, **kwargs):
-	'''Due to the fact that the slug doesn't change while editing the name in admin panel,
-	should use presave signal to change slug again'''
-	instance.slug = slugify(instance.name)
 
 
 
@@ -88,7 +74,6 @@ class Video(models.Model):
 		validators=[ FileExtensionValidator(allowed_extensions=['mp4', 'webm']), ],
 		verbose_name='Video file'
 	)
-	is_published = models.BooleanField(default=True, verbose_name='Is Published')
 	views = models.PositiveIntegerField(verbose_name='Views', default=0)
 	likes = models.PositiveIntegerField(verbose_name='Likes', default=0)
 	dislikes = models.PositiveIntegerField(verbose_name='Dislikes', default=0)

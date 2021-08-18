@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',
     'debug_toolbar',
-    'videos',
-    'accounts',
-    'ajax',
+    'videos.apps.VideosConfig',
+    'accounts.apps.AccountsConfig',
+    'ajax.apps.AjaxConfig',
     'imagekit',
     'django_cleanup.apps.CleanupConfig',
 ]

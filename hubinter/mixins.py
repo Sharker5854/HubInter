@@ -1,7 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth.signals import user_logged_out, user_logged_in
-from django.dispatch import receiver
 
 class LoginRequired_WithMessage_Mixin(LoginRequiredMixin):
 	def dispatch(self, request, *args, **kwargs):

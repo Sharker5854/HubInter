@@ -23,7 +23,7 @@ class AddVideoForm(forms.ModelForm):
 
 	class Meta:
 		model = Video
-		fields = ('title', 'description', 'theme', 'tags', 'preview', 'video', 'is_published')
+		fields = ('title', 'description', 'theme', 'tags', 'preview', 'video')
 		widgets = {
 			'title' : forms.TextInput(
         		attrs={
@@ -59,13 +59,6 @@ class AddVideoForm(forms.ModelForm):
         			'class' : 'margin-50',
         		}
         	),
-        	'is_published' : forms.CheckboxInput(
-        		attrs={
-        			'style' : 'width: 15px; margin-top: 10px;',
-        			'class' : 'margin-50',
-        			'default' : True,
-        		}
-        	)
         }
 		labels = {
 			'title' : '',
@@ -74,7 +67,6 @@ class AddVideoForm(forms.ModelForm):
 			'tags' : 'Tags (hold down “Control” to select more than one)',
 			'preview' : 'Preview (Recommended: 1350x1060 px)',
 			'video' : 'Video',
-			'is_published' : 'Publish Now'
 		}
 
 

@@ -13,6 +13,7 @@ from django.contrib import messages
 from .models import *
 from .utils import YT_Video_DataParser, get_author_info
 from .forms import AddVideoForm, AddYoutubeVideoForm
+from .tasks import send_email_notifications
 from itertools import chain
 from mixins import LoginRequired_WithMessage_Mixin
 from delorean import Delorean
@@ -20,7 +21,6 @@ import iuliia
 import loguru
 import uuid
 import random
-import time
 
 
 # НАЧАЛ ДЕЛАТЬ САЙТ 10 МАЯ
@@ -32,13 +32,14 @@ import time
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Комменты, уведомления (реализовать отправку уведомлений)
+	Комменты
 	Пагинация (Бесконечная подгрузка)
 	Профиль
 	Алгоритм рекомендаций...
 	Отправка почты (Contact), About
 	Кэширование, логирование
-	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, пути в ссылка при нажатии Share под видео, https-протокол, бд на AWS)
+	Отлов всех исключений и репорт админу на почту
+	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, пути в ссылках при нажатии Share под видео, https-протокол, бд на AWS)
 
 
 
@@ -59,14 +60,14 @@ class Home(ListView):
 
 	def get_queryset(self):
 		"""Return mixed list of all videos (uploaded and youtube)"""
-		queryset = list( chain(self.get_videos(), self.get_youtube_videos()) )
+		queryset = list( chain(self.get_videos(), self.get_youtube_videos()) )[:9]
 		random.shuffle(queryset)
 		return queryset
 
 	def get_videos(self):
 		queryset = Video.objects.prefetch_related(
 			Prefetch('tags')
-		).select_related('theme', 'author').filter(is_published=True).order_by('-created_at')
+		).select_related('theme', 'author').order_by('-created_at')
 		return queryset
 
 	def get_youtube_videos(self):
@@ -104,8 +105,7 @@ class SearchVideos(ListView):
 			Q(title__icontains=query) | 
 			Q(description__icontains=query) |
 			Q(tags__name__icontains=query) |
-			Q(theme__name__icontains=query),
-			is_published=True
+			Q(theme__name__icontains=query)
 		)
 
 		queried_youtube_videos = YoutubeVideo.objects.prefetch_related(
@@ -177,12 +177,11 @@ class YoutubeVideoDetail(DetailView):
 	def get(self, request, *args, **kwargs):
 		self.video = self.model.objects.filter(slug=self.kwargs['slug']).first()
 		if request.user.is_authenticated:
-			if request.user.is_authenticated:
-				if not request.user.viewed_yt_videos.filter(slug=self.video.slug).exists():
-					request.user.viewed_yt_videos.add(self.video) 
-					self.video.views += 1
-					request.user.save()
-					self.video.save()
+			if not request.user.viewed_yt_videos.filter(slug=self.video.slug).exists():
+				request.user.viewed_yt_videos.add(self.video) 
+				self.video.views += 1
+				request.user.save()
+				self.video.save()
 		else:
 			if self.video.slug in request.COOKIES.keys(): # if already viewed by anonymous
 				pass
@@ -239,6 +238,10 @@ class AddVideo(LoginRequired_WithMessage_Mixin, CreateView):
 
 		form.save_m2m() #unecessary, to save selected tags
 		messages.success(self.request, 'Video uploaded successfully!')
+		send_email_notifications.delay( # send notifications asynchronously
+			self.object.author.username, self.object.slug, 
+			"uploaded", self.request.build_absolute_uri(self.object.get_absolute_url())
+		)
 		return HttpResponseRedirect(self.get_success_url())
 
 
@@ -289,6 +292,10 @@ class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
 
 		form.save_m2m()
 		messages.success(self.request, 'Your YouTube video added successfully!')
+		send_email_notifications.delay( # send notifications asynchronously
+			self.object.added_by.username, self.object.slug, 
+			"youtube", self.request.build_absolute_uri(self.object.get_absolute_url())
+		)
 		return HttpResponseRedirect(self.get_success_url())
 
 
@@ -307,4 +314,5 @@ class About(TemplateView):
 
 class Contact(FormView):
 	template_name = 'contact.html'
-	form_class = About # 
+	form_class = About #
+ 
