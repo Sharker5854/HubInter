@@ -119,3 +119,26 @@ class AddYoutubeVideoForm(forms.ModelForm):
 			'theme' : 'YouTube Video Theme',
 			'tags' : 'Tags (hold down “Control” to select more than one)',
 		}
+
+
+
+class AddCommentForm(forms.Form):
+	"""Form to add comment directly from the video-page"""
+
+	parent_comment = forms.IntegerField(
+		widget=forms.HiddenInput,
+		required=False # if null, comment is not a response to someone else's
+	)
+
+	comment_text = forms.CharField(
+		widget=forms.Textarea(
+			attrs={
+				'placeholder' : 'Write a comment...',
+				'rows' : 1,
+				'id' : 'contact_message',
+				'class' : 'comment-text'
+			}
+		),
+		max_length=1000,
+		label='',
+	)

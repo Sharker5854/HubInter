@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseRedirect
 from django.utils.text import slugify
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import cache_page
 from django.db import IntegrityError
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
@@ -12,7 +14,7 @@ from django.contrib import messages
 
 from .models import *
 from .utils import YT_Video_DataParser, get_author_info
-from .forms import AddVideoForm, AddYoutubeVideoForm
+from .forms import AddVideoForm, AddYoutubeVideoForm, AddCommentForm
 from .tasks import send_email_notifications
 from itertools import chain
 from mixins import LoginRequired_WithMessage_Mixin
@@ -32,14 +34,16 @@ import random
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Комменты
+	Комменты (свои комменты в первую очередь, ajax-запрос при добавлении)
 	Пагинация (Бесконечная подгрузка)
 	Профиль
 	Алгоритм рекомендаций...
 	Отправка почты (Contact), About
 	Кэширование, логирование
 	Отлов всех исключений и репорт админу на почту
-	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, пути в ссылках при нажатии Share под видео, https-протокол, бд на AWS)
+	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
+			пути в ссылках при нажатии Share под видео, https-протокол, 
+			бд на AWS, создать собственный email для сайта)
 
 
 
@@ -60,7 +64,7 @@ class Home(ListView):
 
 	def get_queryset(self):
 		"""Return mixed list of all videos (uploaded and youtube)"""
-		queryset = list( chain(self.get_videos(), self.get_youtube_videos()) )[:9]
+		queryset = list( chain(self.get_videos(), self.get_youtube_videos()) )
 		random.shuffle(queryset)
 		return queryset
 
@@ -126,6 +130,7 @@ class VideoDetail(DetailView):
 	model = Video
 	template_name = 'videos/video_detail.html'
 	context_object_name = 'video'
+	comment_form = AddCommentForm
 
 	def get(self, request, *args, **kwargs):
 		self.video = self.model.objects.filter(slug=self.kwargs['slug']).first()
@@ -157,6 +162,12 @@ class VideoDetail(DetailView):
 		context['current_user'] = self.request.user
 		context['video_type'] = "uploaded"
 		context = get_author_info(self.video, context)
+		if self.request.user.is_authenticated:
+			context['comment_form'] = self.comment_form
+			context['comments'] = self.video.comment_set.all().exclude(author=self.request.user).select_related('author', 'video').order_by('path')
+			context['my_comments'] = self.video.comment_set.filter(author=self.request.user).select_related('author', 'video').order_by('path')
+		else:
+			context['comments'] = self.video.comment_set.all().select_related('author', 'video').order_by('path')
 		return context
 
 
@@ -315,4 +326,30 @@ class About(TemplateView):
 class Contact(FormView):
 	template_name = 'contact.html'
 	form_class = About #
- 
+
+
+
+
+
+# ==================== FUNCTIONS ==================== #
+
+@login_required
+@require_http_methods(["POST"])
+def add_comment(request, video_slug):
+
+	form = AddCommentForm(request.POST)
+	video = Video.objects.get(slug=video_slug)
+
+	if form.is_valid():
+		comment = Comment(
+			path=[], # will resave it below...
+			author=request.user,
+			video=video,
+			text=form.cleaned_data['comment_text']
+		)
+		video.comments_amount += 1
+		comment.save()
+		video.save()
+
+	from django.urls import reverse
+	return HttpResponseRedirect(reverse('video', kwargs={'slug' : video_slug}))

@@ -159,11 +159,11 @@ class YoutubeVideoAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-	fields = ('author', 'text', 'answer_for', 'video', 'created_at', 'updated_at')
-	readonly_fields = ('author', 'text', 'answer_for', 'video', 'created_at', 'updated_at')
+	fields = ('author', 'text', 'video', 'created_at')
+	readonly_fields = ('author', 'text', 'video', 'created_at')
 	search_fields = ('author', 'text')
 	list_filter = ('created_at',)
-	list_display = ('author', 'video', 'answer_for', 'humanize_created_at')
+	list_display = ('author', 'video', 'humanize_created_at')
 	ordering = ('-created_at',)
 
 	def has_add_permission(self, request):
@@ -175,8 +175,4 @@ class CommentAdmin(admin.ModelAdmin):
 	def humanize_created_at(self, obj):
 		return obj.get_created_at()
 
-	def humanize_updated_at(self, obj):
-		return obj.get_updated_at()
-
 	humanize_created_at.short_description = 'Written'
-	humanize_updated_at.short_description = 'Updated'

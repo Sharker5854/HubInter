@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 from django.shortcuts import reverse
 from django.core.validators import FileExtensionValidator
@@ -137,26 +138,30 @@ class YoutubeVideo(models.Model):
 
 
 class Comment(models.Model):
-	answer_for = models.ForeignKey('self', default=None, editable=False, verbose_name='Relative comment', on_delete=models.CASCADE)
+	path = ArrayField(models.IntegerField())
 	author = models.ForeignKey(
 		settings.AUTH_USER_MODEL, editable=False,
 		verbose_name='Author', on_delete=models.CASCADE
 	)
-	text = models.TextField(verbose_name='Text', max_length=1000)
 	video = models.ForeignKey('Video', on_delete=models.CASCADE, editable=False, verbose_name='Video')
+	text = models.TextField(verbose_name='Text', max_length=1000)
 	created_at = models.DateTimeField(auto_now_add=True, verbose_name='Added')
-	updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated')
 
 	def __str__(self):
-		return self.title
+		return self.text[:100]
 
 	def get_created_at(self):
 		delta = Delorean(datetime=self.created_at, timezone='Europe/Moscow')
 		return delta.humanize().capitalize()
 
-	def get_updated_at(self):
-		delta = Delorean(datetime=self.updated_at, timezone='Europe/Moscow')
-		return delta.humanize().capitalize()
+	def get_comment_offset(self):
+		level = len(self.path) - 1
+		if level > 1: # maximum nesting level - 1 (like on YouTube)
+			level = 1
+		return level
+
+	def get_comment_column(self):
+		return 12 - self.get_comment_offset()
 
 	class Meta:
 		verbose_name = 'Comment'
