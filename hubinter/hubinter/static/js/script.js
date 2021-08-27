@@ -460,6 +460,38 @@ function not_notify(username) {
 
 
 
+// Fill in hidden input with parent-comment id  AND  show comment-form in correct place if user answer for another comment
+function show_comments_form(parent_comment_id, offset) {
+    var answer_btn = document.getElementById('answer-text-' + parent_comment_id)
+
+    if (answer_btn.classList.contains("white-text")) {
+        $("#contact_message").val('')
+        $("#id_parent_comment").val('')
+        $(".comment-form").css({"margin-left" : "0", "margin-bottom" : "0"})
+        $(".comment-form").insertAfter("#anchor-for-contact_message")
+        answer_btn.classList.remove("white-text") 
+    }
+    else {
+        $("#contact_message").val('')
+        $("#id_parent_comment").val(parent_comment_id)
+        $(".answer-btn-text").removeClass("white-text")
+        $("#answer-text-" + parent_comment_id).addClass("white-text")
+        $(".comment-form").css({"margin-bottom" : "50px"})
+
+        if (offset == "1") { // show form with indent if we answer FOR ANOTHER ANSWER
+            $(".comment-form").css({"margin-left" : "10%"})
+        }
+        else {
+            $(".comment-form").css({"margin-left" : "0"})
+        }
+
+        $(".comment-form").insertAfter("#" + parent_comment_id)
+        $("#contact_message").focus()
+    };
+}
+
+
+
 
 
 

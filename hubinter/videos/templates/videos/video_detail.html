@@ -149,7 +149,8 @@
 		<div class="comment__area">
 			<h4>{{ video.comments_amount }} comments</h4>
 			{% if comment_form %}
-				<div class="leave-comment">		
+				<div class="leave-comment">
+					<div id="anchor-for-contact_message"></div>
 					<form action="{% url 'add_comment' video.slug %}" method="POST" id="contact-form" class="comment-form">
 						{% csrf_token %}
 						{% for field in comment_form %}
@@ -173,34 +174,52 @@
 							comment_submit_btn.classList.add("active__comment-submit")
 						}
 					});
+
+					const padding = comment_text_input.offsetHeight - comment_text_input.clientHeight;
+					comment_text_input.oninput = e => {
+					    comment_text_input.style.height = 'auto';
+					    comment_text_input.style.height = comment_text_input.scrollHeight + padding + 'px';
+					};
 				</script>
 			{% else %}
 				You should sign in to leave comments.
 			{% endif %}
 
-			{% if my_comments or comments %}
+			{% if comments %}
 				<hr>
-				{% if my_comments %}
-					<div class="my-comments">
-						{% for comment in my_comments %}
-							<b>{{ comment.author }}</b>
-							<p>{{ comment.text }}</p>
-						{% endfor %}
-					</div>
-				{% endif %}
-				<hr>
-				{% if comments %}
-					<div class="comments">
-						{% for comment in comments %}
-							<b>{{ comment.author }}</b>
-							<p>{{ comment.text }}</p>
-						{% endfor %}
-					</div>
-				{% endif %}
+				<div class="comments">
+					{% for comment in comments %}
+						<div 
+							{% if comment.get_comment_offset == 0 %}
+								class="comment-block"
+							{% else %}
+								class="comment-block answer" 
+							{% endif %}
+							id="{{ comment.id }}">
+							<div class="comment__author-published">
+								<b class="red-text"><a href="#">{{ comment.author.username | truncatechars:30 }}</a></b>
+								<span class="side-margins">&#8226;</span>
+								<span>{{ comment.get_created_at }}</span>
+							</div>
+							<div class="comment__text">
+								<span style="max-width: 100%;">{{ comment.text }}</span>
+							</div>
+							{% if comment_form %}
+								<div class="comment__answer-btn">
+									<a id="answer-text-{{ comment.id }}" class="answer-btn-text" onclick="show_comments_form('{{ comment.id }}', '{{ comment.get_comment_offset }}')">
+										<span>&#10150;</span>
+										<span>&nbsp;Answer</span>
+									</a>
+								</div>
+				        	{% endif %}
+				        </div>
+					{% endfor %}
+				</div>
 
 			{% else %}
-				No comments.
+				<div class="no-comments-yet">No comments yet.</div>
 			{% endif %}
+
 		</div>
 	{% endif %}
 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib import messages
+from django.db.models import Count
 
 from videos.models import Tag, Video
 from accounts.models import User
@@ -36,8 +37,8 @@ def turn_on_marker(request):
 			if video in user.liked_videos.all():
 				return JsonResponse({
 					'status' : '200',
-					'current_likes' : video.likes,
-					'current_dislikes' : video.dislikes,
+					'current_likes' : video.liked_by.count(),
+					'current_dislikes' : video.disliked_by.count(),
 				})
 			else:
 				if user.disliked_videos.filter(slug=video.slug).exists(): # if opposite mark is put
@@ -46,13 +47,12 @@ def turn_on_marker(request):
 					user.liked_videos.add(video) # and then, add our mark
 				else:
 					user.liked_videos.add(video)
-				video.likes += 1
 		else:
 			if video in user.disliked_videos.all():
 				return JsonResponse({
 					'status' : '200',
-					'current_likes' : video.likes,
-					'current_dislikes' : video.dislikes,
+					'current_likes' : video.liked_by.count(),
+					'current_dislikes' : video.disliked_by.count(),
 				})
 			else:
 				if user.liked_videos.filter(slug=video.slug).exists(): # the same, as above...
@@ -61,22 +61,21 @@ def turn_on_marker(request):
 					user.disliked_videos.add(video)
 				else:
 					user.disliked_videos.add(video)
-				video.dislikes += 1
 
 		user.save()
 		video.save()
 	else:
 		return JsonResponse({
 			'status' : '200',
-			'current_likes' : video.likes,
-			'current_dislikes' : video.dislikes,
+			'current_likes' : video.liked_by.count(),
+			'current_dislikes' : video.disliked_by.count(),
 			'need_to_login' : True
 		})
 
 	return JsonResponse({
 		'status' : '200',
-		'current_likes' : video.likes,
-		'current_dislikes' : video.dislikes,
+		'current_likes' : video.liked_by.count(),
+		'current_dislikes' : video.disliked_by.count(),
 	})
 
 
@@ -93,25 +92,23 @@ def turn_off_marker(request):
 
 		if marker_type == 'like':
 			user.liked_videos.remove(video.pk)
-			video.likes -= 1
 		else:
 			user.disliked_videos.remove(video.pk)
-			video.dislikes -= 1
 
 		user.save()
 		video.save()
 	else:
 		return JsonResponse({
 			'status' : '200',
-			'current_likes' : video.likes,
-			'current_dislikes' : video.dislikes,
+			'current_likes' : video.liked_by.count(),
+			'current_dislikes' : video.disliked_by.count(),
 			'need_to_login' : True
 		})
 
 	return JsonResponse({
 		'status' : '200',
-		'current_likes' : video.likes,
-		'current_dislikes' : video.dislikes,
+		'current_likes' : video.liked_by.count(),
+		'current_dislikes' : video.disliked_by.count(),
 	})
 
 
@@ -129,7 +126,6 @@ def subscribe(request):
 			})
 		else:
 			author.subscribers.add(user)
-			author.subscribers_amount += 1
 			author.save()
 
 	else:
@@ -140,7 +136,7 @@ def subscribe(request):
 
 	return JsonResponse({
 		"status" : "200",
-		"current_subs" : author.subscribers_amount,
+		"current_subs" : author.subscribers.count(),
 		"current_user_is_author" : True if user == author else False
 		# current_user_is_author - this arg is for that the author of the video doesn't see the notification button after subscribing to himself
 	})
@@ -159,7 +155,6 @@ def unsubscribe(request):
 			})
 		else:
 			author.subscribers.remove(user)
-			author.subscribers_amount -= 1
 			if user in author.notifications.all(): # also turn off notifications
 				author.notifications.remove(user)
 			author.save()
@@ -172,7 +167,7 @@ def unsubscribe(request):
 
 	return JsonResponse({
 		"status" : "200",
-		"current_subs" : author.subscribers_amount,
+		"current_subs" : author.subscribers.count(),
 	})
 
 

@@ -6,9 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import cache_page
 from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
-from django.db.models import Q
-from django.db.models import Prefetch
+from django.db.models import Q, Prefetch
+from django.db.models import Count
 from django.core import files
 from django.contrib import messages
 
@@ -34,7 +35,7 @@ import random
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Комменты (свои комменты в первую очередь, ajax-запрос при добавлении)
+	Комменты (ajax-запрос при добавлении)
 	Пагинация (Бесконечная подгрузка)
 	Профиль
 	Алгоритм рекомендаций...
@@ -152,7 +153,11 @@ class VideoDetail(DetailView):
 
 	def get_queryset(self):
 		if self.kwargs['slug']:
-			return self.model.objects.filter(slug=self.kwargs['slug'])
+			return self.model.objects.filter(slug=self.kwargs['slug']).annotate(
+				comments_amount=Count('comment', distinct=True),
+				likes=Count('liked_by', distinct=True),
+				dislikes=Count('disliked_by', distinct=True)
+			)
 		else:
 			return self.model.objects.first()
 
@@ -164,10 +169,7 @@ class VideoDetail(DetailView):
 		context = get_author_info(self.video, context)
 		if self.request.user.is_authenticated:
 			context['comment_form'] = self.comment_form
-			context['comments'] = self.video.comment_set.all().exclude(author=self.request.user).select_related('author', 'video').order_by('path')
-			context['my_comments'] = self.video.comment_set.filter(author=self.request.user).select_related('author', 'video').order_by('path')
-		else:
-			context['comments'] = self.video.comment_set.all().select_related('author', 'video').order_by('path')
+		context['comments'] = self.video.comment_set.all().select_related('author', 'video').order_by('path')
 		return context
 
 
@@ -336,7 +338,7 @@ class Contact(FormView):
 @login_required
 @require_http_methods(["POST"])
 def add_comment(request, video_slug):
-
+	"""Create new comment and fill in path to the parent comment (if answer to another one)"""
 	form = AddCommentForm(request.POST)
 	video = Video.objects.get(slug=video_slug)
 
@@ -347,9 +349,15 @@ def add_comment(request, video_slug):
 			video=video,
 			text=form.cleaned_data['comment_text']
 		)
-		video.comments_amount += 1
 		comment.save()
-		video.save()
+
+	try:
+		comment.path.extend( Comment.objects.get(pk=form.cleaned_data['parent_comment']).path )
+		comment.path.append(comment.id)
+	except ObjectDoesNotExist:
+		comment.path.append(comment.id)
+
+	comment.save()
 
 	from django.urls import reverse
 	return HttpResponseRedirect(reverse('video', kwargs={'slug' : video_slug}))

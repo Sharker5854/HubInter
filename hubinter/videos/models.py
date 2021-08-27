@@ -76,9 +76,6 @@ class Video(models.Model):
 		verbose_name='Video file'
 	)
 	views = models.PositiveIntegerField(verbose_name='Views', default=0)
-	likes = models.PositiveIntegerField(verbose_name='Likes', default=0)
-	dislikes = models.PositiveIntegerField(verbose_name='Dislikes', default=0)
-	comments_amount = models.PositiveIntegerField(verbose_name='Comments', default=0)
 
 	def __str__(self):
 		return self.title
@@ -150,18 +147,18 @@ class Comment(models.Model):
 	def __str__(self):
 		return self.text[:100]
 
+	def get_absolute_url(self):
+		return reverse('video', kwargs={'slug' : self.video.slug})
+
 	def get_created_at(self):
 		delta = Delorean(datetime=self.created_at, timezone='Europe/Moscow')
 		return delta.humanize().capitalize()
 
 	def get_comment_offset(self):
 		level = len(self.path) - 1
-		if level > 1: # maximum nesting level - 1 (like on YouTube)
+		if level >= 1: # maximum nesting level - 1 (like on YouTube)
 			level = 1
 		return level
-
-	def get_comment_column(self):
-		return 12 - self.get_comment_offset()
 
 	class Meta:
 		verbose_name = 'Comment'

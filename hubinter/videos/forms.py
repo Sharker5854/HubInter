@@ -126,7 +126,11 @@ class AddCommentForm(forms.Form):
 	"""Form to add comment directly from the video-page"""
 
 	parent_comment = forms.IntegerField(
-		widget=forms.HiddenInput,
+		widget=forms.HiddenInput(
+			attrs={
+				"value" : "",
+			}
+		),
 		required=False # if null, comment is not a response to someone else's
 	)
 

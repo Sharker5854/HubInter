@@ -41,13 +41,11 @@ class VideoAdmin(admin.ModelAdmin):
 		}),
 		('Statistics', {
 			'classes': ('collapse',),
-			'fields': ('views', 'likes', 'dislikes', 'comments_amount', 
-				'created_at', 'updated_at'),
+			'fields': ('views', 'created_at', 'updated_at'),
 		}),
 	)
 	readonly_fields = (
-		'views', 'likes', 'dislikes', 'comments_amount', 
-		'created_at', 'updated_at'
+		'views', 'created_at', 'updated_at'
 	)
 	prepopulated_fields = {'slug' : ('title',)}
 	search_fields = ('title', 'author')
