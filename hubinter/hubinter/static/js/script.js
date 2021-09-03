@@ -125,7 +125,7 @@ select_theme_block.addEventListener('change', function() {
         data: {
             'theme' : select_theme_block.options[select_theme_block.selectedIndex].text, // send chosen theme name
             "csrfmiddlewaretoken" : token
-        }, 
+        },
         success: function(response) {              
             tag_list = merge_into_single_array(response) // get one list of tags by chosen theme
             show_tags_by_theme(tag_list) // show only suitable ones
@@ -488,7 +488,43 @@ function show_comments_form(parent_comment_id, offset) {
         $(".comment-form").insertAfter("#" + parent_comment_id)
         $("#contact_message").focus()
     };
-}
+};
+
+// Send ajax query for adding comment with all comment-form's data 
+function add_comment_query(video_slug) {
+    if ( $(".comment-text").val().trim() ) {
+        $.ajax({
+            type: "POST",
+            url: location.protocol + "//" + location.host + "/ajax/add_comment/",
+            data: {
+                "video_slug" : video_slug,
+                "parent_comment" : $("#id_parent_comment").val(),
+                "comment_text" : $(".comment-text").val(),
+                "csrfmiddlewaretoken" : $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            success: function(response) {
+                comment_form_back_to_place();
+                $("#comment-counter").text(response["current_comments_count"])
+                var comment = get_comment_template(response)
+                if (response['parent_comment_id'] == "no-parent") {
+                    if ($(".no-comments-yet").length) {
+                        $(".no-comments-yet").replaceWith('<hr><div class="comments"><div id="anchor-for-top_comment"></div></div>')
+                    }
+                    $(comment).insertAfter("#anchor-for-top_comment")
+                    highlight_element_background(response['comment_id'], 800, "#26292E");
+                }
+                else {
+                    $(comment).insertAfter("#" + response['parent_comment_id'])
+                    highlight_element_background(response['comment_id'], 800, "#2B2D34");
+                }
+            },
+            error: function(error) {
+                comment_form_back_to_place();
+                smth_wrong__alert();
+            }
+        });
+    }
+};
 
 
 
@@ -533,4 +569,45 @@ function need_to_login__alert() {
 function smth_wrong__alert() {
     $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>Oops... Something went wrong! :(</strong></div>')
     $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+}
+
+
+// Put comment form back to initial position on page
+function comment_form_back_to_place() {
+    $(".comment-text").val('')
+    $("#id_parent_comment").val('')
+    $(".comment-form").css({"margin-left" : "0", "margin-bottom" : "0"})
+    $(".comment-form").insertAfter("#anchor-for-contact_message")
+    $("#submit-comment-btn").removeClass("active__comment-submit")
+    $(".answer-btn-text").removeClass("white-text")
+}
+
+
+// Create HTML-template to the just-added comment
+function get_comment_template(comment_data) {
+    comment = `
+    <div class="comment-block ${comment_data['answer'] ? "answer" : ""}" id="${comment_data['comment_id']}">
+    <div class="comment__author-published">
+        <b class="red-text"><a href="${comment_data['author_url']}">${comment_data['author_username'].substring(0, 30)}</a></b>
+        <span class="side-margins">&#8226;</span>
+        <span>${comment_data['created_at']}</span>
+    </div>
+    <div class="comment__text">
+        <span style="max-width: 100%;">${comment_data['text']}</span>
+    </div>
+    <div class="comment__answer-btn">
+        <a id="answer-text-${comment_data['comment_id']}" class="answer-btn-text" onclick="show_comments_form('${comment_data['comment_id']}', '${comment_data['answer'] ? "1" : "0"}')">
+            <span>&#10150;</span>
+            <span>&nbsp;Answer</span>
+        </a>
+    </div>
+    `
+    return comment;
+}
+
+
+// Highlight element's background with red color with subsequent color fading
+function highlight_element_background(elem_id, time, back_to_color) {
+    $("#" + elem_id).css({"background-color" : "#FF5D5F"})
+    $("#" + elem_id).animate({"background-color" : back_to_color}, time)
 }

@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
 from django.contrib import messages
 from django.db.models import Count
+from django.core.exceptions import ObjectDoesNotExist
 
-from videos.models import Tag, Video
+from videos.models import Tag, Video, Comment
 from accounts.models import User
+from videos.forms import AddCommentForm
 
 
 """ ----- Add video form ----- """
@@ -227,3 +231,52 @@ def not_notify(request):
 	return JsonResponse({
 		"status" : "200",
 	})
+
+
+
+@login_required
+@require_http_methods(["POST"])
+def add_comment(request):
+	"""Create new comment and fill in path to the parent comment (if answer to another one)"""
+	form = AddCommentForm(request.POST)
+	video = Video.objects.get(slug=request.POST["video_slug"])
+
+	if form.is_valid():
+		comment = Comment(
+			path=[], # will resave it below...
+			author=request.user,
+			video=video,
+			text=form.cleaned_data['comment_text']
+		)
+		comment.save()
+
+		try:
+			comment.path.extend( Comment.objects.get(pk=form.cleaned_data['parent_comment']).path )
+			comment.path.append(comment.id)
+		except ObjectDoesNotExist:
+			comment.path.append(comment.id)
+
+		comment.save()
+
+		if comment.get_comment_offset() == 0:
+			return JsonResponse({
+				"comment_id" : comment.id,
+				"parent_comment_id" : "no-parent",
+				"author_username" : comment.author.username,
+				"author_url" : comment.author.get_absolute_url(),
+				"created_at" : comment.get_created_at(),
+				"text" : comment.text,
+				"answer" : False,
+				"current_comments_count" : video.comment_set.count()
+			})
+		else:
+			return JsonResponse({
+				"comment_id" : comment.id,
+				"parent_comment_id" : form.cleaned_data['parent_comment'],
+				"author_username" : comment.author.username,
+				"author_url" : comment.author.get_absolute_url(),
+				"created_at" : comment.get_created_at(),
+				"text" : comment.text,
+				"answer" : True,
+				"current_comments_count" : video.comment_set.count()
+			})

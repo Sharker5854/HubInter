@@ -434,6 +434,11 @@
 	margin-top: 0 !important;
 	margin-left: 20px !important;
 }
+.disabled-submit-btn:hover {
+	background-color: #3C3F45 !important;
+	color: #26292E !important;
+	cursor: default !important;
+}
 .active__comment-submit {
 	color: #FFFFFF !important;
 	background-color: #FF5D5F !important;

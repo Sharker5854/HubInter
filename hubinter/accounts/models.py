@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import FileExtensionValidator
 
@@ -51,6 +52,9 @@ class User(AbstractUser):
 		if "https:/" in url or "http:/" in url:
 			return url.replace("/media/", "")
 		return url
+
+	def get_absolute_url(self):
+		return "#"
 
 	def __str__(self):
 		return self.username

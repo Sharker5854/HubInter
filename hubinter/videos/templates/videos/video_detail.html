@@ -147,31 +147,35 @@
 	<!-- Comments -->
 	{% if video_type == "uploaded" %}
 		<div class="comment__area">
-			<h4>{{ video.comments_amount }} comments</h4>
+			<h4><span id="comment-counter">{{ video.comments_amount }}</span> comments</h4>
 			{% if comment_form %}
 				<div class="leave-comment">
 					<div id="anchor-for-contact_message"></div>
-					<form action="{% url 'add_comment' video.slug %}" method="POST" id="contact-form" class="comment-form">
+					<div id="contact-form" class="comment-form">
 						{% csrf_token %}
 						{% for field in comment_form %}
 							{{ field.errors }}
 							{{ field }}
 						{% endfor %}
 						<div class="submit-comment__area">
-							<input type="submit" id="submit-comment-btn" class="submit disabled" value="Comment">
+							<input disabled="disabled" type="submit" id="submit-comment-btn" class="submit disabled-submit-btn" onclick="add_comment_query('{{ video.slug }}')" value="Comment">
 						</div>
-					</form>
+					</div>
 				</div>
 
 				<script>
 					var comment_text_input = document.getElementById("contact_message");
 					var comment_submit_btn = document.getElementById("submit-comment-btn");
 					comment_text_input.addEventListener('input', function() {
-						if (this.value == '') {
+						if (!this.value.trim()) {
 							comment_submit_btn.classList.remove("active__comment-submit")
+							comment_submit_btn.classList.add("disabled-submit-btn")
+							comment_submit_btn.setAttribute("disabled", "disabled")
 						}
 						else {
 							comment_submit_btn.classList.add("active__comment-submit")
+							comment_submit_btn.classList.remove("disabled-submit-btn")
+							comment_submit_btn.removeAttribute("disabled")
 						}
 					});
 
@@ -188,6 +192,7 @@
 			{% if comments %}
 				<hr>
 				<div class="comments">
+					<div id="anchor-for-top_comment"></div>
 					{% for comment in comments %}
 						<div 
 							{% if comment.get_comment_offset == 0 %}

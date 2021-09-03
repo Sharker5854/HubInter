@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseRedirect
 from django.utils.text import slugify
+from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
 from django.views.decorators.cache import cache_page
 from django.db import IntegrityError
-from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
 from django.db.models import Q, Prefetch
 from django.db.models import Count
@@ -35,7 +33,6 @@ import random
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Комменты (ajax-запрос при добавлении)
 	Пагинация (Бесконечная подгрузка)
 	Профиль
 	Алгоритм рекомендаций...
@@ -50,6 +47,7 @@ import random
 
 - ДОДЕЛАТЬ:
 	Нормальный поиск видео
+	Передача и установка ссылки на профиль автора комментария в JSON-формате при добавлении коммента
 	Перемотка видеоплеера
 	Не забыть про автозаполнение слага при редактировании объекта
 	Анимацию фильтрации по тэгам на главной
@@ -328,36 +326,3 @@ class About(TemplateView):
 class Contact(FormView):
 	template_name = 'contact.html'
 	form_class = About #
-
-
-
-
-
-# ==================== FUNCTIONS ==================== #
-
-@login_required
-@require_http_methods(["POST"])
-def add_comment(request, video_slug):
-	"""Create new comment and fill in path to the parent comment (if answer to another one)"""
-	form = AddCommentForm(request.POST)
-	video = Video.objects.get(slug=video_slug)
-
-	if form.is_valid():
-		comment = Comment(
-			path=[], # will resave it below...
-			author=request.user,
-			video=video,
-			text=form.cleaned_data['comment_text']
-		)
-		comment.save()
-
-	try:
-		comment.path.extend( Comment.objects.get(pk=form.cleaned_data['parent_comment']).path )
-		comment.path.append(comment.id)
-	except ObjectDoesNotExist:
-		comment.path.append(comment.id)
-
-	comment.save()
-
-	from django.urls import reverse
-	return HttpResponseRedirect(reverse('video', kwargs={'slug' : video_slug}))
