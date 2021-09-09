@@ -110,73 +110,6 @@ function show_videos_by_tag(tag_name) {
 
 
 
-// ------------------------- Add video form ------------------------- //
-
-// Show tags by current selected theme in add-video form
-const select_theme_block = document.getElementById('id_theme')
-const select_tag_block = document.getElementById('id_tags')
-
-// triggered when changing the selection
-select_theme_block.addEventListener('change', function() {
-    token = get_csrf_token();
-    $.ajax({
-        type: "POST",
-        url: location.protocol + '//' + location.host + '/ajax/tags_by_theme/',
-        data: {
-            'theme' : select_theme_block.options[select_theme_block.selectedIndex].text, // send chosen theme name
-            "csrfmiddlewaretoken" : token
-        },
-        success: function(response) {              
-            tag_list = merge_into_single_array(response) // get one list of tags by chosen theme
-            show_tags_by_theme(tag_list) // show only suitable ones
-        },
-        error: function(error) {
-            show_tags_by_theme("all") // if something went wrong, leave all tags visible
-        }
-    })
-});
-
-// need to merge, because json returns array of arrays
-function merge_into_single_array(ajax_response) {
-    if (ajax_response['tags'] == "all") {
-        tag_list = "all" // if current theme is not chosen, will show all tags
-        return tag_list;
-    }
-    else {
-        tag_list = []; // if chosen, merge tags into one array
-        for (let tag_name of ajax_response['tags']) {
-            tag_list.push(tag_name[0])
-        }
-        return tag_list;
-    }
-};
-
-// show tags by theme only in add-video form
-function show_tags_by_theme(tag_list) {
-    if (tag_list == "all") {
-        for (let tag_option_btn of select_tag_block.options) { // if not chosen, just show all tags 
-            tag_option_btn.style.display = 'block';
-            tag_option_btn.selected = false // remove all selections
-        }
-    }
-    else {
-        for (let tag_option_btn of select_tag_block.options) {
-            if ( tag_list.includes(tag_option_btn.text) ) { // if tag in tag_list, leave it visible
-                tag_option_btn.style.display = 'block';
-                tag_option_btn.selected = false
-            }
-            else {
-                tag_option_btn.style.display = 'none';
-            }
-        }
-    }
-};
-
-
-
-
-
-
 // ------------------------- Video Detail ------------------------- //
 
 // Process the like and dislike click event
@@ -523,6 +456,52 @@ function add_comment_query(video_slug) {
                 smth_wrong__alert();
             }
         });
+    }
+};
+
+
+
+
+
+
+
+// ------------------------- Add video form ------------------------- //
+
+/// ONE MORE AJAX FUNCTION OM add_video.html TEMPLATE ///
+
+// need to merge, because json returns array of arrays
+function merge_into_single_array(ajax_response) {
+    if (ajax_response['tags'] == "all") {
+        tag_list = "all" // if current theme is not chosen, will show all tags
+        return tag_list;
+    }
+    else {
+        tag_list = []; // if chosen, merge tags into one array
+        for (let tag_name of ajax_response['tags']) {
+            tag_list.push(tag_name[0])
+        }
+        return tag_list;
+    }
+};
+
+// show tags by theme only in add-video form
+function show_tags_by_theme(tag_list) {
+    if (tag_list == "all") {
+        for (let tag_option_btn of select_tag_block.options) { // if not chosen, just show all tags 
+            tag_option_btn.style.display = 'block';
+            tag_option_btn.selected = false // remove all selections
+        }
+    }
+    else {
+        for (let tag_option_btn of select_tag_block.options) {
+            if ( tag_list.includes(tag_option_btn.text) ) { // if tag in tag_list, leave it visible
+                tag_option_btn.style.display = 'block';
+                tag_option_btn.selected = false
+            }
+            else {
+                tag_option_btn.style.display = 'none';
+            }
+        }
     }
 };
 

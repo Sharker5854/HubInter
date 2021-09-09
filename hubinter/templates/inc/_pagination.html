@@ -1,0 +1,35 @@
+<div class="pagination-area">
+    <div class="pagination">
+        {% if not page_obj.has_previous %}
+            <a href="#" class="disabled-prev-next pagination__prev-next button button-small">
+                Prev
+            </a>
+        {% else %}
+            <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" class="pagination__prev-next button button-small">
+                Prev
+            </a>
+        {% endif %}
+
+        {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number == page %}
+                <a href="?page={{ page }}{% if search_query %}&q={{ search_query }}{% endif %}" class="current-page pagination__page-num button button-small">
+                    {{ page }}
+                </a>
+            {% elif page > page_obj.number|add:-3 and page < page_obj.number|add:3 %}
+                <a href="?page={{ page }}{% if search_query %}&q={{ search_query }}{% endif %}" class="pagination__page-num button button-small">
+                    {{ page }}
+                </a>
+            {% endif %}
+        {% endfor %}
+
+        {% if not page_obj.has_next %}
+            <a href="#" class="disabled-prev-next pagination__prev-next button button-small">
+                Next
+            </a>
+        {% else %}
+            <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}" class="pagination__prev-next button button-small">
+                Next
+            </a>
+        {% endif %}
+    </div>
+</div>

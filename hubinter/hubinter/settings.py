@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'ajax.apps.AjaxConfig',
     'imagekit',
     'django_cleanup.apps.CleanupConfig',
+    'endless_pagination',
 ]
 
 MIDDLEWARE = [

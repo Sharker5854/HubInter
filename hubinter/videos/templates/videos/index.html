@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load sidebars %}
+{% load static %}
 
 {% load cache %}
 
@@ -9,6 +10,7 @@
 {% block alert %}{% endblock alert %}
 
 {% block content %}
+	
 	{% include "inc/_searchbar.html" %}
 
     <!-- Portfolio Projects -->
@@ -62,9 +64,11 @@
                     </ul>
                 </section>            
         	</div>
+        	{% include "inc/_pagination.html" %}
         </div>
 
     </div>
+    
 {% endblock %}
 
 {# class="hover-wrap fancybox" #}

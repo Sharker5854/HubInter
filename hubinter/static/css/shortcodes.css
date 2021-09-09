@@ -11,7 +11,7 @@
             border-radius: 0;
   	background-color: #3C3F45;
   	color: #23262C;
-  	vertical-align: middle;
+  	vertical-align: middle !important;
   	text-align: center;
   	text-transform: uppercase;
   	font-weight:500;
@@ -323,7 +323,7 @@
 	border: none;
   	background-color: #DE5E60;
 	color: #FFFFFF;
-  	cursor: default;
+  	cursor: pointer;
 }
 
 .tabbable {
@@ -342,13 +342,13 @@
 }
 
 .tab-content {
-  	overflow: auto;
+  	overflow: hidden;
 	padding: 20px;
 	background: #26292E;
 }
 
 .tab-content > .tab-pane {
-  	display: none;
+  	display: block;
 }
 
 .tab-content > .active {

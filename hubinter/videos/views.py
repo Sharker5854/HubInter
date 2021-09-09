@@ -21,7 +21,6 @@ from delorean import Delorean
 import iuliia
 import loguru
 import uuid
-import random
 
 
 # НАЧАЛ ДЕЛАТЬ САЙТ 10 МАЯ
@@ -33,12 +32,12 @@ import random
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Пагинация (Бесконечная подгрузка)
 	Профиль
-	Алгоритм рекомендаций...
+	Алгоритм рекомендаций... *
 	Отправка почты (Contact), About
 	Кэширование, логирование
 	Отлов всех исключений и репорт админу на почту
+	Подчистить все шаблоны и python-код
 	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
 			пути в ссылках при нажатии Share под видео, https-протокол, 
 			бд на AWS, создать собственный email для сайта)
@@ -58,13 +57,16 @@ import random
 # ==================== CLASSES ==================== #
 
 class Home(ListView):
+	# C:\Users\Admin\Desktop\Python\HubInter\venv\Lib\site-packages\endless_pagination
+	# django-endless-pagination
 	template_name = 'videos/index.html'
 	context_object_name = 'all_videos'
+	paginate_by = 9
 
 	def get_queryset(self):
 		"""Return mixed list of all videos (uploaded and youtube)"""
 		queryset = list( chain(self.get_videos(), self.get_youtube_videos()) )
-		random.shuffle(queryset)
+		# random.shuffle(queryset)
 		return queryset
 
 	def get_videos(self):
@@ -85,6 +87,7 @@ class Home(ListView):
 class SearchVideos(ListView):
 	template_name = 'videos/video_search.html'
 	context_object_name = 'found_videos'
+	paginate_by = 4
 
 	def get(self, request, *args, **kwargs):
 		if request.GET.get('q').strip():
@@ -109,7 +112,7 @@ class SearchVideos(ListView):
 			Q(description__icontains=query) |
 			Q(tags__name__icontains=query) |
 			Q(theme__name__icontains=query)
-		)
+		).distinct()
 
 		queried_youtube_videos = YoutubeVideo.objects.prefetch_related(
 			Prefetch('tags')
@@ -117,9 +120,9 @@ class SearchVideos(ListView):
 			Q(title__icontains=query) |
 			Q(tags__name__icontains=query) |
 			Q(theme__name__icontains=query)
-		)
+		).distinct()
 
-		queryset = set( chain(queried_videos, queried_youtube_videos) )
+		queryset = list( chain(queried_videos, queried_youtube_videos) )
 		return queryset
 
 

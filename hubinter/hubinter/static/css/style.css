@@ -271,6 +271,55 @@
 	color: #DE5E60;
 }
 
+.pagination-area {
+	margin-top: 50px;
+	display: flex;
+	justify-content: center;
+}
+.pagination {
+	display: inline-flex;
+	justify-content: space-between;
+}
+
+.pagination__prev-next {
+	background-color: #DBA571 !important;
+}
+.pagination__page-num {
+	color: #FFFFFF;
+	font-size: 16px !important;
+}
+
+.current-page {
+	background-color: #FF5D5F !important;
+}
+.disabled-prev-next,
+.disabled-prev-next:hover {
+	pointer-events: none;
+	background-color: #3C3F45 !important;
+	color: #26292E !important;
+	cursor: default !important;
+}
+
+@media (max-width: 768px) {
+	.pagination-area {
+		margin-top: 25px;
+	}
+	.pagination__prev-next {
+		padding: 4px 10px !important;
+		font-size: 13px !important;
+	}
+	.pagination__page-num {
+		padding: 4px 13px !important;
+		font-size: 15px !important;
+	}
+}
+@media (max-width: 350px) {
+	.pagination__prev-next {
+		padding: 4px 5px !important;
+		font-size: 12px !important;
+	}
+}
+
 
 
 

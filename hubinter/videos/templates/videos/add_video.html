@@ -39,4 +39,29 @@
 	    </div>
 	</div>
 
+<script>
+	// Show tags by current selected theme in add-video form
+	select_theme_block = document.getElementById('id_theme')
+	select_tag_block = document.getElementById('id_tags')
+
+	// triggered when changing the selection
+	select_theme_block.addEventListener('change', function() {
+	    token = get_csrf_token();
+	    $.ajax({
+	        type: "POST",
+	        url: location.protocol + '//' + location.host + '/ajax/tags_by_theme/',
+	        data: {
+	            'theme' : select_theme_block.options[select_theme_block.selectedIndex].text, // send chosen theme name
+	            "csrfmiddlewaretoken" : token
+	        },
+	        success: function(response) {              
+	            tag_list = merge_into_single_array(response) // get one list of tags by chosen theme
+	            show_tags_by_theme(tag_list) // show only suitable ones
+	        },
+	        error: function(error) {
+	            show_tags_by_theme("all") // if something went wrong, leave all tags visible
+	        }
+	    })
+	});
+</script>
 {% endblock content %}
