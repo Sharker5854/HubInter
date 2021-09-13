@@ -16,7 +16,6 @@ urlpatterns = [
 
 	path('add_video/', AddVideo.as_view(), name='add_video'),
 	path('add_youtube_video/', AddYoutubeVideo.as_view(), name='add_youtube_video'),
-	#path('add_comment/<slug:video_slug>/', add_comment, name='add_comment'),
 
 	path('about/', About.as_view(), name='about'),
 	path('contact/', Contact.as_view(), name='contact'),

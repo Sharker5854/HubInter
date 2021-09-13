@@ -7,11 +7,12 @@ from django.contrib.auth.views import (
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.signals import user_logged_out
 from django.dispatch import receiver
-from django.views.generic import CreateView
-from django.http import HttpResponseRedirect
+from django.views.generic import CreateView, ListView
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.utils.translation import gettext_lazy
+from django.db.models import Prefetch
 
 from .forms import (
 	LoginForm, RegisterForm, 
@@ -19,7 +20,9 @@ from .forms import (
 	ResetPasswordConfirmForm
 )
 from mixins import LoginRequired_WithMessage_Mixin
+from videos.models import Video, YoutubeVideo
 from .models import User
+from itertools import chain
 
 
 
@@ -30,7 +33,7 @@ class Login(LoginView):
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
 			messages.warning(request, 'You are already logged in as {}'.format(request.user.username))
-			return redirect('home')
+			return redirect('profile', request.user.username)
 		else:
 			return super(Login, self).get(request, *args, **kwargs)
 
@@ -38,9 +41,7 @@ class Login(LoginView):
 		context = super().get_context_data(**kwargs)
 		context['title'] = "Authentication"
 
-		if not self.request.GET.get('next'):
-			context['next'] = reverse('home')
-		else:
+		if self.request.GET.get('next'):
 			context['next'] = self.request.GET.get('next')
 			self.request.session['next'] = context['next'] # add 'next' to the session, to use for redirection AFTER REGISTRATION
 
@@ -48,7 +49,8 @@ class Login(LoginView):
 
 	def form_valid(self, form):
 		messages.success(self.request, 'You authorized successfully!')
-		return super(Login, self).form_valid(form)
+		super().form_valid(form)
+		return redirect(self.request.session.get('next', reverse('profile', kwargs={"username" : form.cleaned_data['username']})))
 
 def save_social_authed_user(backend, user, response, *args, **kwargs):
 	"""Correct user data before saving, if he authenticated through social network"""
@@ -68,12 +70,9 @@ class Register(CreateView):
 	def get(self, request, *args, **kwargs):
 		if request.user.is_authenticated:
 			messages.warning(request, 'You are already logged in as {}'.format(request.user.username))
-			return redirect('home')
+			return redirect('profile', request.user.username)
 		else:
-			return super(Register, self).get(request, *args, **kwargs)
-
-	def get_success_url(self):
-		return self.request.session.get('next', reverse('home'))
+			return super().get(request, *args, **kwargs)
 
 	def get_context_data(self, *, object_list=None, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -81,14 +80,14 @@ class Register(CreateView):
 		return context
 
 	def form_valid(self, form):
-		super(Register, self).form_valid(form) # firstly, save new-user object
+		super().form_valid(form) # firstly, save new-user object
 		messages.success(self.request, 'Congratulations! You registered successfully!')
 		new_user = authenticate(
 			username=form.cleaned_data['username'], 
 			password=form.cleaned_data['password1']
 		)
 		login(self.request, new_user, backend='django.contrib.auth.backends.ModelBackend')
-		return HttpResponseRedirect(self.get_success_url())
+		return redirect(self.request.session.get('next', reverse('profile', kwargs={"username" : new_user.username})))
 
 
 
@@ -141,3 +140,46 @@ class PasswordResetConfirm(PasswordResetConfirmView):
 class PasswordResetComplete(PasswordResetCompleteView):
 	title = gettext_lazy('Password reset completed')
 	template_name = 'accounts/password_reset_complete.html'
+
+
+
+
+class Profile(ListView):
+	template_name = "accounts/profile.html"
+	context_object_name = 'all_author_videos'
+	paginate_by = 12
+
+	def get_queryset(self):
+		return sorted(
+			list( chain(self.get_uploaded_videos(), self.get_youtube_videos()) ),
+			key=self.get_datetime_sort_value,
+			reverse=True
+		)
+
+	def get_uploaded_videos(self):
+		return Video.objects.filter(
+			author__username=self.kwargs["username"]
+		).prefetch_related(
+			Prefetch('tags')
+		).select_related("theme", "author").order_by("-created_at")
+
+	def get_youtube_videos(self):
+		return YoutubeVideo.objects.filter(
+			added_by__username=self.kwargs["username"]
+		).prefetch_related(
+			Prefetch('tags')
+		).select_related("theme", "added_by").order_by("-added_at")
+
+	def get_datetime_sort_value(self, video_obj):
+		if isinstance(video_obj, Video):
+			return video_obj.created_at
+		else:
+			return video_obj.added_at
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context["author_object"] = User.objects.filter(username=self.kwargs["username"]).first()
+		if not context["author_object"]:
+			raise Http404(f'User "{self.kwargs["username"]}" does not exist.')
+		context["current_user"] = self.request.user
+		return context

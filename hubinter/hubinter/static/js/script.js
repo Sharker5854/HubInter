@@ -272,7 +272,7 @@ function subscribe(username) {
             if (response["need_to_login"]) {
                 var subscribe_btn = document.getElementById("subscribe-btn")
                 subscribe_btn.classList.remove("subscribed")
-                need_to_login__alert();
+                need_login_to_subscribe__alert();
             }
             else if ("current_subs" in response) {
                 var subs_counter = document.getElementById("subs-counter")
@@ -302,7 +302,7 @@ function unsubscribe(username) {
             if (response["need_to_login"]) {
                 var subscribe_btn = document.getElementById("subscribe-btn")
                 subscribe_btn.classList.remove("subscribed")
-                need_to_login__alert();
+                need_login_to_subscribe__alert();
             }
             else if ("current_subs" in response) {
                 var subs_counter = document.getElementById("subs-counter")
@@ -543,6 +543,11 @@ function need_to_login__alert() {
     $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
 }
 
+// Show alert, that user must log in to subscribe
+function need_login_to_subscribe__alert() {
+    $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should log in to subscribe!</strong></div>')
+    $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+}
 
 // Show alert, that something went wrong on back-end
 function smth_wrong__alert() {

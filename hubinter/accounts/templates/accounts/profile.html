@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %} Profile {% endblock title %}
+{% block alert %}{% endblock alert %}
+
+{% block content %}
+	<div class="channel-header__area">
+		<div style="margin-top: 0;" class="author__information__area">
+			<div class="author__avatar-username">
+				<div class="avatar-area">
+					<a href="{{ author_object.get_absolute_url }}">
+						<img src="{{ author_object.avatar.url }}" class="author-profile-avatar">
+					</a>
+				</div>
+				<div style="margin-left: 20px;" class="username-area">
+					<h2 class="author-profile-username">{{ author_object.username | truncatechars:30 }}</h2>
+					<h5 id="subs-counter" class="red-text author-profile-subs-count" style="margin-top: -20px;">{{ author_object.subscribers.count }} subs</h5>
+				</div>
+			</div>
+
+			<div class="author__subscribe-btn">
+				<div style="align-items: center !important;" class="wrapper_subscribe-btn">
+					{% if current_user == author_object %}
+						<div class="add-video_logout__area">
+							<a href="{% url 'add_video' %}" class="red-text add-video-link">ADD VIDEO <span class="add-video-plus">+</span></a>
+							<a href="{% url 'logout' %}" class="yellow-text logout-link">LOGOUT &#10150;</a>
+						</div>
+					{% else %}
+							<a style="margin-bottom: 10px;" id="subscribe-btn" onclick="subscribe_unsubscribe('{{ author_object.username }}')" 
+							{% if current_user in author_object.subscribers.all %}
+								class="share-btn subscribe-btn subscribed">SUBSCRIBED</a>
+							{% else %}
+								class="share-btn subscribe-btn">SUBSCRIBE</a>
+							{% endif %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<hr {% if all_author_videos %}style="margin-bottom: 35px;"{% endif %}>
+
+	<div style="margin-left: 0.1px !important;" class="span12">
+		{% if all_author_videos %}
+			<div class="row">
+		    	<section id="projects">
+		        	<ul id="thumbs">        	
+					    {% for video in all_author_videos %}
+							<li class="item-thumbs span3 {{ video.theme | lower }} {% for tag in video.tags.all %} {{ tag | lower }}{% endfor %}">
+						    	<a class="preview-block-link" href="{{ video.get_absolute_url }}">
+						        	<img src="{{ video.cropped_preview.url }}" alt="{{ video.title }}" style="width: 100%;">
+									<div class="tab-content">
+										<div class="tab-pane fade active in" id="tab3">
+											<p class="preview-video-title">
+												{{ video.title | truncatewords:8 | truncatechars:75 }}
+												<br><br>
+												<i><span>
+													{% if video.get_created_at %}
+														{{ video.get_created_at }}
+													{% else %}
+														{{ video.get_added_at }}
+													{% endif %}
+												</span></i>
+												<br><br>
+												<span class="yellow-text">{{ video.views }} views</span>
+											</p>
+										</div>
+									</div>
+								</a>
+						    </li>
+						{% endfor %}
+		            </ul>
+		        </section>            
+			</div>
+		{% else %}
+			<div class="no-videos-yet"><h2>No videos yet.</h2></div>
+		{% endif %}
+
+		<hr {% if all_author_videos %}style="margin-top: 5px;"{% endif %}>
+
+		{% if not page_obj.number == 1 or not all_author_videos|length < 12 %}
+			{% include "inc/_pagination.html" %}
+		{% endif %}
+	</div>
+
+{% endblock content %}

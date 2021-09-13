@@ -422,9 +422,9 @@
 .author__avatar-username {
 	display: inline-flex;
 }
-.avatar-area {}
 .username-area {
 	margin-left: 15px;
+	word-break: break-all;
 }
 .author-avatar {
 	border-radius: 50%;
@@ -772,4 +772,116 @@
 }
 .google-oauth {
 	margin-left: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ========= profile.html ========== */
+.channel-header__area {
+	background-color: #26292E;
+	padding: 30px 30px 20px 30px;
+}
+.author-profile-avatar {
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+}
+.add-video_logout__area {
+	display: flex;
+	justify-content: space-between;
+}
+.add-video-link {
+	margin-top: -4px;
+	font-size: 25px;
+	font-weight: 600;
+}
+.add-video-link:hover {
+	color: #FF7173;
+}
+.add-video-plus {
+	font-size: 33px;
+}
+.logout-link {
+	font-size: 25px;
+	font-weight: 600;
+	margin-left: 100px;
+}
+.no-videos-yet {
+	text-align: center;
+}
+
+@media (max-width: 560px) {
+	.author-profile-avatar {
+		width: 60px !important;
+		height: 60px !important;
+	}
+	.author-profile-username {
+		font-size: 22px;
+	}
+	.author-profile-subs-count {
+		font-size: 15px !important;
+	}
+	.add-video_logout__area {
+		margin-top: 5px;
+		margin-bottom: 10px;
+	}
+	.add-video-link {
+		font-size: 19px;
+	}
+	.add-video-plus {
+		font-size: 27px;
+	}
+	.logout-link {
+		font-size: 19px;
+	}
+}
+@media (max-width: 410px) {
+	.add-video-link {
+		font-size: 18px;
+	}
+	.add-video-plus {
+		font-size: 26px;
+	}
+	.logout-link {
+		margin-left: 70px;
+		font-size: 18px;
+	}
+}
+@media (max-width: 380px) {
+	.logout-link {
+		margin-left: 75px;
+	}
+}
+@media (max-width: 360px) {
+	.add-video-link {
+		font-size: 17px;
+	}
+	.add-video-plus {
+		font-size: 25px;
+	}
+	.logout-link {
+		font-size: 17px;
+		margin-left: 50px;
+	}
+}
+@media (max-width: 335px) {
+	.add-video-link {
+		font-size: 16px;
+	}
+	.add-video-plus {
+		font-size: 24px;
+	}
+	.logout-link {
+		font-size: 16px;
+		margin-left: 40px;
+	}
 }

@@ -32,7 +32,8 @@ import uuid
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Профиль
+	Сделать скрытые видео некликабельными при сортировке по тэгам на главной
+	Description для роликов
 	Алгоритм рекомендаций... *
 	Отправка почты (Contact), About
 	Кэширование, логирование
@@ -45,11 +46,11 @@ import uuid
 
 
 - ДОДЕЛАТЬ:
-	Нормальный поиск видео
+	Нормальный поиск видео (postgres-функция SearchRank, страницы книги Дронова 381-382; также можно попробовать TrigramSimilarity на 383)
 	Передача и установка ссылки на профиль автора комментария в JSON-формате при добавлении коммента
 	Перемотка видеоплеера
 	Не забыть про автозаполнение слага при редактировании объекта
-	Анимацию фильтрации по тэгам на главной
+	Анимацию фильтрации по тэгам на главной, одинаковая длина всех блоков видео
 	Стили для формы добавления видео
 '''
 
@@ -61,7 +62,7 @@ class Home(ListView):
 	# django-endless-pagination
 	template_name = 'videos/index.html'
 	context_object_name = 'all_videos'
-	paginate_by = 9
+	paginate_by = 15
 
 	def get_queryset(self):
 		"""Return mixed list of all videos (uploaded and youtube)"""
@@ -87,7 +88,7 @@ class Home(ListView):
 class SearchVideos(ListView):
 	template_name = 'videos/video_search.html'
 	context_object_name = 'found_videos'
-	paginate_by = 4
+	paginate_by = 12
 
 	def get(self, request, *args, **kwargs):
 		if request.GET.get('q').strip():

@@ -100,12 +100,14 @@
 	<div class="author__information__area">
 		<div class="author__avatar-username">
 			<div class="avatar-area">
-				<a href="###">
+				<a href="{% if video_type == 'uploaded' %}{{ video.author.get_absolute_url }}{% else %}{{ video.added_by.get_absolute_url }}{% endif %}">
 					<img src="{{ author_avatar }}" class="author-avatar">
 				</a>
 			</div>
 			<div class="username-area">
-				<h3>{{ author_username | truncatechars:30 }}</h3>
+				<h3><a style="color: #FFFFFF !important;" href="{% if video_type == 'uploaded' %}{{ video.author.get_absolute_url }}{% else %}{{ video.added_by.get_absolute_url }}{% endif %}">
+					{{ author_username | truncatechars:30 }}
+				</a></h3>
 				<h6 id="subs-counter" class="red-text" style="margin-top: -20px;">{{ author_subscribers }} subs</h6>
 			</div>
 		</div>

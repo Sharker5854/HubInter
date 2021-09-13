@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from .views import (
 	Login, Register, Logout, 
 	PasswordChange, PasswordReset, PasswordResetDone,
-	PasswordResetConfirm, PasswordResetComplete
+	PasswordResetConfirm, PasswordResetComplete, Profile
 )
 
 
@@ -20,4 +20,5 @@ urlpatterns = [
 	path('password_reset/confirm/<uidb64>/<token>/', PasswordResetConfirm.as_view(), name='password_reset_confirm'),
 	path('password_reset/complete/', PasswordResetComplete.as_view(), name='password_reset_complete'),
 
+	path('profile/<str:username>', Profile.as_view(), name="profile")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

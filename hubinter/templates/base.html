@@ -126,9 +126,12 @@
             	<li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'about' %}">About us</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
+                {% if user.is_authenticated %}
+                	<li><a href="{% url 'password_change' %}">Change password</a></li>
+                {% endif %}
                 <li class="current">
 	                {% if user.is_authenticated %}
-	                	<a href="#" class="external sign-in-link">{{ user.username | truncatechars:20 }}</a>
+	                	<a href="{{ user.get_absolute_url }}" class="external sign-in-link">{{ user.username | truncatechars:20 }}</a>
 	                {% else %}				
 						<a href="{% url 'login' %}" class="external sign-in-link">Sign in</a>					
 	                {% endif %}
