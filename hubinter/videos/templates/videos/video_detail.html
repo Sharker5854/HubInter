@@ -96,7 +96,7 @@
 			</span>
 		</h5>
 
-	<!-- Author, subscribers, description, subscribe button -->
+	<!-- Author, subscribers, description, subscribe button, notifications -->
 	<div class="author__information__area">
 		<div class="author__avatar-username">
 			<div class="avatar-area">
@@ -147,6 +147,23 @@
 		</div>
 	</div>
 
+	<!-- Description -->
+	<div class="description__area">
+        <div class="accordion-group">
+            <div class="accordion-heading accordionize">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#oneArea">
+                    Description...
+                    <span class="font-icon-arrow-simple-down"></span>
+                </a>
+            </div>
+            <div id="oneArea" class="accordion-body collapse">
+                <div class="accordion-inner">
+                	{{ video.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+
 	<!-- Comments -->
 	{% if video_type == "uploaded" %}
 		<div class="comment__area">
@@ -193,7 +210,7 @@
 			{% endif %}
 
 			{% if comments %}
-				<hr>
+				<hr class="dividing-line-for-comments">
 				<div class="comments">
 					<div id="anchor-for-top_comment"></div>
 					{% for comment in comments %}
