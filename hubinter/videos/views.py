@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 from django.http import JsonResponse, HttpResponseRedirect
 from django.utils.text import slugify
-from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.db import IntegrityError
@@ -12,12 +13,11 @@ from django.core import files
 from django.contrib import messages
 
 from .models import *
-from .utils import YT_Video_DataParser, get_author_info
-from .forms import AddVideoForm, AddYoutubeVideoForm, AddCommentForm
+from .utils import get_author_info
+from .forms import AddVideoForm, AddYoutubeVideoForm, AddCommentForm, ContactForm
 from .tasks import send_email_notifications
 from itertools import chain
 from mixins import LoginRequired_WithMessage_Mixin
-from delorean import Delorean
 import iuliia
 import loguru
 import uuid
@@ -32,14 +32,14 @@ import uuid
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Алгоритм рекомендаций... *
-	Отправка почты (Contact), About
+	About
 	Кэширование, логирование
 	Отлов всех исключений и репорт админу на почту
+	Футер и соц. сети
 	Подчистить все шаблоны и python-код
 	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
 			пути в ссылках при нажатии Share под видео, https-протокол, 
-			бд на AWS, создать собственный email для сайта)
+			бд на AWS, создать собственный email для сайта, отправка contact-msg с почты сайта на почту админа)
 
 
 
@@ -56,8 +56,6 @@ import uuid
 # ==================== CLASSES ==================== #
 
 class Home(ListView):
-	# C:\Users\Admin\Desktop\Python\HubInter\venv\Lib\site-packages\endless_pagination
-	# django-endless-pagination
 	template_name = 'videos/index.html'
 	context_object_name = 'all_videos'
 	paginate_by = 15
@@ -325,6 +323,48 @@ class About(TemplateView):
 	template_name = 'about.html'
 
 
+
+
 class Contact(FormView):
 	template_name = 'contact.html'
-	form_class = About #
+	form_class = ContactForm
+
+	def post(self, request, *args, **kwargs):
+		if self.request.user.is_anonymous:
+			messages.error(request, "To send a feedback, you need to log in!")
+			return redirect("login")
+		else:
+			return super().post(request, *args, **kwargs)
+
+	def form_valid(self, form):
+		if self.send_feedback_message(form):
+			messages.success(self.request, "Your message has been sent successfully!")
+		else:
+			messages.error(self.request, "An error occurred - your message was not sent!")
+		return redirect("contact")
+
+	def send_feedback_message(self, form):
+		"""Send user's contact message to the site's email"""
+		context = {
+			"full_name" : form.cleaned_data["full_name"],
+			"email" : form.cleaned_data["email"],
+			"message" : form.cleaned_data["message"],
+			"username" : self.request.user.username,
+			"profile_url" : self.request.build_absolute_uri(self.request.user.get_absolute_url())
+		}
+		html_message = render_to_string("videos/contact_feedback_msg.html", context)
+
+		msg = EmailMessage(
+			f"🔔 New feedback message",
+			html_message,
+			None,
+			['popych54@mail.ru']
+		)
+		msg.content_subtype = 'html'
+
+		try:
+			msg.send()
+		except:
+			return False
+
+		return True

@@ -122,6 +122,7 @@ class AddYoutubeVideoForm(forms.ModelForm):
 
 
 
+
 class AddCommentForm(forms.Form):
 	"""Form to add comment directly from the video-page"""
 
@@ -145,4 +146,35 @@ class AddCommentForm(forms.Form):
 		),
 		max_length=1000,
 		label='',
+	)
+
+
+
+
+class ContactForm(forms.Form):
+	full_name = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				"placeholder" : "Full name...",
+			}
+		),
+		min_length=4,
+		max_length=256,
+	)
+	email = forms.EmailField(
+		widget=forms.EmailInput(
+			attrs={
+				"placeholder" : "Your email adress...",
+				"style" : "font-size: 16px !important;"
+			}
+		)
+	)
+	message = forms.CharField(
+		widget=forms.Textarea(
+			attrs={
+				"rows" : 15,
+				"cols" : 40,
+				"placeholder" : "Your message..."
+			}
+		)
 	)

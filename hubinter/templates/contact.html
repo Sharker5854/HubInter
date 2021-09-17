@@ -18,44 +18,45 @@
 		        <div class="span12">
 		            <div class="title-page">
 		                <h2 class="title">Get in Touch</h2>
-		                <h3 class="title-description">We’re currently accepting new client projects. We look forward to serving you.</h3>
+		                <h3 class="title-description">Send us your feedback and suggestions.</h3>
+		                {% if user.is_anonymous %}
+		                	<h3 class="title-description red-text">Log in to send an email!</h3>
+		                {% endif %}
 		            </div>
 		        </div>
 		    </div>	    
 		    <!-- Contact Form -->
 		    <div class="row">
-		    	<div class="span9">    
-		        	<form id="contact-form" class="contact-form" action="#">
+		    	<div class="span9">
+
+		        	<form id="contact-form" class="contact-form" method="POST" action="{% url 'contact' %}">
+		        		<p>{{ form.non_field_errors }}</p>
+		        		{% csrf_token %}
 		            	<p class="contact-name">
-		            		<input id="contact_name" type="text" placeholder="Full Name" value="" name="name" />
+		            		{{ form.full_name }}
 		                </p>
 		                <p class="contact-email">
-		                	<input id="contact_email" type="text" placeholder="Email Address" value="" name="email" />
+		                	{{ form.email }}
 		                </p>
 		                <p class="contact-message">
-		                	<textarea id="contact_message" placeholder="Your Message" name="message" rows="15" cols="40"></textarea>
+		                	{{ form.message }}
 		                </p>
 		                <p class="contact-submit">
-		                	<a id="contact-submit" class="submit" href="#">Send Your Email</a>
+		                	<input value="Send Your Email" type="submit" class="submit">
 		                </p>
 		                
-		                <div id="response">
-		                
-		                </div>
+		                <div id="response"></div>
 		            </form>
-		        </div>        
+		        </div>
+
 		        <div class="span3">
 		        	<div class="contact-details">
 		        		<h3>Contact Details</h3>
 		                <ul>
-		                    <li><a href="#">hello@brushed.com</a></li>
-		                    <li>8 (961) 668-93-22</li>
+		                    <li>Telegram: <a href="https://t.me/try2py">https://t.me/try2py</a></li>
+		                    <li>VK: <a href="https://vk.com/try2py">https://vk.com/try2py</a></li>
 		                    <li>
-		                        Brushed Studio
-		                        <br>
-		                        5240 Vanish Island. 105
-		                        <br>
-		                        Unknow
+		                        Subscribe to our Python groups too!
 		                    </li>
 		                </ul>
 		            </div>
