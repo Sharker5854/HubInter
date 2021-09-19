@@ -9,16 +9,22 @@
 
 {% block unlimited_content %}
 	{% include 'inc/_hide_workarea.html' %}
+
+	<style>
+		#alert-block {
+			display: none !important;
+		}
+	</style>
 	
 	<!-- About Section -->
-	<div id="about" class="page-alternate">
+	<div id="about" style="background-color: #2F3238 !important;" class="page-alternate">
 		<div class="container">
 		    <!-- Title Page -->
 		    <div class="row">
 		        <div class="span12">
 		            <div class="title-page">
 		                <h2 class="title">About Us</h2>
-		                <h3 class="title-description">Learn About our Team &amp; Culture.</h3>
+		                <h3 class="title-description">Learn More About Our Projects.</h3>
 		            </div>
 		        </div>
 		    </div>
@@ -27,69 +33,62 @@
 		    <div class="row">  	
 		        <!-- Start Profile -->
 		    	<div class="span4 profile">
-		        	<div class="image-wrap">
-		                <div class="hover-wrap">
-		                    <span class="overlay-img"></span>
-		                    <span class="overlay-text-thumb">CTO/Founder</span>
-		                </div>
-		                <img src="{% static 'images/profile/profile-01.jpg' %}" alt="John Doe">
-		            </div>
-		            <h3 class="profile-name">John Doe</h3>
-		            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
-		            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-		            	
-		            <div class="social">
-		            	<ul class="social-icons">
-		                	<li><a href="#"><i class="font-icon-social-twitter"></i></a></li>
-		                    <li><a href="#"><i class="font-icon-social-dribbble"></i></a></li>
-		                    <li><a href="#"><i class="font-icon-social-facebook"></i></a></li>
-		                </ul>
-		            </div>
+		    		<a href="/">
+			        	<div class="image-wrap">
+			                <div class="hover-wrap">
+			                    <span class="overlay-img"></span>
+			                    <span class="overlay-text-thumb">Video platform</span>
+			                </div>
+			                <img src="{% static 'images/social_icons/hubinter-logo-neon.png' %}" alt="John Doe">
+			            </div>
+		            </a>
+		            <h3 class="profile-name">Hubinter</h3>
+		            <p class="profile-description">
+		            	This is a video platform designed for programmers and gamers, 
+		            	where everyone can share educational and entertaining video content. 
+		            	You can directly upload your video to the site, 
+		            	or specify a link to the video from YouTube, it will also be displayed on <a href="/">Hubinter</a>
+		        	</p>
 		        </div>
 		        
 		        <!-- Start Profile -->
 		    	<div class="span4 profile">
-		        	<div class="image-wrap">
-		                <div class="hover-wrap">
-		                    <span class="overlay-img"></span>
-		                    <span class="overlay-text-thumb">Creative Director</span>
-		                </div>
-		                <img src="{% static 'images/profile/profile-02.jpg' %}" alt="Jane Helf">
-		            </div>
-		            <h3 class="profile-name">Jane Helf</h3>
-		            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
-		            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-		            	
-		            <div class="social">
-		            	<ul class="social-icons">
-		                	<li><a href="#"><i class="font-icon-social-twitter"></i></a></li>
-		                    <li><a href="#"><i class="font-icon-social-email"></i></a></li>
-		                </ul>
-		            </div>
-		        </div>
+		    		<a href="https://t.me/try2py" target="_blank">
+			        	<div class="image-wrap">
+			                <div class="hover-wrap">
+			                    <span class="overlay-img"></span>
+			                    <span class="overlay-text-thumb">Telegram channel</span>
+			                </div>
+			                <img src="{% static 'images/social_icons/tg-logo-neon.png' %}" alt="Jane Helf">
+			            </div>
+			        </a>
+		            <h3 class="profile-name">Try Python</h3>
+		            <p class="profile-description">
+		            	A Russian-language telegram channel dedicated to the Python programming language. 
+		            	Every day we publish reviews for useful libraries, 
+		            	language proficiency tests, surveys and other entertainment content. 
+		            	<a href="https://t.me/try2py" target="_blank">Subscribe</a> and continue to develop as a Python programmer! 
+		        	</p>
+				</div>
 		        
 		        <!-- Start Profile -->
 		    	<div class="span4 profile">
-		        	<div class="image-wrap">
-		                <div class="hover-wrap">
-		                    <span class="overlay-img"></span>
-		                    <span class="overlay-text-thumb">Lead Designer</span>
-		                </div>
-		                <img src="{% static 'images/profile/profile-03.jpg' %}" alt="Joshua Insanus">
-		            </div>
-		            <h3 class="profile-name">Joshua Insanus</h3>
-		            <p class="profile-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac augue at erat <a href="#">hendrerit dictum</a>. 
-		            Praesent porta, purus eget sagittis imperdiet, nulla mi ullamcorper metus, id hendrerit metus diam vitae est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-		            	
-		            <div class="social">
-		            	<ul class="social-icons">
-		                	<li><a href="#"><i class="font-icon-social-twitter"></i></a></li>
-		                    <li><a href="#"><i class="font-icon-social-linkedin"></i></a></li>
-		                    <li><a href="#"><i class="font-icon-social-google-plus"></i></a></li>
-		                    <li><a href="#"><i class="font-icon-social-vimeo"></i></a></li>
-		                </ul>
-		            </div>
-		        </div>      
+		    		<a href="https://vk.com/try2py" target="_blank">
+			        	<div class="image-wrap">
+			                <div class="hover-wrap">
+			                    <span class="overlay-img"></span>
+			                    <span class="overlay-text-thumb">VK group</span>
+			                </div>
+			                <img src="{% static 'images/social_icons/vk-logo-neon.png' %}" alt="Joshua Insanus">
+			            </div>
+			        </a>
+		            <h3 class="profile-name">try2.py</h3>
+					<p class="profile-description">
+		            	A group in Vkontakte, also dedicated to learning the Python programming language. 
+		            	Here we regularly post podcasts, programming books in PDF format, 
+		            	Python tests and memes on IT topics. <a href="https://vk.com/try2py" target="_blank">Subscribe</a> and recieve more programming content!
+		        	</p>
+				</div>      
 		    </div>
 		    <!-- End People -->
 		</div>

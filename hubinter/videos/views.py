@@ -32,9 +32,8 @@ import uuid
 	Доступ к редактированию видео админом
 
 - ВЗАИМОДЕЙСТВИЕ:
-	About
 	Кэширование, логирование
-	Отлов всех исключений и репорт админу на почту
+	Отлов всех исключений и репорт админу на почту (через Signal - got_request_exception)
 	Футер и соц. сети
 	Подчистить все шаблоны и python-код
 	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
@@ -318,7 +317,7 @@ class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
 
 
 
-@method_decorator( cache_page(60 * 5), name="dispatch" )
+#@method_decorator( cache_page(60 * 5), name="dispatch" )
 class About(TemplateView):
 	template_name = 'about.html'
 

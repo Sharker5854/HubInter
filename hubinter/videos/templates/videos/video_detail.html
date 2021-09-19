@@ -148,21 +148,23 @@
 	</div>
 
 	<!-- Description -->
-	<div class="description__area">
-        <div class="accordion-group">
-            <div class="accordion-heading accordionize">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#oneArea">
-                    Description...
-                    <span class="font-icon-arrow-simple-down"></span>
-                </a>
-            </div>
-            <div id="oneArea" class="accordion-body collapse">
-                <div class="accordion-inner">
-                	{{ video.description }}
-                </div>
-            </div>
-        </div>
-    </div>
+	{% if video_type == "uploaded" %}
+		<div class="description__area">
+	        <div class="accordion-group">
+	            <div class="accordion-heading accordionize">
+	                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#oneArea">
+	                    Description...
+	                    <span class="font-icon-arrow-simple-down"></span>
+	                </a>
+	            </div>
+	            <div id="oneArea" class="accordion-body collapse">
+	                <div class="accordion-inner">
+	                	{{ video.description }}
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	{% endif %}
 
 	<!-- Comments -->
 	{% if video_type == "uploaded" %}
