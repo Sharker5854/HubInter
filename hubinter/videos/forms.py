@@ -152,6 +152,8 @@ class AddCommentForm(forms.Form):
 
 
 class ContactForm(forms.Form):
+	"""Form for writing feedback to the site's administrtion"""
+
 	full_name = forms.CharField(
 		widget=forms.TextInput(
 			attrs={

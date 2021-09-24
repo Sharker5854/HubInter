@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.signals import user_logged_out
 from django.dispatch import receiver
 from django.views.generic import CreateView, ListView
-from django.http import HttpResponseRedirect, Http404
+from django.http import Http404
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.utils.translation import gettext_lazy
@@ -23,6 +23,7 @@ from mixins import LoginRequired_WithMessage_Mixin
 from videos.models import Video, YoutubeVideo
 from .models import User
 from itertools import chain
+from logger import logger
 
 
 
@@ -50,6 +51,7 @@ class Login(LoginView):
 	def form_valid(self, form):
 		messages.success(self.request, 'You authorized successfully!')
 		super().form_valid(form)
+		logger.info(f"User '{form.cleaned_data['username']}' logged in")
 		return redirect(self.request.session.get('next', reverse('profile', kwargs={"username" : form.cleaned_data['username']})))
 
 def save_social_authed_user(backend, user, response, *args, **kwargs):
@@ -59,6 +61,7 @@ def save_social_authed_user(backend, user, response, *args, **kwargs):
 		user.name = response["name"]
 		user.avatar = response["picture"]
 		user.save()
+		logger.info(f"User '{user.username}' logged in through google-oauth2")
 
 
 
@@ -81,12 +84,14 @@ class Register(CreateView):
 
 	def form_valid(self, form):
 		super().form_valid(form) # firstly, save new-user object
+		logger.success(f"New user '{form.cleaned_data['username']}' registered successfully")
 		messages.success(self.request, 'Congratulations! You registered successfully!')
 		new_user = authenticate(
 			username=form.cleaned_data['username'], 
 			password=form.cleaned_data['password1']
 		)
 		login(self.request, new_user, backend='django.contrib.auth.backends.ModelBackend')
+		logger.info(f"New user '{form.cleaned_data['username']}' logged in after registering")
 		return redirect(self.request.session.get('next', reverse('profile', kwargs={"username" : new_user.username})))
 
 
@@ -96,8 +101,9 @@ class Logout(LogoutView):
 
 	@receiver(user_logged_out)
 	def add_logout_msg(sender, request, **kwargs):
-		"""Add logout message by signal, if user is was authenticated"""
+		"""Add logout message by signal, if user logged out"""
 		if not request.user.is_anonymous:
+			logger.info(f"User '{kwargs['user'].username}' logged out")
 			messages.warning(request, "You have logged out of your account.")
 
 
@@ -109,6 +115,7 @@ class PasswordChange(LoginRequired_WithMessage_Mixin, PasswordChangeView):
 	form_class = ChangePasswordForm
 
 	def get_success_url(self):
+		logger.success(f"User '{self.request.user.username}' changed password successfully")
 		messages.success(self.request, "You changed password successfully!")
 		return reverse('home')
 
@@ -123,6 +130,11 @@ class PasswordReset(PasswordResetView):
 	template_name = 'accounts/password_reset.html'
 	html_email_template_name = 'accounts/password_reset_email_template.html'
 	form_class = ResetPasswordForm
+
+	def form_valid(self, form):
+		logger.info(f"An email to reset the password was sent to '{form.cleaned_data['email']}'")
+		self.request.session["email_who_resets_password"] = form.cleaned_data["email"] # set cookie to get it in 'PasswordResetComplete' and write an user's email in logger ^_^
+		return super().form_valid(form)
 
 
 class PasswordResetDone(PasswordResetDoneView):
@@ -140,6 +152,11 @@ class PasswordResetConfirm(PasswordResetConfirmView):
 class PasswordResetComplete(PasswordResetCompleteView):
 	title = gettext_lazy('Password reset completed')
 	template_name = 'accounts/password_reset_complete.html'
+
+	def get(self, request, *args, **kwargs):
+		logger.success(f"User '{request.session.get('email_who_resets_password', '*email*')}' reset password successfully")
+		del request.session["email_who_resets_password"]
+		return super().get(request, *args, **kwargs)
 
 
 

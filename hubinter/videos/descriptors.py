@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
+from logger import logger
 
 class YoutubeUrl_Descriptor:
 	"""This descriptor checks whether the url leads to a YouTube video"""
@@ -15,6 +16,7 @@ class YoutubeUrl_Descriptor:
 		if self._is_youtube_url(value):
 			if self._id_length_is_11(value):
 				instance.__dict__[self.attr_name] = value
+				logger.info(f"URL for YouTube video '{value}' is correct")
 			else:
 				raise ValidationError(
 					gettext_lazy("Video doesn't exists")
@@ -54,4 +56,6 @@ class YoutubeUrl_Descriptor:
 			pass
 		else: 
 			url = url[:index]
+			logger.info(f"Extra URL parameters for YouTube video '{value}' deleted")
+
 		return url

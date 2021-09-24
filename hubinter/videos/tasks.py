@@ -4,6 +4,7 @@ from django.core.mail import EmailMessage
 from accounts.models import User
 from .models import Video, YoutubeVideo
 from hubinter.celery import app
+from logger import logger
 
 
 @app.task
@@ -32,4 +33,6 @@ def send_email_notifications(author_username, video_slug, video_type, url):
 		),
 	)
 	msg.content_subtype = 'html'
+	logger.info(f"Starting to send out notifications about new video on channel '{author.username}'")
 	msg.send()
+	logger.success(f"Sending notifications about new video on channel '{author.username}' is completed")

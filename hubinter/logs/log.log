@@ -1,0 +1,84 @@
+2021-09-22 23:29:57.847 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
+2021-09-22 23:30:06.590 | INFO     | accounts.views:form_valid:136 - An email to reset the password was sent to 'popych54@mail.ru'
+2021-09-22 23:30:39.500 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'popych54@mail.ru'
+2021-09-22 23:31:56.399 | INFO     | accounts.views:form_valid:54 - User 'admin' logged in
+2021-09-22 23:33:03.759 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
+2021-09-22 23:33:09.231 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-22 23:38:43.827 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-22 23:44:54.625 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-22 23:46:32.123 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-22 23:51:28.968 | INFO     | accounts.views:form_valid:54 - User 'admin' logged in
+2021-09-22 23:51:49.344 | INFO     | videos.views:form_valid:246 - New instance <Video 'Testing emails'> created (not saved yet)
+2021-09-22 23:51:49.416 | SUCCESS  | videos.views:form_valid:254 - Instance <Video 'Testing emails'> saved successfully
+2021-09-22 23:51:49.480 | SUCCESS  | videos.views:form_valid:263 - M2M fields for <Video 'Testing emails'> saved
+2021-09-22 23:51:49.604 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'admin'
+2021-09-22 23:51:50.522 | SUCCESS  | videos.tasks:send_email_notifications:38 - Sending notifications about new video on channel 'admin' is completed
+2021-09-24 23:00:15.226 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
+2021-09-24 23:01:26.368 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
+2021-09-24 23:02:00.190 | SUCCESS  | accounts.views:form_valid:87 - New user 'Вовка54' registered successfully
+2021-09-24 23:02:00.552 | INFO     | accounts.views:form_valid:94 - New user 'Вовка54' logged in after registering
+2021-09-24 23:02:12.536 | INFO     | accounts.views:add_logout_msg:106 - User 'Вовка54' logged out
+2021-09-24 23:02:18.030 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-24 23:04:00.368 | SUCCESS  | accounts.views:get:159 - User 'VLAD' reset password successfully
+2021-09-24 23:04:01.025 | SUCCESS  | accounts.views:get:159 - User 'VLAD' reset password successfully
+2021-09-24 23:04:01.204 | SUCCESS  | accounts.views:get:159 - User 'VLAD' reset password successfully
+2021-09-24 23:04:18.600 | INFO     | accounts.views:form_valid:54 - User 'Вовка54' logged in
+2021-09-24 23:04:31.624 | INFO     | accounts.views:add_logout_msg:106 - User 'Вовка54' logged out
+2021-09-24 23:04:39.432 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'rostik@mail.ru'
+2021-09-24 23:09:34.179 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-24 23:16:35.738 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-24 23:17:43.823 | SUCCESS  | accounts.views:get:157 - User 'kiryanov_vova_134@mail.ru' reset password successfully
+2021-09-24 23:17:44.599 | SUCCESS  | accounts.views:get:157 - User '*email*' reset password successfully
+2021-09-24 23:17:44.732 | SUCCESS  | accounts.views:get:157 - User '*email*' reset password successfully
+2021-09-24 23:19:30.178 | INFO     | accounts.views:form_valid:54 - User 'Вовка54' logged in
+2021-09-24 23:20:44.787 | INFO     | accounts.views:add_logout_msg:106 - User 'Вовка54' logged out
+2021-09-24 23:20:54.815 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-24 23:21:17.109 | SUCCESS  | accounts.views:get:157 - User 'kiryanov_vova_134@mail.ru' reset password successfully
+2021-09-24 23:24:28.892 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
+2021-09-24 23:24:49.945 | SUCCESS  | accounts.views:get:157 - User 'kiryanov_vova_134@mail.ru' reset password successfully
+2021-09-24 23:27:24.140 | INFO     | accounts.views:form_valid:54 - User 'admin' logged in
+2021-09-24 23:39:10.381 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:19.231 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:30.484 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:34.724 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:35.208 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:35.488 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:35.956 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:36.244 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:36.706 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:36.767 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:37.304 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:37.315 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:37.859 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:37.896 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:38.413 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:38.470 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:39.027 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:40.351 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:39:53.986 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:39:57.914 | INFO     | ajax.views:turn_on_marker:83 - User 'admin' disliked video 'Testing emails'
+2021-09-24 23:40:03.946 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
+2021-09-24 23:40:07.850 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
+2021-09-24 23:44:20.679 | INFO     | ajax.views:unsubscribe:184 - User 'admin' unsubscribed from channel 'admin'
+2021-09-24 23:44:32.022 | INFO     | ajax.views:subscribe:151 - User 'admin' subscribed to channel 'admin'
+2021-09-24 23:47:34.248 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
+2021-09-24 23:49:13.736 | INFO     | accounts.views:form_valid:54 - User 'admin' logged in
+2021-09-24 23:49:27.227 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
+2021-09-24 23:49:47.972 | SUCCESS  | accounts.views:form_valid:87 - New user 'Вовка54' registered successfully
+2021-09-24 23:49:48.337 | INFO     | accounts.views:form_valid:94 - New user 'Вовка54' logged in after registering
+2021-09-24 23:50:22.345 | INFO     | ajax.views:turn_on_marker:81 - User 'Вовка54' liked video 'Testing emails'
+2021-09-24 23:50:33.158 | INFO     | ajax.views:turn_on_marker:83 - User 'Вовка54' disliked video 'Testing emails'
+2021-09-24 23:50:44.125 | INFO     | ajax.views:turn_off_marker:103 - User 'Вовка54' turned off dislike under the video 'Testing emails'
+2021-09-24 23:50:54.454 | INFO     | ajax.views:subscribe:151 - User 'Вовка54' subscribed to channel 'admin'
+2021-09-24 23:50:55.696 | INFO     | ajax.views:unsubscribe:184 - User 'Вовка54' unsubscribed from channel 'admin'
+2021-09-24 23:51:03.757 | INFO     | ajax.views:subscribe:151 - User 'Вовка54' subscribed to channel 'admin'
+2021-09-24 23:51:05.773 | INFO     | ajax.views:notify:220 - User 'Вовка54' enabled notifications from channel 'admin'
+2021-09-24 23:51:13.788 | INFO     | ajax.views:unsubscribe:184 - User 'Вовка54' unsubscribed from channel 'admin'
+2021-09-24 23:51:22.481 | INFO     | ajax.views:subscribe:151 - User 'Вовка54' subscribed to channel 'admin'
+2021-09-24 23:51:23.992 | INFO     | ajax.views:notify:220 - User 'Вовка54' enabled notifications from channel 'admin'
+2021-09-24 23:51:34.261 | INFO     | ajax.views:not_notify:247 - User 'Вовка54' disabled notifications from channel 'admin'
+2021-09-24 23:51:52.569 | INFO     | ajax.views:unsubscribe:184 - User 'Вовка54' unsubscribed from channel 'admin'
+2021-09-24 23:51:54.052 | INFO     | ajax.views:subscribe:151 - User 'Вовка54' subscribed to channel 'admin'
+2021-09-24 23:54:29.504 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'
+2021-09-24 23:54:51.281 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'
+2021-09-24 23:55:07.037 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'

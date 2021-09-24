@@ -1,7 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
 from django.http import FileResponse
-from django.db.models import Count
 
 from .descriptors import YoutubeUrl_Descriptor
 from yt_iframe import yt
@@ -10,6 +9,7 @@ import urllib
 import tempfile
 import json
 import uuid
+from logger import logger
 
 
 class YT_Video_DataParser:
@@ -28,6 +28,7 @@ class YT_Video_DataParser:
 			raise ValidationError("Your URL is incorrect")
 		else:
 			self.iframe = iframe
+			logger.success(f"Iframe-code for YouTube video '{self.url}' compiled")
 
 
 	def get_preview_file(self):
@@ -37,8 +38,10 @@ class YT_Video_DataParser:
 		if response.status_code == requests.codes.ok:
 			file = tempfile.TemporaryFile()
 			file.write(response.content)
+			logger.success(f"Successfully got preview for YouTube video '{self.url}'")
 		else:
 			file = None
+			logger.warning(f"Couldn't get preview for YouTube video '{self.url}'")
 
 		return file
 
@@ -60,6 +63,7 @@ class YT_Video_DataParser:
 		except: # if video with provided ID doesn't exist, iframe will be unavailavle and the title will be appropriate...
 			return "Error. Incorrect YouTube URL provided_" + str(uuid.uuid4())[:5]
 		else:
+			logger.success(f"Successfully got title for YouTube video '{self.url}'")
 			return data['title']
 
 

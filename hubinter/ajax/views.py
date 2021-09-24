@@ -10,6 +10,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from videos.models import Tag, Video, Comment
 from accounts.models import User
 from videos.forms import AddCommentForm
+from logger import logger
 
 
 """ ----- Add video form ----- """
@@ -76,6 +77,11 @@ def turn_on_marker(request):
 			'need_to_login' : True
 		})
 
+	if marker_type == "like":
+		logger.info(f"User '{user.username}' liked video '{video.title}'")
+	else:
+		logger.info(f"User '{user.username}' disliked video '{video.title}'")
+
 	return JsonResponse({
 		'status' : '200',
 		'current_likes' : video.liked_by.count(),
@@ -91,6 +97,10 @@ def turn_off_marker(request):
 	if user.is_authenticated:
 		if request.POST.get("is_ajax"): # if was sent by ajax (request to just remove the mark, not change it to opposite)
 			marker_type = request.POST.get("marker_type")
+			if marker_type == "like":
+				logger.info(f"User '{user.username}' turned off like under the video '{video.title}'")
+			else:
+				logger.info(f"User '{user.username}' turned off dislike under the video '{video.title}'")
 		else: # if called by function "turn_on_marker", change given value to opposite (why? see above)
 			marker_type = "like" if request.POST.get('marker_type') == 'dislike' else "dislike"
 
@@ -138,6 +148,8 @@ def subscribe(request):
 			"need_to_login" : True
 		})
 
+	logger.info(f"User '{user.username}' subscribed to channel '{author.username}'")	
+
 	return JsonResponse({
 		"status" : "200",
 		"current_subs" : author.subscribers.count(),
@@ -168,6 +180,8 @@ def unsubscribe(request):
 			"status" : "200",
 			"need_to_login" : True
 		})
+
+	logger.info(f"User '{user.username}' unsubscribed from channel '{author.username}'")
 
 	return JsonResponse({
 		"status" : "200",
@@ -203,6 +217,8 @@ def notify(request):
 			"need_to_login" : True,
 		})
 
+	logger.info(f"User '{user.username}' enabled notifications from channel '{author.username}'")
+
 	return JsonResponse({
 		"status" : "200",
 	})
@@ -227,6 +243,8 @@ def not_notify(request):
 			"status" : "200",
 			"need_to_login" : True,
 		})
+
+	logger.info(f"User '{user.username}' disabled notifications from channel '{author.username}'")
 
 	return JsonResponse({
 		"status" : "200",
@@ -257,6 +275,7 @@ def add_comment(request):
 			comment.path.append(comment.id)
 
 		comment.save()
+		logger.info(f"User '{request.user.username}' left comment under the video '{video.title}'")
 
 		if comment.get_comment_offset() == 0:
 			return JsonResponse({

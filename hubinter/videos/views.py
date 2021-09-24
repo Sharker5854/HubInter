@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.utils.text import slugify
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -18,8 +18,8 @@ from .forms import AddVideoForm, AddYoutubeVideoForm, AddCommentForm, ContactFor
 from .tasks import send_email_notifications
 from itertools import chain
 from mixins import LoginRequired_WithMessage_Mixin
+from logger import logger
 import iuliia
-import loguru
 import uuid
 
 
@@ -30,15 +30,18 @@ import uuid
 
 - АДМИНКА:
 	Доступ к редактированию видео админом
+	Пагинация в админке
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Кэширование, логирование
-	Отлов всех исключений и репорт админу на почту (через Signal - got_request_exception)
+	Логирование (донастроить сам логгер по документации)
+	Отображение аватарки если юзер зашёл через Google
+	Отлов всех исключений и репорт админу на почту (через Signal - got_request_exception; логирование ошибок)
 	Футер и соц. сети
 	Подчистить все шаблоны и python-код
 	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
 			пути в ссылках при нажатии Share под видео, https-протокол, 
-			бд на AWS, создать собственный email для сайта, отправка contact-msg с почты сайта на почту админа)
+			бд на AWS, создать собственный email для сайта, отправка contact-msg с почты сайта на почту админа,
+			автозапуск celery-процесса)
 
 
 
@@ -47,7 +50,7 @@ import uuid
 	Передача и установка ссылки на профиль автора комментария в JSON-формате при добавлении коммента
 	Перемотка видеоплеера
 	Не забыть про автозаполнение слага при редактировании объекта
-	Анимацию фильтрации по тэгам на главной, одинаковая длина всех блоков видео
+	Анимацию фильтрации по тэгам на главной, одинаковая длина всех блоков видео, position: fixed для сайдбаров 
 	Стили для формы добавления видео
 '''
 
@@ -60,10 +63,12 @@ class Home(ListView):
 	paginate_by = 15
 
 	def get_queryset(self):
-		"""Return mixed list of all videos (uploaded and youtube)"""
-		queryset = list( chain(self.get_videos(), self.get_youtube_videos()) )
-		# random.shuffle(queryset)
-		return queryset
+		"""Return list of all videos (uploaded and youtube) sorted by pudlish time"""
+		return sorted(
+			list( chain(self.get_videos(), self.get_youtube_videos()) ),
+			key=self.get_datetime_sort_value,
+			reverse=True
+		)
 
 	def get_videos(self):
 		queryset = Video.objects.prefetch_related(
@@ -76,6 +81,12 @@ class Home(ListView):
 			Prefetch('tags')
 		).select_related('theme', 'added_by').order_by('-added_at')
 		return queryset
+
+	def get_datetime_sort_value(self, video_obj):
+		if isinstance(video_obj, Video):
+			return video_obj.created_at
+		else:
+			return video_obj.added_at
 
 
 
@@ -178,7 +189,6 @@ class VideoDetail(DetailView):
 
 
 
-
 class YoutubeVideoDetail(DetailView):
 	model = YoutubeVideo
 	template_name = 'videos/video_detail.html'
@@ -233,6 +243,7 @@ class AddVideo(LoginRequired_WithMessage_Mixin, CreateView):
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
+		logger.info(f"New instance <Video '{self.object}'> created (not saved yet)")
 
 		self.object.author = self.request.user
 		self.object.slug = slugify( iuliia.translate(self.object.title, iuliia.TELEGRAM) )
@@ -240,13 +251,16 @@ class AddVideo(LoginRequired_WithMessage_Mixin, CreateView):
 
 		try:
 			self.object.save()
+			logger.success(f"Instance <Video '{self.object}'> saved successfully")
 		except IntegrityError: #add 5 random symbols to slug, if it is not unique
 			self.object.slug = slugify( 
 				iuliia.translate(self.object.title, iuliia.TELEGRAM)
 			) + "_" + str(uuid.uuid4())[:5]
 			self.object.save() #and try to save again
+			logger.success(f"Instance <Video '{self.object}'> saved successfully after correcting duplicated slug")
 
 		form.save_m2m() #unecessary, to save selected tags
+		logger.success(f"M2M fields for <Video '{self.object}'> saved")
 		messages.success(self.request, 'Video uploaded successfully!')
 		send_email_notifications.delay( # send notifications asynchronously
 			self.object.author.username, self.object.slug, 
@@ -279,6 +293,7 @@ class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
+		logger.info(f"New instance <YoutubeVideo '{form.cleaned_data['iframe_code']}'> created (not saved yet)")
 		parser = form.cleaned_data['parser']
 
 		self.object.iframe_code = parser.iframe
@@ -294,13 +309,16 @@ class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
 		
 		try:
 			self.object.save()
+			logger.success(f"Instance <YoutubeVideo '{self.object}'> saved successfully")
 		except IntegrityError:
 			self.object.slug = slugify( 
 				iuliia.translate(self.object.title, iuliia.TELEGRAM) 
 			) + "_" + str(uuid.uuid4())[:5]
 			self.object.save()
+			logger.success(f"Instance <YoutubeVideo '{self.object}'> saved successfully after correcting duplicated slug")
 
 		form.save_m2m()
+		logger.success(f"M2M fields for <YoutubeVideo '{self.object}'> saved")
 		messages.success(self.request, 'Your YouTube video added successfully!')
 		send_email_notifications.delay( # send notifications asynchronously
 			self.object.added_by.username, self.object.slug, 
@@ -317,7 +335,7 @@ class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
 
 
 
-#@method_decorator( cache_page(60 * 5), name="dispatch" )
+@method_decorator( cache_page(60 * 5), name="dispatch" )
 class About(TemplateView):
 	template_name = 'about.html'
 
@@ -337,8 +355,10 @@ class Contact(FormView):
 
 	def form_valid(self, form):
 		if self.send_feedback_message(form):
+			logger.success(f"Contact message by user '{form.cleaned_data['email']}' sent successfully")
 			messages.success(self.request, "Your message has been sent successfully!")
 		else:
+			logger.error(f"Sending a contact message by user '{form.cleaned_data['email']}' failed")
 			messages.error(self.request, "An error occurred - your message was not sent!")
 		return redirect("contact")
 

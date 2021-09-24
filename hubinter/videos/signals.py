@@ -3,6 +3,7 @@ from django.db.models import signals
 from django.dispatch import receiver
 
 
+
 @receiver(signals.pre_save, sender="videos.Theme")
 @receiver(signals.pre_save, sender="videos.Tag")
 def populate_slug(sender, instance, **kwargs):
