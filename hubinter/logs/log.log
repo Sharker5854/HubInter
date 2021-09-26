@@ -82,3 +82,27 @@
 2021-09-24 23:54:29.504 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'
 2021-09-24 23:54:51.281 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'
 2021-09-24 23:55:07.037 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'
+2021-09-25 14:26:10.433 | INFO     | accounts.views:add_logout_msg:106 - User 'Вовка54' logged out
+2021-09-25 14:40:26.417 | INFO     | accounts.views:form_valid:57 - User 'admin' logged in
+2021-09-25 14:40:48.377 | INFO     | accounts.views:add_logout_msg:111 - User 'admin' logged out
+2021-09-25 14:40:50.766 | INFO     | accounts.views:save_social_authed_user:69 - User 'Sharker' logged in through google-oauth2
+2021-09-25 14:44:47.793 | INFO     | accounts.views:add_logout_msg:112 - User 'Sharker' logged out
+2021-09-25 14:44:56.989 | INFO     | accounts.views:save_social_authed_user:70 - User 'Sharker' logged in through google-oauth2
+2021-09-25 14:46:44.538 | INFO     | accounts.views:add_logout_msg:110 - User 'Sharker' logged out
+2021-09-25 14:46:48.334 | INFO     | accounts.views:save_social_authed_user:68 - User 'Sharker' logged in through google-oauth2
+2021-09-25 14:47:56.632 | INFO     | accounts.views:add_logout_msg:112 - User 'Sharker' logged out
+2021-09-25 14:47:58.995 | INFO     | accounts.views:save_social_authed_user:70 - User 'Sharker' logged in through google-oauth2
+2021-09-25 14:56:58.067 | INFO     | videos.descriptors:__set__:19 - URL for YouTube video 'https://www.youtube.com/watch?v=MX1aGs3tYVY' is correct
+2021-09-25 14:56:58.070 | SUCCESS  | videos.utils:get_iframe_code:31 - Iframe-code for YouTube video 'https://www.youtube.com/watch?v=MX1aGs3tYVY' compiled
+2021-09-25 14:56:58.109 | INFO     | videos.views:form_valid:297 - New instance <YoutubeVideo 'https://www.youtube.com/watch?v=MX1aGs3tYVY'> created (not saved yet)
+2021-09-25 14:56:58.370 | SUCCESS  | videos.utils:get_title:66 - Successfully got title for YouTube video 'https://www.youtube.com/watch?v=MX1aGs3tYVY'
+2021-09-25 14:56:58.725 | SUCCESS  | videos.utils:get_preview_file:41 - Successfully got preview for YouTube video 'https://www.youtube.com/watch?v=MX1aGs3tYVY'
+2021-09-25 14:56:58.810 | SUCCESS  | videos.views:form_valid:319 - Instance <YoutubeVideo 'TOP 100 NEFFEX SONGS |  Best of NEFFEX'> saved successfully after correcting duplicated slug
+2021-09-25 14:56:58.876 | SUCCESS  | videos.views:form_valid:322 - M2M fields for <YoutubeVideo 'TOP 100 NEFFEX SONGS |  Best of NEFFEX'> saved
+2021-09-26 23:34:06.071 | INFO     | accounts.views:save_social_authed_user:69 - User 'Sharker' logged in through google-oauth2
+2021-09-26 23:34:48.436 | INFO     | accounts.views:add_logout_msg:111 - User 'Sharker' logged out
+2021-09-26 23:34:50.378 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-09-26 23:36:21.446 | SUCCESS  | accounts.views:form_valid:92 - New user 'NEFFEX' registered successfully
+2021-09-26 23:36:21.812 | INFO     | accounts.views:form_valid:99 - New user 'NEFFEX' logged in after registering
+2021-09-26 23:36:25.539 | INFO     | accounts.views:add_logout_msg:111 - User 'NEFFEX' logged out
+2021-09-27 00:14:11.757 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'

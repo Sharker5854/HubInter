@@ -8,10 +8,14 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.signals import user_logged_out
 from django.dispatch import receiver
 from django.views.generic import CreateView, ListView
+from django.db import IntegrityError
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy
 from django.http import Http404
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.utils.translation import gettext_lazy
+from urllib.parse import unquote
 from django.db.models import Prefetch
 
 from .forms import (
@@ -54,13 +58,20 @@ class Login(LoginView):
 		logger.info(f"User '{form.cleaned_data['username']}' logged in")
 		return redirect(self.request.session.get('next', reverse('profile', kwargs={"username" : form.cleaned_data['username']})))
 
+def is_email_already_registered(backend, user, response, *args, **kwargs):
+	"""If email with which the user is trying to log in via social networks already in the database, then we redirect it back to the login page"""
+	if User.objects.filter(email=response["email"]).exists():
+		logger.warning(f"User tried to log in via a social network linked to email that is already registered on Hubinter - '{response['email']}'")
+		messages.error(kwargs["request"], f'Account with email "{response["email"]}" already registered. Enter your password to log in.')
+		return redirect('login')
+
 def save_social_authed_user(backend, user, response, *args, **kwargs):
 	"""Correct user data before saving, if he authenticated through social network"""
 	if backend.name == "google-oauth2":
 		user.username = response.get("given_name", response["name"])
 		user.name = response["name"]
 		user.avatar = response["picture"]
-		user.save()
+		user.save()	
 		logger.info(f"User '{user.username}' logged in through google-oauth2")
 
 
