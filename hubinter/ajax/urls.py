@@ -13,5 +13,6 @@ urlpatterns = [
 	path('notify_user/', notify, name='notify'),
 	path('not_notify_user/', not_notify, name='not_notify'),
 	path('add_comment/', add_comment, name='add_comment'),
+	path('change_avatar/', change_avatar, name='change_avatar'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

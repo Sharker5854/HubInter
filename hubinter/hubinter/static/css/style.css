@@ -813,6 +813,14 @@
 	width: 80px;
 	height: 80px;
 }
+.change-avatar-hint {
+	font-size: 14px !important;
+}
+.hidden-avatar-input {
+	opacity: 0; 
+	visibility: hidden; 
+	position: absolute;
+}
 .add-video_logout__area {
 	display: flex;
 	justify-content: space-between;

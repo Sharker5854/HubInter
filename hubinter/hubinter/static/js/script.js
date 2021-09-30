@@ -512,6 +512,39 @@ function show_tags_by_theme(tag_list) {
 
 
 
+// ------------------------- Profile ------------------------- //
+
+// Change avatar in profile by ajax-request
+function change_avatar() {
+    var avatar_file = $("#id_new_avatar").prop("files")[0]
+
+    if (avatar_file) {
+        var form_data = new FormData();
+        form_data.append("avatar_file", avatar_file);
+        
+        $.ajax({
+            type: "POST",
+            url: location.protocol + "//" + location.host + "/ajax/change_avatar/",
+            processData: false, // it is necessary to transfer the file object without problems
+            contentType: false,
+            data: form_data,
+            success: function(response) {
+                $("#channel-avatar").attr("src", response["new_avatar_url"])
+                avatar_changed__alert();
+            },
+            error: function(error) {
+                smth_wrong__alert();
+            }
+        }); 
+    }
+}
+
+
+
+
+
+
+
 
 
 
@@ -552,6 +585,12 @@ function need_login_to_subscribe__alert() {
 // Show alert, that something went wrong on back-end
 function smth_wrong__alert() {
     $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>Oops... Something went wrong! :(</strong></div>')
+    $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+}
+
+// Show alert, that user changed avatar successfully
+function avatar_changed__alert() {
+    $('#alert__area').html('<div class="alert alert-success fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You changed avatar successfully!</strong></div>')
     $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
 }
 

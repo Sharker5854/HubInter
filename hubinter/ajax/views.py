@@ -30,6 +30,7 @@ def tags_by_theme(request):
 
 """ ----- Video detail ----- """
 
+@require_http_methods(["POST"])
 def turn_on_marker(request):
 	"""Add mark for video (and delete opposite mark if necessary)"""
 	user = request.user
@@ -89,6 +90,7 @@ def turn_on_marker(request):
 	})
 
 
+@require_http_methods(["POST"])
 def turn_off_marker(request):
 	"""Remove mark from video"""
 	user = request.user
@@ -127,6 +129,7 @@ def turn_off_marker(request):
 
 
 
+@require_http_methods(["POST"])
 def subscribe(request):
 	"""Subscribe request-user to the author"""
 	user = request.user
@@ -158,6 +161,7 @@ def subscribe(request):
 	})
 
 
+@require_http_methods(["POST"])
 def unsubscribe(request):
 	"""Unsubscribe request-user from the author"""
 	user = request.user
@@ -190,6 +194,7 @@ def unsubscribe(request):
 
 
 
+@require_http_methods(["POST"])
 def notify(request):
 	"""Notify request-user about new author's video"""
 	user = request.user
@@ -224,6 +229,7 @@ def notify(request):
 	})
 
 
+@require_http_methods(["POST"])
 def not_notify(request):
 	"""DONT notify request-user about new author's video"""
 	user = request.user
@@ -299,3 +305,20 @@ def add_comment(request):
 				"answer" : True,
 				"current_comments_count" : video.comment_set.count()
 			})
+
+
+
+@login_required
+@require_http_methods(["POST"])
+@csrf_exempt
+def change_avatar(request):
+	"""Change the user's avatar to the transmitted image"""
+	user = request.user
+	
+	user.avatar = request.FILES.get("avatar_file")
+	user.save()
+
+	logger.success(f"User '{user.username}' changed avatar successfully")
+	return JsonResponse({
+		"new_avatar_url" : user.avatar.url
+	})

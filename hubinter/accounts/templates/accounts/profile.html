@@ -7,10 +7,25 @@
 	<div class="channel-header__area">
 		<div style="margin-top: 0;" class="author__information__area">
 			<div class="author__avatar-username">
-				<div class="avatar-area">
-					<a href="{{ author_object.get_absolute_url }}">
-						<img src="{{ author_object.get_avatar_url }}" class="author-profile-avatar">
-					</a>
+				<div class="avatar-area 
+				{% if current_user == author_object %}
+					image-wrap author-profile-avatar
+				{% endif %}"
+				>
+					{% if current_user == author_object %}				
+						<div class="hover-wrap">
+				        	<label for="id_new_avatar">
+				            	<span class="overlay-img"></span>
+				            	<span class="overlay-text-thumb change-avatar-hint">Change</span>
+				        	</label>
+				        </div>
+				        <img src="{{ author_object.get_avatar_url }}" id="channel-avatar" class="author-profile-avatar">
+						<input type="file" accept="image/*" onchange="change_avatar()" name="new_avatar" id="id_new_avatar" class="hidden-avatar-input">
+					{% else %}
+						<a href="{{ author_object.get_absolute_url }}">
+							<img src="{{ author_object.get_avatar_url }}" class="author-profile-avatar">
+						</a>
+				    {% endif %}				
 				</div>
 				<div style="margin-left: 20px;" class="username-area">
 					<h2 class="author-profile-username">{{ author_object.username | truncatechars:30 }}</h2>

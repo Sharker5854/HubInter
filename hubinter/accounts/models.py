@@ -47,11 +47,16 @@ class User(AbstractUser):
 	)
 	
 	def get_avatar_url(self):
-		""" If avatar.url is external link, return it without prefix '/media/' """
-		url = unquote(self.avatar.url)
-		if "https:/" in url or "http:/" in url:
-			return url.replace("/media/", "")
-		return url
+		""" If avatar.url is external link, return it without prefix '/media/'. 
+		If avatar for whatever reason does not exist, return link for default avatar """
+		try:
+			url = unquote(self.avatar.url)
+		except:
+			return '/media/default_pictures/default_avatar.jpg'
+		else:
+			if "https:/" in url or "http:/" in url:
+				return url.replace("/media/", "")
+			return url
 
 	def get_absolute_url(self):
 		return reverse("profile", kwargs={"username" : self.username})
