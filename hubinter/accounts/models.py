@@ -16,6 +16,7 @@ class User(AbstractUser):
 	name = models.CharField(max_length=100, verbose_name='Name')
 	username = models.CharField(max_length=100, verbose_name='Username', unique=True)
 	registered_at = models.DateTimeField(verbose_name='Registered', auto_now_add=True)
+	social_authed = models.BooleanField(default=False, verbose_name="Logged in via social networks")
 	avatar = models.ImageField(
 		validators=[ FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'svg', 'gmp']), ],
 		upload_to='avatars/%Y/%m', verbose_name='Avatar', blank=True, 

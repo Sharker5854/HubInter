@@ -146,3 +146,49 @@
 2021-09-30 23:37:12.874 | INFO     | accounts.views:add_logout_msg:117 - User 'Sharker' logged out
 2021-09-30 23:37:15.460 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
 2021-09-30 23:37:20.619 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
+2021-10-01 21:22:04.980 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:29:15.745 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-10-01 21:29:36.670 | INFO     | accounts.views:add_logout_msg:122 - User 'admin' logged out
+2021-10-01 21:29:39.386 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:30:58.787 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:32:12.331 | INFO     | accounts.views:add_logout_msg:122 - User 'Sharker' logged out
+2021-10-01 21:32:15.052 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:32:37.966 | INFO     | accounts.views:add_logout_msg:122 - User 'Sharker' logged out
+2021-10-01 21:34:11.451 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:35:24.669 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:36:56.768 | INFO     | accounts.views:add_logout_msg:123 - User 'Sharker' logged out
+2021-10-01 21:37:48.624 | ERROR    | accounts.views:redirect_after_social_auth:80 - !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+2021-10-01 21:39:31.851 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-10-01 21:39:57.609 | INFO     | accounts.views:add_logout_msg:122 - User 'admin' logged out
+2021-10-01 21:40:01.379 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:43:15.194 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:46:24.261 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:46:28.182 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
+2021-10-01 21:49:39.182 | INFO     | accounts.views:add_logout_msg:119 - User 'Sharker' logged out
+2021-10-01 21:49:41.249 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-10-01 21:50:28.841 | INFO     | accounts.views:add_logout_msg:119 - User 'admin' logged out
+2021-10-01 21:50:49.081 | SUCCESS  | accounts.views:form_valid:100 - New user 'TESTER' registered successfully
+2021-10-01 21:50:49.440 | INFO     | accounts.views:form_valid:107 - New user 'TESTER' logged in after registering
+2021-10-01 21:50:51.629 | INFO     | accounts.views:add_logout_msg:119 - User 'TESTER' logged out
+2021-10-01 21:50:53.783 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
+2021-10-01 21:51:02.203 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-10-01 21:51:26.409 | INFO     | accounts.views:add_logout_msg:119 - User 'admin' logged out
+2021-10-01 21:52:00.866 | SUCCESS  | accounts.views:form_valid:100 - New user 'Sharker' registered successfully
+2021-10-01 21:52:01.236 | INFO     | accounts.views:form_valid:107 - New user 'Sharker' logged in after registering
+2021-10-01 21:52:03.040 | INFO     | accounts.views:add_logout_msg:119 - User 'Sharker' logged out
+2021-10-01 22:01:38.916 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-10-01 22:02:18.434 | INFO     | accounts.views:add_logout_msg:126 - User 'admin' logged out
+2021-10-01 22:02:32.959 | WARNING  | accounts.views:is_username_already_occupied:71 - User tried to log in via a social network with username that is already occupied - 'Sharker'
+2021-10-01 22:02:43.565 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-10-01 22:03:05.659 | INFO     | accounts.views:add_logout_msg:126 - User 'admin' logged out
+2021-10-01 22:03:29.676 | SUCCESS  | accounts.views:form_valid:107 - New user 'tester' registered successfully
+2021-10-01 22:03:30.038 | INFO     | accounts.views:form_valid:114 - New user 'tester' logged in after registering
+2021-10-01 22:03:31.852 | INFO     | accounts.views:add_logout_msg:126 - User 'tester' logged out
+2021-10-01 22:03:33.976 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
+2021-10-01 22:03:36.851 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-10-01 22:03:52.313 | INFO     | accounts.views:add_logout_msg:126 - User 'admin' logged out
+2021-10-01 22:03:55.228 | INFO     | accounts.views:save_social_authed_user:84 - User 'Sharker' logged in through google-oauth2
+2021-10-01 22:04:04.832 | INFO     | accounts.views:add_logout_msg:126 - User 'Sharker' logged out
+2021-10-01 22:04:07.364 | WARNING  | accounts.views:is_username_already_occupied:71 - User tried to log in via a social network with username that is already occupied - 'Sharker'
+2021-10-01 22:04:51.363 | INFO     | accounts.views:add_logout_msg:126 - User 'Sharker' logged out
+2021-10-01 22:04:53.935 | INFO     | accounts.views:save_social_authed_user:84 - User 'Sharker' logged in through google-oauth2

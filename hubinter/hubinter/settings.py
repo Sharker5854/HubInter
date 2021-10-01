@@ -148,8 +148,6 @@ X_FRAME_OPTIONS='SAMEORIGIN'
 
 '''Unnecessary if redefinded base django User model'''
 AUTH_USER_MODEL = 'accounts.User'
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 
 """Сonfiguring e-mail to send from"""
@@ -168,7 +166,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend', # django classic auth backend
 )
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/account/profile'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'home'
 # --- VK --- #
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 SOCIAL_AUTH_VK_OAUTH2_KEY = '7897205'
@@ -180,6 +178,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '0xYlzhwY-BZRP_An0yilUWMl'
 SOCIAL_AUTH_USER_MODEL = "accounts.User"
 SOCIAL_AUTH_PIPELINE = (
     'accounts.views.is_email_already_registered',
+    'accounts.views.is_username_already_occupied',
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',

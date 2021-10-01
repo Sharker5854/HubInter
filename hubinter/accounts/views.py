@@ -59,10 +59,17 @@ class Login(LoginView):
 		return redirect(self.request.session.get('next', reverse('profile', kwargs={"username" : form.cleaned_data['username']})))
 
 def is_email_already_registered(backend, user, response, *args, **kwargs):
-	"""If email with which the user is trying to log in via social networks already in the database, then we redirect it back to the login page"""
-	if User.objects.filter(email=response["email"]).exists():
+	"""If email with which the user is trying to log in via social networks already in the database, then redirect him back to the login page"""
+	if User.objects.filter(email=response["email"], social_authed=False).exists():
 		logger.warning(f"User tried to log in via a social network linked to email that is already registered on Hubinter - '{response['email']}'")
 		messages.error(kwargs["request"], f'Account with email "{response["email"]}" already registered. Enter your password to log in.')
+		return redirect('login')
+
+def is_username_already_occupied(backend, user, response, *args, **kwargs):
+	"""If username with which the user is trying to log in via social networks already occupied, then redirect him back to the login page"""
+	if User.objects.filter(username=response.get("given_name", response["name"]), social_authed=False).exists():
+		logger.warning(f"User tried to log in via a social network with username that is already occupied - '{response.get('given_name', response['name'])}'")
+		messages.error(kwargs["request"], f'Username "{response.get("given_name", response["name"])}" already occupied.')
 		return redirect('login')
 
 def save_social_authed_user(backend, user, response, *args, **kwargs):
@@ -71,7 +78,9 @@ def save_social_authed_user(backend, user, response, *args, **kwargs):
 		user.username = response.get("given_name", response["name"])
 		user.name = response["name"]
 		user.avatar = response["picture"]
-		user.save()	
+		user.social_authed = True
+		user.save()
+		messages.success(kwargs["request"], "You logged in via Google successfully!")
 		logger.info(f"User '{user.username}' logged in through google-oauth2")
 
 
