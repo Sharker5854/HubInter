@@ -23,7 +23,7 @@ from .forms import (
 	ChangePasswordForm, ResetPasswordForm, 
 	ResetPasswordConfirmForm
 )
-from mixins import LoginRequired_WithMessage_Mixin
+from mixins import LoginRequired_WithMessage_Mixin, ErrorTrackerView
 from videos.models import Video, YoutubeVideo
 from .models import User
 from itertools import chain
@@ -31,7 +31,7 @@ from logger import logger
 
 
 
-class Login(LoginView):
+class Login(ErrorTrackerView, LoginView):
 	authentication_form = LoginForm
 	template_name = 'accounts/login.html'
 
@@ -86,7 +86,7 @@ def save_social_authed_user(backend, user, response, *args, **kwargs):
 
 
 
-class Register(CreateView):
+class Register(ErrorTrackerView, CreateView):
 	template_name = 'accounts/register.html'
 	form_class = RegisterForm
 
@@ -117,7 +117,7 @@ class Register(CreateView):
 
 
 
-class Logout(LogoutView):
+class Logout(ErrorTrackerView, LogoutView):
 
 	@receiver(user_logged_out)
 	def add_logout_msg(sender, request, **kwargs):
@@ -145,7 +145,7 @@ class PasswordChange(LoginRequired_WithMessage_Mixin, PasswordChangeView):
 
 
 
-class PasswordReset(PasswordResetView):
+class PasswordReset(ErrorTrackerView, PasswordResetView):
 	title = gettext_lazy('Password reset')
 	template_name = 'accounts/password_reset.html'
 	html_email_template_name = 'accounts/password_reset_email_template.html'
@@ -157,19 +157,19 @@ class PasswordReset(PasswordResetView):
 		return super().form_valid(form)
 
 
-class PasswordResetDone(PasswordResetDoneView):
+class PasswordResetDone(ErrorTrackerView, PasswordResetDoneView):
 	title = gettext_lazy('Reset link was sent')
 	template_name = 'accounts/password_reset_done.html'
 
 
-class PasswordResetConfirm(PasswordResetConfirmView):
+class PasswordResetConfirm(ErrorTrackerView, PasswordResetConfirmView):
 	title = gettext_lazy('Confirm password reset')
 	template_name = 'accounts/password_reset_confirm.html'
 	form_class = ResetPasswordConfirmForm
 	sucess_url = reverse_lazy('password_reset_complete')
 
 
-class PasswordResetComplete(PasswordResetCompleteView):
+class PasswordResetComplete(ErrorTrackerView, PasswordResetCompleteView):
 	title = gettext_lazy('Password reset completed')
 	template_name = 'accounts/password_reset_complete.html'
 
@@ -181,7 +181,7 @@ class PasswordResetComplete(PasswordResetCompleteView):
 
 
 
-class Profile(ListView):
+class Profile(ErrorTrackerView, ListView):
 	template_name = "accounts/profile.html"
 	context_object_name = 'all_author_videos'
 	paginate_by = 12

@@ -224,7 +224,7 @@
 							{% endif %}
 							id="{{ comment.id }}">
 							<div class="comment__author-published">
-								<b class="red-text"><a href="#">{{ comment.author.username | truncatechars:30 }}</a></b>
+								<b class="red-text"><a href="{{ comment.author.get_absolute_url }}">{{ comment.author.username | truncatechars:30 }}</a></b>
 								<span class="side-margins">&#8226;</span>
 								<span>{{ comment.get_created_at }}</span>
 							</div>

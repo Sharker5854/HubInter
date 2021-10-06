@@ -11,10 +11,12 @@ from videos.models import Tag, Video, Comment
 from accounts.models import User
 from videos.forms import AddCommentForm
 from logger import logger
+from mixins import error_tracker_view
 
 
 """ ----- Add video form ----- """
 
+@error_tracker_view
 def tags_by_theme(request):
 	"""Get list of tags by passed theme"""
 	tags = Tag.objects.filter(theme__name=request.POST.get('theme')).values_list('name')
@@ -30,6 +32,7 @@ def tags_by_theme(request):
 
 """ ----- Video detail ----- """
 
+@error_tracker_view
 @require_http_methods(["POST"])
 def turn_on_marker(request):
 	"""Add mark for video (and delete opposite mark if necessary)"""
@@ -90,6 +93,7 @@ def turn_on_marker(request):
 	})
 
 
+@error_tracker_view
 @require_http_methods(["POST"])
 def turn_off_marker(request):
 	"""Remove mark from video"""
@@ -129,6 +133,7 @@ def turn_off_marker(request):
 
 
 
+@error_tracker_view
 @require_http_methods(["POST"])
 def subscribe(request):
 	"""Subscribe request-user to the author"""
@@ -161,6 +166,7 @@ def subscribe(request):
 	})
 
 
+@error_tracker_view
 @require_http_methods(["POST"])
 def unsubscribe(request):
 	"""Unsubscribe request-user from the author"""
@@ -194,6 +200,7 @@ def unsubscribe(request):
 
 
 
+@error_tracker_view
 @require_http_methods(["POST"])
 def notify(request):
 	"""Notify request-user about new author's video"""
@@ -229,6 +236,7 @@ def notify(request):
 	})
 
 
+@error_tracker_view
 @require_http_methods(["POST"])
 def not_notify(request):
 	"""DONT notify request-user about new author's video"""
@@ -258,6 +266,7 @@ def not_notify(request):
 
 
 
+@error_tracker_view
 @login_required
 @require_http_methods(["POST"])
 def add_comment(request):
@@ -308,6 +317,7 @@ def add_comment(request):
 
 
 
+@error_tracker_view
 @login_required
 @require_http_methods(["POST"])
 @csrf_exempt

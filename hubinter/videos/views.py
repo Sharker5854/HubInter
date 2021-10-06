@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.utils.text import slugify
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -17,7 +17,7 @@ from .utils import get_author_info
 from .forms import AddVideoForm, AddYoutubeVideoForm, AddCommentForm, ContactForm
 from .tasks import send_email_notifications
 from itertools import chain
-from mixins import LoginRequired_WithMessage_Mixin
+from mixins import LoginRequired_WithMessage_Mixin, ErrorTrackerView
 from logger import logger
 import iuliia
 import uuid
@@ -34,10 +34,12 @@ import uuid
 	Права на удаление и редактирование в админке
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Передача и установка ссылки на профиль автора комментария в JSON-формате при добавлении коммента
-	Отлов всех исключений и репорт админу на почту (через Signal - got_request_exception; логирование ошибок)
+	Удаление своих видосов
+	Добавить капчу на странице Contact
+	Избавиться от 404 placeholder.js и тому подобных
 	Футер и соц. сети
 	Подчистить все шаблоны и python-код
+	Подключить ASGI сервак Uvicorn
 	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
 			пути в ссылках при нажатии Share под видео, https-протокол, 
 			бд на AWS, создать собственный email для сайта, отправка contact-msg с почты сайта на почту админа,
@@ -56,7 +58,7 @@ import uuid
 
 # ==================== CLASSES ==================== #
 
-class Home(ListView):
+class Home(ErrorTrackerView, ListView):
 	template_name = 'videos/index.html'
 	context_object_name = 'all_videos'
 	paginate_by = 15
@@ -82,6 +84,7 @@ class Home(ListView):
 		return queryset
 
 	def get_datetime_sort_value(self, video_obj):
+
 		if isinstance(video_obj, Video):
 			return video_obj.created_at
 		else:
@@ -90,7 +93,7 @@ class Home(ListView):
 
 
 
-class SearchVideos(ListView):
+class SearchVideos(ErrorTrackerView, ListView):
 	template_name = 'videos/video_search.html'
 	context_object_name = 'found_videos'
 	paginate_by = 12
@@ -134,7 +137,7 @@ class SearchVideos(ListView):
 
 
 
-class VideoDetail(DetailView):
+class VideoDetail(ErrorTrackerView, DetailView):
 	model = Video
 	template_name = 'videos/video_detail.html'
 	context_object_name = 'video'
@@ -142,6 +145,8 @@ class VideoDetail(DetailView):
 
 	def get(self, request, *args, **kwargs):
 		self.video = self.model.objects.filter(slug=self.kwargs['slug']).first()
+		if not self.video:
+			raise Http404(f"Video with slug '{self.kwargs['slug']}' not found.")
 		if request.user.is_authenticated:
 			if not request.user.viewed_videos.filter(slug=self.video.slug).exists():
 				request.user.viewed_videos.add(self.video)
@@ -188,13 +193,15 @@ class VideoDetail(DetailView):
 
 
 
-class YoutubeVideoDetail(DetailView):
+class YoutubeVideoDetail(ErrorTrackerView, DetailView):
 	model = YoutubeVideo
 	template_name = 'videos/video_detail.html'
 	context_object_name = 'video'
 
 	def get(self, request, *args, **kwargs):
 		self.video = self.model.objects.filter(slug=self.kwargs['slug']).first()
+		if not self.video:
+			raise Http404(f"Video with slug '{self.kwargs['slug']}' not found.")
 		if request.user.is_authenticated:
 			if not request.user.viewed_yt_videos.filter(slug=self.video.slug).exists():
 				request.user.viewed_yt_videos.add(self.video) 
@@ -335,13 +342,12 @@ class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
 
 
 @method_decorator( cache_page(60 * 5), name="dispatch" )
-class About(TemplateView):
+class About(ErrorTrackerView, TemplateView):
 	template_name = 'about.html'
 
 
 
-
-class Contact(FormView):
+class Contact(ErrorTrackerView, FormView):
 	template_name = 'contact.html'
 	form_class = ContactForm
 

@@ -1,194 +1,61 @@
-2021-09-22 23:29:57.847 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
-2021-09-22 23:30:06.590 | INFO     | accounts.views:form_valid:136 - An email to reset the password was sent to 'popych54@mail.ru'
-2021-09-22 23:30:39.500 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'popych54@mail.ru'
-2021-09-22 23:31:56.399 | INFO     | accounts.views:form_valid:54 - User 'admin' logged in
-2021-09-22 23:33:03.759 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
-2021-09-22 23:33:09.231 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-22 23:38:43.827 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-22 23:44:54.625 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-22 23:46:32.123 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-22 23:51:28.968 | INFO     | accounts.views:form_valid:54 - User 'admin' logged in
-2021-09-22 23:51:49.344 | INFO     | videos.views:form_valid:246 - New instance <Video 'Testing emails'> created (not saved yet)
-2021-09-22 23:51:49.416 | SUCCESS  | videos.views:form_valid:254 - Instance <Video 'Testing emails'> saved successfully
-2021-09-22 23:51:49.480 | SUCCESS  | videos.views:form_valid:263 - M2M fields for <Video 'Testing emails'> saved
-2021-09-22 23:51:49.604 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'admin'
-2021-09-22 23:51:50.522 | SUCCESS  | videos.tasks:send_email_notifications:38 - Sending notifications about new video on channel 'admin' is completed
-2021-09-24 23:00:15.226 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
-2021-09-24 23:01:26.368 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
-2021-09-24 23:02:00.190 | SUCCESS  | accounts.views:form_valid:87 - New user 'Вовка54' registered successfully
-2021-09-24 23:02:00.552 | INFO     | accounts.views:form_valid:94 - New user 'Вовка54' logged in after registering
-2021-09-24 23:02:12.536 | INFO     | accounts.views:add_logout_msg:106 - User 'Вовка54' logged out
-2021-09-24 23:02:18.030 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-24 23:04:00.368 | SUCCESS  | accounts.views:get:159 - User 'VLAD' reset password successfully
-2021-09-24 23:04:01.025 | SUCCESS  | accounts.views:get:159 - User 'VLAD' reset password successfully
-2021-09-24 23:04:01.204 | SUCCESS  | accounts.views:get:159 - User 'VLAD' reset password successfully
-2021-09-24 23:04:18.600 | INFO     | accounts.views:form_valid:54 - User 'Вовка54' logged in
-2021-09-24 23:04:31.624 | INFO     | accounts.views:add_logout_msg:106 - User 'Вовка54' logged out
-2021-09-24 23:04:39.432 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'rostik@mail.ru'
-2021-09-24 23:09:34.179 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-24 23:16:35.738 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-24 23:17:43.823 | SUCCESS  | accounts.views:get:157 - User 'kiryanov_vova_134@mail.ru' reset password successfully
-2021-09-24 23:17:44.599 | SUCCESS  | accounts.views:get:157 - User '*email*' reset password successfully
-2021-09-24 23:17:44.732 | SUCCESS  | accounts.views:get:157 - User '*email*' reset password successfully
-2021-09-24 23:19:30.178 | INFO     | accounts.views:form_valid:54 - User 'Вовка54' logged in
-2021-09-24 23:20:44.787 | INFO     | accounts.views:add_logout_msg:106 - User 'Вовка54' logged out
-2021-09-24 23:20:54.815 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-24 23:21:17.109 | SUCCESS  | accounts.views:get:157 - User 'kiryanov_vova_134@mail.ru' reset password successfully
-2021-09-24 23:24:28.892 | INFO     | accounts.views:form_valid:135 - An email to reset the password was sent to 'kiryanov_vova_134@mail.ru'
-2021-09-24 23:24:49.945 | SUCCESS  | accounts.views:get:157 - User 'kiryanov_vova_134@mail.ru' reset password successfully
-2021-09-24 23:27:24.140 | INFO     | accounts.views:form_valid:54 - User 'admin' logged in
-2021-09-24 23:39:10.381 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:19.231 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:30.484 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:34.724 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:35.208 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:35.488 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:35.956 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:36.244 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:36.706 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:36.767 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:37.304 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:37.315 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:37.859 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:37.896 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:38.413 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:38.470 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:39.027 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:40.351 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:39:53.986 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:39:57.914 | INFO     | ajax.views:turn_on_marker:83 - User 'admin' disliked video 'Testing emails'
-2021-09-24 23:40:03.946 | INFO     | ajax.views:turn_on_marker:81 - User 'admin' liked video 'Testing emails'
-2021-09-24 23:40:07.850 | INFO     | ajax.views:turn_off_marker:101 - User 'admin' turned off like under the video 'Testing emails'
-2021-09-24 23:44:20.679 | INFO     | ajax.views:unsubscribe:184 - User 'admin' unsubscribed from channel 'admin'
-2021-09-24 23:44:32.022 | INFO     | ajax.views:subscribe:151 - User 'admin' subscribed to channel 'admin'
-2021-09-24 23:47:34.248 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
-2021-09-24 23:49:13.736 | INFO     | accounts.views:form_valid:54 - User 'admin' logged in
-2021-09-24 23:49:27.227 | INFO     | accounts.views:add_logout_msg:106 - User 'admin' logged out
-2021-09-24 23:49:47.972 | SUCCESS  | accounts.views:form_valid:87 - New user 'Вовка54' registered successfully
-2021-09-24 23:49:48.337 | INFO     | accounts.views:form_valid:94 - New user 'Вовка54' logged in after registering
-2021-09-24 23:50:22.345 | INFO     | ajax.views:turn_on_marker:81 - User 'Вовка54' liked video 'Testing emails'
-2021-09-24 23:50:33.158 | INFO     | ajax.views:turn_on_marker:83 - User 'Вовка54' disliked video 'Testing emails'
-2021-09-24 23:50:44.125 | INFO     | ajax.views:turn_off_marker:103 - User 'Вовка54' turned off dislike under the video 'Testing emails'
-2021-09-24 23:50:54.454 | INFO     | ajax.views:subscribe:151 - User 'Вовка54' subscribed to channel 'admin'
-2021-09-24 23:50:55.696 | INFO     | ajax.views:unsubscribe:184 - User 'Вовка54' unsubscribed from channel 'admin'
-2021-09-24 23:51:03.757 | INFO     | ajax.views:subscribe:151 - User 'Вовка54' subscribed to channel 'admin'
-2021-09-24 23:51:05.773 | INFO     | ajax.views:notify:220 - User 'Вовка54' enabled notifications from channel 'admin'
-2021-09-24 23:51:13.788 | INFO     | ajax.views:unsubscribe:184 - User 'Вовка54' unsubscribed from channel 'admin'
-2021-09-24 23:51:22.481 | INFO     | ajax.views:subscribe:151 - User 'Вовка54' subscribed to channel 'admin'
-2021-09-24 23:51:23.992 | INFO     | ajax.views:notify:220 - User 'Вовка54' enabled notifications from channel 'admin'
-2021-09-24 23:51:34.261 | INFO     | ajax.views:not_notify:247 - User 'Вовка54' disabled notifications from channel 'admin'
-2021-09-24 23:51:52.569 | INFO     | ajax.views:unsubscribe:184 - User 'Вовка54' unsubscribed from channel 'admin'
-2021-09-24 23:51:54.052 | INFO     | ajax.views:subscribe:151 - User 'Вовка54' subscribed to channel 'admin'
-2021-09-24 23:54:29.504 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'
-2021-09-24 23:54:51.281 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'
-2021-09-24 23:55:07.037 | INFO     | ajax.views:add_comment:278 - User 'Вовка54' left comment under the video 'Testing emails'
-2021-09-25 14:26:10.433 | INFO     | accounts.views:add_logout_msg:106 - User 'Вовка54' logged out
-2021-09-25 14:40:26.417 | INFO     | accounts.views:form_valid:57 - User 'admin' logged in
-2021-09-25 14:40:48.377 | INFO     | accounts.views:add_logout_msg:111 - User 'admin' logged out
-2021-09-25 14:40:50.766 | INFO     | accounts.views:save_social_authed_user:69 - User 'Sharker' logged in through google-oauth2
-2021-09-25 14:44:47.793 | INFO     | accounts.views:add_logout_msg:112 - User 'Sharker' logged out
-2021-09-25 14:44:56.989 | INFO     | accounts.views:save_social_authed_user:70 - User 'Sharker' logged in through google-oauth2
-2021-09-25 14:46:44.538 | INFO     | accounts.views:add_logout_msg:110 - User 'Sharker' logged out
-2021-09-25 14:46:48.334 | INFO     | accounts.views:save_social_authed_user:68 - User 'Sharker' logged in through google-oauth2
-2021-09-25 14:47:56.632 | INFO     | accounts.views:add_logout_msg:112 - User 'Sharker' logged out
-2021-09-25 14:47:58.995 | INFO     | accounts.views:save_social_authed_user:70 - User 'Sharker' logged in through google-oauth2
-2021-09-25 14:56:58.067 | INFO     | videos.descriptors:__set__:19 - URL for YouTube video 'https://www.youtube.com/watch?v=MX1aGs3tYVY' is correct
-2021-09-25 14:56:58.070 | SUCCESS  | videos.utils:get_iframe_code:31 - Iframe-code for YouTube video 'https://www.youtube.com/watch?v=MX1aGs3tYVY' compiled
-2021-09-25 14:56:58.109 | INFO     | videos.views:form_valid:297 - New instance <YoutubeVideo 'https://www.youtube.com/watch?v=MX1aGs3tYVY'> created (not saved yet)
-2021-09-25 14:56:58.370 | SUCCESS  | videos.utils:get_title:66 - Successfully got title for YouTube video 'https://www.youtube.com/watch?v=MX1aGs3tYVY'
-2021-09-25 14:56:58.725 | SUCCESS  | videos.utils:get_preview_file:41 - Successfully got preview for YouTube video 'https://www.youtube.com/watch?v=MX1aGs3tYVY'
-2021-09-25 14:56:58.810 | SUCCESS  | videos.views:form_valid:319 - Instance <YoutubeVideo 'TOP 100 NEFFEX SONGS |  Best of NEFFEX'> saved successfully after correcting duplicated slug
-2021-09-25 14:56:58.876 | SUCCESS  | videos.views:form_valid:322 - M2M fields for <YoutubeVideo 'TOP 100 NEFFEX SONGS |  Best of NEFFEX'> saved
-2021-09-26 23:34:06.071 | INFO     | accounts.views:save_social_authed_user:69 - User 'Sharker' logged in through google-oauth2
-2021-09-26 23:34:48.436 | INFO     | accounts.views:add_logout_msg:111 - User 'Sharker' logged out
-2021-09-26 23:34:50.378 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-09-26 23:36:21.446 | SUCCESS  | accounts.views:form_valid:92 - New user 'NEFFEX' registered successfully
-2021-09-26 23:36:21.812 | INFO     | accounts.views:form_valid:99 - New user 'NEFFEX' logged in after registering
-2021-09-26 23:36:25.539 | INFO     | accounts.views:add_logout_msg:111 - User 'NEFFEX' logged out
-2021-09-27 00:14:11.757 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
-2021-09-28 00:09:40.635 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
-2021-09-28 00:10:05.816 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-09-28 00:10:19.112 | INFO     | accounts.views:add_logout_msg:117 - User 'admin' logged out
-2021-09-28 00:10:26.511 | INFO     | accounts.views:form_valid:58 - User 'NEFFEX' logged in
-2021-09-28 00:10:53.773 | INFO     | videos.views:form_valid:246 - New instance <Video 'NEW VIDEO BY NEFF'> created (not saved yet)
-2021-09-28 00:10:53.843 | SUCCESS  | videos.views:form_valid:254 - Instance <Video 'NEW VIDEO BY NEFF'> saved successfully
-2021-09-28 00:10:53.908 | SUCCESS  | videos.views:form_valid:263 - M2M fields for <Video 'NEW VIDEO BY NEFF'> saved
-2021-09-28 00:11:07.848 | INFO     | accounts.views:add_logout_msg:117 - User 'NEFFEX' logged out
-2021-09-28 00:11:10.306 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-09-29 00:38:11.988 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-09-30 21:34:38.838 | INFO     | ajax.views:turn_off_marker:103 - User 'admin' turned off like under the video 'NEW VIDEO BY NEFF'
-2021-09-30 21:34:54.506 | INFO     | ajax.views:turn_on_marker:84 - User 'admin' disliked video 'NEW VIDEO BY NEFF'
-2021-09-30 21:34:55.717 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'NEW VIDEO BY NEFF'
-2021-09-30 21:34:57.094 | INFO     | ajax.views:turn_off_marker:103 - User 'admin' turned off like under the video 'NEW VIDEO BY NEFF'
-2021-09-30 21:34:58.634 | INFO     | ajax.views:subscribe:154 - User 'admin' subscribed to channel 'NEFFEX'
-2021-09-30 21:35:00.213 | INFO     | ajax.views:unsubscribe:188 - User 'admin' unsubscribed from channel 'NEFFEX'
-2021-09-30 21:35:01.267 | INFO     | ajax.views:subscribe:154 - User 'admin' subscribed to channel 'NEFFEX'
-2021-09-30 21:35:02.661 | INFO     | ajax.views:notify:225 - User 'admin' enabled notifications from channel 'NEFFEX'
-2021-09-30 21:35:04.286 | INFO     | ajax.views:not_notify:253 - User 'admin' disabled notifications from channel 'NEFFEX'
-2021-09-30 21:35:05.487 | INFO     | ajax.views:unsubscribe:188 - User 'admin' unsubscribed from channel 'NEFFEX'
-2021-09-30 21:35:32.586 | INFO     | ajax.views:subscribe:154 - User 'admin' subscribed to channel 'NEFFEX'
-2021-09-30 21:38:03.685 | INFO     | accounts.views:add_logout_msg:117 - User 'admin' logged out
-2021-09-30 21:38:30.284 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-09-30 21:38:38.870 | INFO     | accounts.views:add_logout_msg:117 - User 'admin' logged out
-2021-09-30 23:25:41.296 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-09-30 23:25:58.680 | INFO     | accounts.views:add_logout_msg:117 - User 'admin' logged out
-2021-09-30 23:26:09.793 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-09-30 23:26:22.984 | SUCCESS  | ajax.views:change_avatar:321 - User 'user.username' changed avatar successfully
-2021-09-30 23:29:25.219 | SUCCESS  | ajax.views:change_avatar:321 - User 'admin' changed avatar successfully
-2021-09-30 23:30:22.143 | SUCCESS  | ajax.views:change_avatar:321 - User 'admin' changed avatar successfully
-2021-09-30 23:30:28.941 | SUCCESS  | ajax.views:change_avatar:321 - User 'admin' changed avatar successfully
-2021-09-30 23:33:38.363 | SUCCESS  | ajax.views:change_avatar:321 - User 'admin' changed avatar successfully
-2021-09-30 23:35:57.539 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
-2021-09-30 23:36:05.691 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-09-30 23:36:32.863 | INFO     | accounts.views:add_logout_msg:117 - User 'admin' logged out
-2021-09-30 23:36:36.641 | INFO     | accounts.views:save_social_authed_user:75 - User 'Sharker' logged in through google-oauth2
-2021-09-30 23:36:59.390 | SUCCESS  | ajax.views:change_avatar:321 - User 'Sharker' changed avatar successfully
-2021-09-30 23:37:12.874 | INFO     | accounts.views:add_logout_msg:117 - User 'Sharker' logged out
-2021-09-30 23:37:15.460 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
-2021-09-30 23:37:20.619 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
-2021-10-01 21:22:04.980 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:29:15.745 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-10-01 21:29:36.670 | INFO     | accounts.views:add_logout_msg:122 - User 'admin' logged out
-2021-10-01 21:29:39.386 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:30:58.787 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:32:12.331 | INFO     | accounts.views:add_logout_msg:122 - User 'Sharker' logged out
-2021-10-01 21:32:15.052 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:32:37.966 | INFO     | accounts.views:add_logout_msg:122 - User 'Sharker' logged out
-2021-10-01 21:34:11.451 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:35:24.669 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:36:56.768 | INFO     | accounts.views:add_logout_msg:123 - User 'Sharker' logged out
-2021-10-01 21:37:48.624 | ERROR    | accounts.views:redirect_after_social_auth:80 - !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-2021-10-01 21:39:31.851 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-10-01 21:39:57.609 | INFO     | accounts.views:add_logout_msg:122 - User 'admin' logged out
-2021-10-01 21:40:01.379 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:43:15.194 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:46:24.261 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:46:28.182 | INFO     | accounts.views:save_social_authed_user:76 - User 'Sharker' logged in through google-oauth2
-2021-10-01 21:49:39.182 | INFO     | accounts.views:add_logout_msg:119 - User 'Sharker' logged out
-2021-10-01 21:49:41.249 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-10-01 21:50:28.841 | INFO     | accounts.views:add_logout_msg:119 - User 'admin' logged out
-2021-10-01 21:50:49.081 | SUCCESS  | accounts.views:form_valid:100 - New user 'TESTER' registered successfully
-2021-10-01 21:50:49.440 | INFO     | accounts.views:form_valid:107 - New user 'TESTER' logged in after registering
-2021-10-01 21:50:51.629 | INFO     | accounts.views:add_logout_msg:119 - User 'TESTER' logged out
-2021-10-01 21:50:53.783 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
-2021-10-01 21:51:02.203 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-10-01 21:51:26.409 | INFO     | accounts.views:add_logout_msg:119 - User 'admin' logged out
-2021-10-01 21:52:00.866 | SUCCESS  | accounts.views:form_valid:100 - New user 'Sharker' registered successfully
-2021-10-01 21:52:01.236 | INFO     | accounts.views:form_valid:107 - New user 'Sharker' logged in after registering
-2021-10-01 21:52:03.040 | INFO     | accounts.views:add_logout_msg:119 - User 'Sharker' logged out
-2021-10-01 22:01:38.916 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-10-01 22:02:18.434 | INFO     | accounts.views:add_logout_msg:126 - User 'admin' logged out
-2021-10-01 22:02:32.959 | WARNING  | accounts.views:is_username_already_occupied:71 - User tried to log in via a social network with username that is already occupied - 'Sharker'
-2021-10-01 22:02:43.565 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-10-01 22:03:05.659 | INFO     | accounts.views:add_logout_msg:126 - User 'admin' logged out
-2021-10-01 22:03:29.676 | SUCCESS  | accounts.views:form_valid:107 - New user 'tester' registered successfully
-2021-10-01 22:03:30.038 | INFO     | accounts.views:form_valid:114 - New user 'tester' logged in after registering
-2021-10-01 22:03:31.852 | INFO     | accounts.views:add_logout_msg:126 - User 'tester' logged out
-2021-10-01 22:03:33.976 | WARNING  | accounts.views:is_email_already_registered:64 - User tried to log in via a social network linked to email that is already registered on Hubinter - 'kiryanov_vova_134@mail.ru'
-2021-10-01 22:03:36.851 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
-2021-10-01 22:03:52.313 | INFO     | accounts.views:add_logout_msg:126 - User 'admin' logged out
-2021-10-01 22:03:55.228 | INFO     | accounts.views:save_social_authed_user:84 - User 'Sharker' logged in through google-oauth2
-2021-10-01 22:04:04.832 | INFO     | accounts.views:add_logout_msg:126 - User 'Sharker' logged out
-2021-10-01 22:04:07.364 | WARNING  | accounts.views:is_username_already_occupied:71 - User tried to log in via a social network with username that is already occupied - 'Sharker'
-2021-10-01 22:04:51.363 | INFO     | accounts.views:add_logout_msg:126 - User 'Sharker' logged out
-2021-10-01 22:04:53.935 | INFO     | accounts.views:save_social_authed_user:84 - User 'Sharker' logged in through google-oauth2
+2021-10-05 21:24:46.719 | ERROR    | mixins:log_error:25 - An error occurred - NameError("name 'gihf' is not defined")
+2021-10-05 21:24:59.448 | ERROR    | mixins:log_error:25 - An error occurred - AttributeError("'NoneType' object has no attribute 'hello'")
+2021-10-05 21:26:11.820 | ERROR    | mixins:log_error:25 - An error occurred - TypeError("unsupported operand type(s) for -: 'int' and 'str'")
+2021-10-05 21:27:47.550 | ERROR    | mixins:log_error:26 - An error occurred - TypeError("unsupported operand type(s) for -: 'int' and 'str'")
+2021-10-05 21:28:06.929 | ERROR    | mixins:log_error:26 - An error occurred - TypeError("unsupported operand type(s) for -: 'int' and 'str'")
+2021-10-05 21:29:51.090 | ERROR    | mixins:log_error:26 - An error occurred - TypeError("unsupported operand type(s) for -: 'int' and 'str'")
+2021-10-05 21:30:09.286 | ERROR    | mixins:log_error:26 - An error occurred - AttributeError("'WSGIRequest' object has no attribute 'url'")
+2021-10-05 21:30:40.929 | ERROR    | mixins:log_error:26 - An error occurred - TypeError("unsupported operand type(s) for -: 'int' and 'str'")
+2021-10-05 21:31:41.414 | ERROR    | mixins:log_error:27 - An error occurred - TypeError("unsupported operand type(s) for -: 'int' and 'str'")
+2021-10-05 21:34:29.258 | ERROR    | mixins:log_error:27 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred when accessing the page 'GET /search/?q=g'
+2021-10-05 21:35:20.590 | ERROR    | mixins:log_error:25 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred when accessing the page 'GET /'
+2021-10-05 21:39:21.525 | ERROR    | mixins:log_error:25 - An error NameError("name 'gfdhgfghf' is not defined") occurred when accessing the page 'GET /about/'
+2021-10-05 21:39:49.721 | ERROR    | mixins:log_error:25 - An error NameError("name 'ghhy' is not defined") occurred when accessing the page 'POST /contact/'
+2021-10-05 21:42:38.235 | ERROR    | mixins:log_error:25 - An error Http404('User "placeholder.js" does not exist.') occurred when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-05 21:42:38.619 | ERROR    | mixins:log_error:25 - An error Http404('User "placeholder.js" does not exist.') occurred when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-05 21:42:53.859 | ERROR    | mixins:log_error:25 - An error NameError("name 'gf' is not defined") occurred when accessing the page 'GET /account/profile/admin'
+2021-10-05 21:43:51.259 | ERROR    | mixins:log_error:25 - An error Http404('User "placeholder.js" does not exist.') occurred when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-05 21:43:51.543 | ERROR    | mixins:log_error:25 - An error Http404('User "placeholder.js" does not exist.') occurred when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-05 21:43:51.741 | INFO     | accounts.views:add_logout_msg:127 - User 'admin' logged out
+2021-10-05 21:43:51.889 | ERROR    | mixins:log_error:25 - An error NameError("name 'gf' is not defined") occurred when accessing the page 'GET /account/login/'
+2021-10-05 21:44:23.225 | ERROR    | mixins:log_error:25 - An error NameError("name 'gf' is not defined") occurred when accessing the page 'POST /account/login/'
+2021-10-05 21:44:30.895 | INFO     | accounts.views:form_valid:58 - User 'admin' logged in
+2021-10-05 21:44:33.206 | ERROR    | mixins:log_error:25 - An error Http404('User "placeholder.js" does not exist.') occurred when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-05 21:44:33.532 | ERROR    | mixins:log_error:25 - An error Http404('User "placeholder.js" does not exist.') occurred when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:09:56.698 | ERROR    | mixins:log_error:25 - An error Http404('User "placeholder.js" does not exist.') occurred when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:09:56.969 | ERROR    | mixins:log_error:25 - An error Http404('User "placeholder.js" does not exist.') occurred when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:36:11.740 | INFO     | ajax.views:turn_off_marker:105 - User 'admin' turned off like under the video 'Interesting videvo'
+2021-10-07 01:36:13.173 | INFO     | ajax.views:turn_on_marker:86 - User 'admin' disliked video 'Interesting videvo'
+2021-10-07 01:36:14.255 | INFO     | ajax.views:turn_on_marker:84 - User 'admin' liked video 'Interesting videvo'
+2021-10-07 01:36:41.051 | ERROR    | mixins:wrapper:46 - An error NameError("name 'hfghfg' is not defined") occurred in function view when accessing the page 'POST /ajax/turn_on_marker/'
+2021-10-07 01:38:21.907 | ERROR    | mixins:wrapper:46 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred in function view when accessing the page 'POST /ajax/add_comment/'
+2021-10-07 01:38:42.633 | INFO     | ajax.views:turn_off_marker:107 - User 'admin' turned off like under the video 'Interesting videvo'
+2021-10-07 01:39:01.697 | ERROR    | mixins:dispatch:26 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:39:01.947 | ERROR    | mixins:dispatch:26 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:39:05.596 | ERROR    | mixins:wrapper:46 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred in function view when accessing the page 'POST /ajax/change_avatar/'
+2021-10-07 01:39:11.236 | ERROR    | mixins:dispatch:26 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:39:11.611 | ERROR    | mixins:dispatch:26 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:44:30.387 | ERROR    | mixins:wrapper:36 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred in function view when accessing the page 'POST /ajax/tags_by_theme/'
+2021-10-07 01:44:32.158 | ERROR    | mixins:wrapper:36 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred in function view when accessing the page 'POST /ajax/tags_by_theme/'
+2021-10-07 01:51:55.985 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:51:56.277 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:53:22.395 | ERROR    | mixins:dispatch:52 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred in login-required generic view when accessing the page 'GET /add_video/'
+2021-10-07 01:54:44.185 | INFO     | videos.views:form_valid:252 - New instance <Video 'hfghfg'> created (not saved yet)
+2021-10-07 01:54:44.256 | SUCCESS  | videos.views:form_valid:260 - Instance <Video 'hfghfg'> saved successfully
+2021-10-07 01:54:44.258 | ERROR    | mixins:dispatch:52 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred in login-required generic view when accessing the page 'POST /add_video/'
+2021-10-07 01:55:02.311 | INFO     | videos.views:form_valid:252 - New instance <Video 'hfghfg'> created (not saved yet)
+2021-10-07 01:55:02.412 | SUCCESS  | videos.views:form_valid:266 - Instance <Video 'hfghfg'> saved successfully after correcting duplicated slug
+2021-10-07 01:55:02.413 | ERROR    | mixins:dispatch:52 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred in login-required generic view when accessing the page 'POST /add_video/'
+2021-10-07 01:55:08.938 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:55:09.312 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:56:03.778 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:56:04.020 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:56:21.491 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:56:21.792 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:56:29.769 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:56:30.528 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:58:13.550 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:58:13.831 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:58:55.525 | ERROR    | mixins:dispatch:52 - An error TypeError("unsupported operand type(s) for -: 'int' and 'str'") occurred in login-required generic view when accessing the page 'GET /account/password_change/'
+2021-10-07 01:59:05.718 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
+2021-10-07 01:59:06.068 | ERROR    | mixins:dispatch:20 - An error Http404('User "placeholder.js" does not exist.') occurred in generic view when accessing the page 'GET /account/profile/placeholder.js'
