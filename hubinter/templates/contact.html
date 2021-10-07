@@ -41,12 +41,51 @@
 		                <p class="contact-message">
 		                	{{ form.message }}
 		                </p>
+		                <p class="contact-captcha">
+		                	{{ form.captcha.errors }}
+		                	<div class="contact-captcha-block">
+		                		{{ form.captcha }}
+		                	</div>
+		                	<script>
+		                		$("#id_captcha_1").attr("placeholder", "Enter captcha...");
+		                	</script>
+		                </p>
 		                <p class="contact-submit">
-		                	<input value="Send Your Email" type="submit" class="submit">
+		                	<input value="Send Your Email" id="feedback-submit" type="submit" 
+		                	{% if not form.message.value %}
+		                		disabled="disabled" class="submit disabled-submit-btn"
+		                	{% else %}
+		                		class="submit"
+		                	{% endif %}
+		                	>
 		                </p>
 		                
 		                <div id="response"></div>
 		            </form>
+
+			        <script>
+						var message_text_input = document.getElementById("id_message");
+						var contact_submit_btn = document.getElementById("feedback-submit");
+						message_text_input.addEventListener('input', function() {
+							if (!this.value.trim()) {
+								contact_submit_btn.classList.remove("active__comment-submit")
+								contact_submit_btn.classList.add("disabled-submit-btn")
+								contact_submit_btn.setAttribute("disabled", "disabled")
+							}
+							else {
+								contact_submit_btn.classList.add("active__comment-submit")
+								contact_submit_btn.classList.remove("disabled-submit-btn")
+								contact_submit_btn.removeAttribute("disabled")
+							}
+						});
+
+						const padding = message_text_input.offsetHeight - message_text_input.clientHeight;
+						message_text_input.oninput = e => {
+						    message_text_input.style.height = 'auto';
+						    message_text_input.style.height = message_text_input.scrollHeight + padding + 'px';
+						};
+					</script>
+
 		        </div>
 
 		        <div class="span3">

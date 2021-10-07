@@ -2,8 +2,10 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
 
+from captcha.fields import CaptchaField
 from .models import Video, YoutubeVideo
 from .utils import YT_Video_DataParser
+
 
 
 class AddVideoForm(forms.ModelForm):
@@ -180,3 +182,4 @@ class ContactForm(forms.Form):
 			}
 		)
 	)
+	captcha = CaptchaField(error_messages={"invalid" : "The captcha was entered incorrectly!"})

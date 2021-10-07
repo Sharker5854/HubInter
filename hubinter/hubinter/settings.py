@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',
     'debug_toolbar',
+    'captcha',
     'videos.apps.VideosConfig',
     'accounts.apps.AccountsConfig',
     'ajax.apps.AjaxConfig',
@@ -158,6 +159,15 @@ EMAIL_HOST_PASSWORD = 'Azp3AMrYdt1'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = 'popych54@mail.ru'
+
+"""Captcha settings"""
+CAPTCHA_BACKGROUND_COLOR = "#26292E"
+CAPTCHA_FOREGROUND_COLOR = "#FF5D5F"
+CAPTCHA_CHALLENGE_FUNCT = "captcha.helpers.math_challenge"
+CAPTCHA_FONT_SIZE = 25
+CAPTCHA_LETTER_ROTATION = None
+CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_null', 'captcha.helpers.noise_null')
+CAPTCHA_IMAGE_SIZE = (100, 50)
 
 """FOR SOCIAL AUTH"""
 AUTHENTICATION_BACKENDS = (
