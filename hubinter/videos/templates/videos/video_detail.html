@@ -146,11 +146,16 @@
 			</div>
 		</div>
 	</div>
+	{% if video_type == "youtube" and current_user == author_object %}
+		<div style="margin-top: 40px !important;" id="delete-video">
+		    <a href="{% url 'delete_youtube_video' slug=video.slug %}" id="delete-video-button" class="button button-medium">Delete this video</a>
+		</div>
+	{% endif %}
 
 	<!-- Description -->
 	{% if video_type == "uploaded" %}
 		<div class="description__area">
-	        <div class="accordion-group">
+	        <div id="description-accordion" class="accordion-group">
 	            <div class="accordion-heading accordionize">
 	                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionArea" href="#oneArea">
 	                    Description...
@@ -163,6 +168,12 @@
 	                </div>
 	            </div>
 	        </div>
+
+	        {% if current_user == author_object %}
+		        <div id="delete-video">
+		        	<a href="{% url 'delete_video' slug=video.slug %}" id="delete-video-button" class="button button-medium">Delete this video</a>
+		        </div>
+		   	{% endif %}
 	    </div>
 	{% endif %}
 

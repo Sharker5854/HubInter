@@ -351,6 +351,42 @@
 
 
 
+/* ========= delete_video.html ========== */
+
+.delete-video-block {
+	display: flex;
+	align-items: flex-start;
+	flex-direction: column;
+}
+.delete-video-form {
+	margin-top: 20px;
+	margin-bottom: 15%;
+}
+.delete-video-form-div {
+	display: flex;
+	justify-content: flex-start;
+	margin-top: -10px;
+}
+#submit-deletion-button {
+	background-color: #1F7F5C;
+	color: #FFFFFF;
+}
+#cancel-deletion-button {
+	margin-left: 50px;
+	background-color: #FF5D5F;
+	color: #FFFFFF;
+}
+
+@media (max-width: 769px) {
+	#delete-video-preview {
+		width: 100% !important;
+	}
+}
+
+
+
+
+
 /* ========= video_detail.html ========== */
 .video_player-area {
 	position: relative;
@@ -495,7 +531,21 @@
 
 .description__area {
 	margin-top: 30px;
-	max-width: 61.7%;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+#description-accordion {
+	width: 61.7%;
+}
+#delete-video-button {
+	background-color: #D9A470;
+	color: #FFFFFF;
+	padding: 15px 25px !important;
+}
+#delete-video-button:hover {
+	background-color: #D9A470;
+	color: #FFFFFF;
 }
 
 .comment__area {
@@ -621,7 +671,17 @@
 
 @media (max-width: 769px) {
 	.description__area {
-		max-width: 100%;
+		display: block;
+	}
+	#description-accordion {
+		width: 100%;
+	}
+	#delete-video {
+		margin-top: 20px;
+		width: 100%;
+	}
+	#delete-video-button {
+		padding: 10px 25px !important;
 	}
 	.dividing-line-for-comments {
 		margin: 30px 0px;

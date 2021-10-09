@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %} Delete video {% endblock title %}
+
+
+{% block content %}
+	{% if video_type == "uploaded" %}
+		<div class="delete-video-block">
+			<div class="delete-video-preview">
+				<img id="delete-video-preview" style="width: 40%;" src="{{ video.preview.url }}">
+			</div>
+			<div class="delete-video-title">
+				<h3 style="margin-top: 20px;">{{ video.title }}</h3>
+			</div>
+		</div>
+	{% else %}
+		<div class="delete-video-block">
+			<div class="delete-video-preview">
+				<img id="delete-video-preview" style="width: 60%;" src="{{ video.preview.url }}">
+			</div>
+			<div class="delete-video-title">
+				<h3 style="margin-top: 20px;">{{ video.title }}</h3>
+			</div>
+		</div>
+	{% endif %}
+
+	<form action="" method="POST" class="delete-video-form">
+		{% csrf_token %}
+		<p style="font-size: 18px;">Are you sure you want to delete this video?</p>
+		<div class="delete-video-form-div">
+			<input id="submit-deletion-button" class="button button-small" type="submit" value="Delete">
+			{% if video_type == "uploaded" %}
+				<a id="cancel-deletion-button" class="button button-small" href="{% url 'video' slug=video.slug %}">Cancel</a>
+			{% else %}
+				<a id="cancel-deletion-button" class="button button-small" href="{% url 'youtube_video' slug=video.slug %}">Cancel</a>
+			{% endif %}
+		</div>
+	</form>
+
+{% endblock content %}

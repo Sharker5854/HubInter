@@ -2,11 +2,12 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect, Http404
+from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.db import IntegrityError
-from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView
+from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView, DeleteView
 from django.db.models import Q, Prefetch
 from django.db.models import Count
 from django.core import files
@@ -34,7 +35,6 @@ import uuid
 	Права на удаление и редактирование в админке
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Удаление своих видосов
 	Избавиться от 404 placeholder.js и тому подобных
 	Футер и соц. сети
 	Подчистить все шаблоны и python-код
@@ -335,6 +335,53 @@ class AddYoutubeVideo(LoginRequired_WithMessage_Mixin, CreateView):
 	def form_invalid(self, form):
 		messages.error(self.request, 'Please fill in all the fields correctly!')
 		return super(AddYoutubeVideo, self).form_invalid(form)
+
+
+
+
+class DeleteVideo(LoginRequired_WithMessage_Mixin, DeleteView):
+	model = Video
+	context_object_name = "video"
+	template_name = "videos/delete_video.html"
+
+	def get(self, request, *args, **kwargs):
+		video = self.model.objects.get(slug=kwargs["slug"])
+		if request.user != video.author:
+			messages.error(request, "You can't delete other people's videos!")
+			return redirect('home')
+		return super().get(request, *args, **kwargs)
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context["video_type"] = "uploaded"
+		return context
+
+	def get_success_url(self):
+		messages.success(self.request, "Video deleted!")
+		return reverse_lazy('profile', kwargs={'username': self.request.user.username})
+
+
+
+class DeleteYoutubeVideo(LoginRequired_WithMessage_Mixin, DeleteView):
+	model = YoutubeVideo
+	context_object_name = "video"
+	template_name = "videos/delete_video.html"
+
+	def get(self, request, *args, **kwargs):
+		video = self.model.objects.get(slug=kwargs["slug"])
+		if request.user != video.added_by:
+			messages.error(request, "You can't delete other people's videos!")
+			return redirect('home')
+		return super().get(request, *args, **kwargs)
+
+	def get_context_data(self, *, object_list=None, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context["video_type"] = "youtube"
+		return context
+
+	def get_success_url(self):
+		messages.success(self.request, "YouTube video deleted!")
+		return reverse_lazy('profile', kwargs={'username': self.request.user.username})
 
 
 

@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 
 from .views import (
 	Home, VideoDetail, YoutubeVideoDetail, SearchVideos, 
-	AddVideo, AddYoutubeVideo, About, Contact
+	AddVideo, AddYoutubeVideo, DeleteVideo, DeleteYoutubeVideo, About, Contact
 )
 
 
@@ -16,6 +16,9 @@ urlpatterns = [
 
 	path('add_video/', AddVideo.as_view(), name='add_video'),
 	path('add_youtube_video/', AddYoutubeVideo.as_view(), name='add_youtube_video'),
+
+	path('delete_video/<slug:slug>/', DeleteVideo.as_view(), name='delete_video'),
+	path('delete_youtube_video/<slug:slug>/', DeleteYoutubeVideo.as_view(), name='delete_youtube_video'),
 
 	path('about/', About.as_view(), name='about'),
 	path('contact/', Contact.as_view(), name='contact'),
