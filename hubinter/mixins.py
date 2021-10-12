@@ -2,7 +2,6 @@ from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
 from django.http import HttpResponseBadRequest
-from django.http import JsonResponse
 from django.contrib import messages
 
 from logger import logger

@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
 {% load sidebars %}
-{% load static %}
-
-{% load cache %}
 
 
 {% block title %} Hubinter {% endblock title %}
@@ -16,10 +13,8 @@
     <div class="row">
 
     	<div class="span3">
-    		{# {% cache 180 sidebars %} #}
-				{% get_theme_sidebar %}
-				{% get_tag_sidebar %}
-			{# {% endcache %} #}
+			{% get_theme_sidebar %}
+			{% get_tag_sidebar %}
         </div>
         
         <div class="span9">

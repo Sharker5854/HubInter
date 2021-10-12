@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib.auth.views import (
 	LoginView, LogoutView, 
 	PasswordChangeView, PasswordResetView, PasswordResetDoneView,
@@ -8,14 +8,11 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.signals import user_logged_out
 from django.dispatch import receiver
 from django.views.generic import CreateView, ListView
-from django.db import IntegrityError
-from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy
 from django.http import Http404
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.utils.translation import gettext_lazy
-from urllib.parse import unquote
 from django.db.models import Prefetch
 
 from .forms import (

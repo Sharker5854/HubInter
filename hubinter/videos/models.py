@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 from django.shortcuts import reverse
@@ -8,7 +9,6 @@ from imagekit.processors import ResizeToFit
 
 import os
 from delorean import Delorean
-from .utils import *
 
 
 
@@ -18,6 +18,10 @@ class Theme(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)
+		return super().save(*args, **kwargs)
 
 	class Meta:
 		verbose_name = 'Theme'
@@ -40,6 +44,10 @@ class Tag(models.Model):
 	def get_created_at(self):
 		delta = Delorean(datetime=self.created_at, timezone='Europe/Moscow')
 		return delta.humanize().capitalize()
+
+	def save(self, *args, **kwargs):
+		self.slug = slugify(self.name)
+		return super().save(*args, **kwargs)
 
 	class Meta:
 		verbose_name = 'Tag'

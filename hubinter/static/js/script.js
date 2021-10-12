@@ -10,7 +10,7 @@ function show_theme_tags_and_videos(theme) {
     scroll_down_hint.style.display = "none"
 
     for (let video of videos) { // show all videos (accord to current theme)
-        video.style.opacity = "1"
+        video.style.display = "list-item"
     }
     for (let tag_btn of tag_buttons) { // disable all tags
         tag_btn.classList.remove('selected-tag')
@@ -59,7 +59,7 @@ function show_videos_by_tag(tag_name) {
             for (let video of videos) {          // (accordingly, the videos of the disabled tags are hidden)
                 if( video.classList.contains(tag_name) ) { // just show videos of current tag
                     scroll_down_hint.style.display = "block"
-                    video.style.opacity = "1"
+                    video.style.display = "list-item"
                 }
             }
         }
@@ -67,7 +67,7 @@ function show_videos_by_tag(tag_name) {
             for (let video of videos) {
                 if( !video.classList.contains(tag_name) ) {
                     scroll_down_hint.style.display = "block"
-                    video.style.opacity = "0" // hiding all tag's videos except the current one
+                    video.style.display = "none" // hiding all tag's videos except the current one
                 }
             }
         }
@@ -89,87 +89,20 @@ function show_videos_by_tag(tag_name) {
         if (already_selected_tags_counter > 0) { // if there are some already enabled tags
             for (let video of videos) {          // (accordingly, the videos of the enabled tags are shown)
                 if( video.classList.contains(tag_name) ) { // just hide videos of current tag
-                    video.style.opacity = "0"
+                    video.style.display = "none"
                 }
             }
         }
         else { // if NO tag is already enabled (WE DISABLED LAST TAG ABOVE)
             for (let video of videos) { // just show all videos
                 scroll_down_hint.style.display = "none"
-                video.style.opacity = "1"
+                video.style.display = "list-item"
             }
         }
 
     }
 
 
-};
-
-
-
-
-
-
-// ------------------------- Add video form ------------------------- //
-
-// Show tags by current selected theme in add-video form
-const select_theme_block = document.getElementById('id_theme')
-const select_tag_block = document.getElementById('id_tags')
-
-// triggered when changing the selection
-select_theme_block.addEventListener('change', function() {
-    token = get_csrf_token();
-    $.ajax({
-        type: "POST",
-        url: location.protocol + '//' + location.host + '/ajax/tags_by_theme/',
-        data: {
-            'theme' : select_theme_block.options[select_theme_block.selectedIndex].text, // send chosen theme name
-            "csrfmiddlewaretoken" : token
-        },
-        success: function(response) {              
-            tag_list = merge_into_single_array(response) // get one list of tags by chosen theme
-            show_tags_by_theme(tag_list) // show only suitable ones
-        },
-        error: function(error) {
-            show_tags_by_theme("all") // if something went wrong, leave all tags visible
-        }
-    })
-});
-
-// need to merge, because json returns array of arrays
-function merge_into_single_array(ajax_response) {
-    if (ajax_response['tags'] == "all") {
-        tag_list = "all" // if current theme is not chosen, will show all tags
-        return tag_list;
-    }
-    else {
-        tag_list = []; // if chosen, merge tags into one array
-        for (let tag_name of ajax_response['tags']) {
-            tag_list.push(tag_name[0])
-        }
-        return tag_list;
-    }
-};
-
-// show tags by theme only in add-video form
-function show_tags_by_theme(tag_list) {
-    if (tag_list == "all") {
-        for (let tag_option_btn of select_tag_block.options) { // if not chosen, just show all tags 
-            tag_option_btn.style.display = 'block';
-            tag_option_btn.selected = false // remove all selections
-        }
-    }
-    else {
-        for (let tag_option_btn of select_tag_block.options) {
-            if ( tag_list.includes(tag_option_btn.text) ) { // if tag in tag_list, leave it visible
-                tag_option_btn.style.display = 'block';
-                tag_option_btn.selected = false
-            }
-            else {
-                tag_option_btn.style.display = 'none';
-            }
-        }
-    }
 };
 
 
@@ -339,7 +272,7 @@ function subscribe(username) {
             if (response["need_to_login"]) {
                 var subscribe_btn = document.getElementById("subscribe-btn")
                 subscribe_btn.classList.remove("subscribed")
-                need_to_login__alert();
+                need_login_to_subscribe__alert();
             }
             else if ("current_subs" in response) {
                 var subs_counter = document.getElementById("subs-counter")
@@ -369,7 +302,7 @@ function unsubscribe(username) {
             if (response["need_to_login"]) {
                 var subscribe_btn = document.getElementById("subscribe-btn")
                 subscribe_btn.classList.remove("subscribed")
-                need_to_login__alert();
+                need_login_to_subscribe__alert();
             }
             else if ("current_subs" in response) {
                 var subs_counter = document.getElementById("subs-counter")
@@ -532,6 +465,85 @@ function add_comment_query(video_slug) {
 
 
 
+// ------------------------- Add video form ------------------------- //
+
+/// ONE MORE AJAX FUNCTION OM add_video.html TEMPLATE ///
+
+// need to merge, because json returns array of arrays
+function merge_into_single_array(ajax_response) {
+    if (ajax_response['tags'] == "all") {
+        tag_list = "all" // if current theme is not chosen, will show all tags
+        return tag_list;
+    }
+    else {
+        tag_list = []; // if chosen, merge tags into one array
+        for (let tag_name of ajax_response['tags']) {
+            tag_list.push(tag_name[0])
+        }
+        return tag_list;
+    }
+};
+
+// show tags by theme only in add-video form
+function show_tags_by_theme(tag_list) {
+    if (tag_list == "all") {
+        for (let tag_option_btn of select_tag_block.options) { // if not chosen, just show all tags 
+            tag_option_btn.style.display = 'block';
+            tag_option_btn.selected = false // remove all selections
+        }
+    }
+    else {
+        for (let tag_option_btn of select_tag_block.options) {
+            if ( tag_list.includes(tag_option_btn.text) ) { // if tag in tag_list, leave it visible
+                tag_option_btn.style.display = 'block';
+                tag_option_btn.selected = false
+            }
+            else {
+                tag_option_btn.style.display = 'none';
+            }
+        }
+    }
+};
+
+
+
+
+
+
+
+
+// ------------------------- Profile ------------------------- //
+
+// Change avatar in profile by ajax-request
+function change_avatar() {
+    var avatar_file = $("#id_new_avatar").prop("files")[0]
+
+    if (avatar_file) {
+        var form_data = new FormData();
+        form_data.append("avatar_file", avatar_file);
+        
+        $.ajax({
+            type: "POST",
+            url: location.protocol + "//" + location.host + "/ajax/change_avatar/",
+            processData: false, // it is necessary to transfer the file object without problems
+            contentType: false,
+            data: form_data,
+            success: function(response) {
+                $("#channel-avatar").attr("src", response["new_avatar_url"])
+                avatar_changed__alert();
+            },
+            error: function(error) {
+                smth_wrong__alert();
+            }
+        }); 
+    }
+}
+
+
+
+
+
+
 
 
 
@@ -564,10 +576,21 @@ function need_to_login__alert() {
     $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
 }
 
+// Show alert, that user must log in to subscribe
+function need_login_to_subscribe__alert() {
+    $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You should log in to subscribe!</strong></div>')
+    $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+}
 
 // Show alert, that something went wrong on back-end
 function smth_wrong__alert() {
     $('#alert__area').html('<div class="alert alert-error fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>Oops... Something went wrong! :(</strong></div>')
+    $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
+}
+
+// Show alert, that user changed avatar successfully
+function avatar_changed__alert() {
+    $('#alert__area').html('<div class="alert alert-success fade in"><a class="close" data-dismiss="alert" href="#">&times;</a><strong>You changed avatar successfully!</strong></div>')
     $('body,html').animate({ scrollTop: "0" }, 750, 'easeOutExpo' );
 }
 

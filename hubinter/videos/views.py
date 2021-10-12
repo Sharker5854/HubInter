@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect, Http404
@@ -35,9 +35,6 @@ import uuid
 	Права на удаление и редактирование в админке
 
 - ВЗАИМОДЕЙСТВИЕ:
-	Избавиться от 404 placeholder.js и тому подобных
-	Футер и соц. сети
-	Подчистить все шаблоны и python-код
 	Подключить ASGI сервак Uvicorn
 	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
 			пути в ссылках при нажатии Share под видео, https-протокол, 
