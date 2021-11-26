@@ -21,9 +21,11 @@
 
 	<!-- Videoplayer -->
 	{% if video_type == "uploaded" %}
-		<video class="afterglow" data-skin="dark" id="videoplayer-unique" width="1280" height="720" poster="{{ video.preview.url }}">
-			<source type='video/mp4;' src="{{ video.video.url }}"/>
-			<source type='video/webm;' src="{{ video.video.url }}"/>
+		<!-- <video src="{{ video.video.url }}" class="afterglow" data-skin="dark" id="myvideo" width="1280" height="720" poster="{{ video.preview.url }}"></video> -->
+
+		<video class="afterglow" controls data-skin="dark" id="videoplayer-unique" width="1280" height="720" poster="{{ video.preview.url }}">
+			<source type='video/mp4; codecs=avc1.42E01E, mp4a.40.2' src="{{ video.video.url }}"/>
+			<source type='video/webm; codecs=avc1.42E01E, mp4a.40.2' src="{{ video.video.url }}"/>
 		</video>
 
 		<!-- Video's information, likes and sharing -->

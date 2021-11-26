@@ -142,7 +142,6 @@ button {
     color: #E56C69 !important;
 }
 
-
 .djdt-scroll thead tr th {
     background-color: #FFF !important;
 }
@@ -150,6 +149,18 @@ button {
     background-color: #FFF !important;
 }
 
+
+.paginator a {
+    background-color: #D29E6C !important;
+    color: #FFF !important;
+}
+.this-page {
+    background-color: #41454D !important;
+}
+.end {
+    background-color: #D29E6C !important;
+    color: #FFF !important;
+}
 
 /* =========================================================== */
 

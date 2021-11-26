@@ -3,7 +3,7 @@
         <li class="type-work">Themes</li>
         <li><a onclick="show_theme_tags_and_videos('all')" href="#filter" data-option-value="*" class="selected">All Videos</a></li>
         {% for theme in themes %}
-            <li><a onclick="show_theme_tags_and_videos( '{{ theme.name }}' )" href="#filter" data-option-value=".{{ theme.name | lower }}">{{ theme.name }}</a></li>
+            <li><a id="{{ theme.name.lower }}-sidebar-theme" onclick="show_theme_tags_and_videos( '{{ theme.name }}' )" href="#filter" data-option-value=".{{ theme.name | lower }}">{{ theme.name }}</a></li>
         {% endfor %}
     </ul>
 </nav>

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Count
 from django.utils.safestring import mark_safe
 
 from .models import *
@@ -12,6 +13,7 @@ class ThemeAdmin(admin.ModelAdmin):
 	search_fields = ('name',)
 	ordering = ('name',)
 	list_display = ('name',)
+	list_per_page = 10
 
 
 
@@ -23,6 +25,7 @@ class TagAdmin(admin.ModelAdmin):
 	ordering = ('-created_at',)
 	list_filter = ('theme',)
 	list_display = ('name', 'theme', 'humanize_created_at')
+	list_per_page = 30
 
 	def humanize_created_at(self, obj):
 		return obj.get_created_at()
@@ -53,22 +56,18 @@ class VideoAdmin(admin.ModelAdmin):
 		'created_at', 'get_preview_list_display',
 	)
 	ordering = ('-created_at',)
+	list_per_page = 15
 
 	def has_add_permission(self, request, obj=None):
 		return False
 
 	def has_change_permission(self, request, obj=None):
 		return False
-	'''
-	def has_delete_permission(self, request, obj=None):
-		return False
-	'''
 
 	def save_model(self, request, obj, form, change):
 		"""Redefining the method of saving model to add author and right to edit video"""
 		if not change: # if record is CREATING
 			obj.author = request.user
-
 		super(VideoAdmin, self).save_model(
 			request=request,
 			obj=obj,
@@ -124,6 +123,7 @@ class YoutubeVideoAdmin(admin.ModelAdmin):
 		'humanize_added_at', 'get_preview_list_display',
 	)
 	ordering = ('-added_at',)
+	list_per_page = 15
 
 	def has_add_permission(self, request, obj=None):
 		return False
@@ -161,6 +161,7 @@ class CommentAdmin(admin.ModelAdmin):
 	list_filter = ('created_at',)
 	list_display = ('author', 'video', 'humanize_created_at')
 	ordering = ('-created_at',)
+	list_per_page = 30
 
 	def has_add_permission(self, request):
 		return False

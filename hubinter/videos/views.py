@@ -10,6 +10,7 @@ from django.db import IntegrityError
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView, DeleteView
 from django.db.models import Q, Prefetch
 from django.db.models import Count
+from django.contrib.postgres.search import SearchRank, SearchVector, SearchQuery
 from django.core import files
 from django.contrib import messages
 
@@ -29,26 +30,17 @@ import uuid
 '''
 ЗАДАЧИ:
 
-- АДМИНКА:
-	Доступ к редактированию видео админом
-	Пагинация в админке
-	Права на удаление и редактирование в админке
-
 - ВЗАИМОДЕЙСТВИЕ:
 	Подключить ASGI сервак Uvicorn
 	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
 			пути в ссылках при нажатии Share под видео, https-протокол, 
 			бд на AWS, создать собственный email для сайта, отправка contact-msg с почты сайта на почту админа,
-			автозапуск celery-процесса)
+			автозапуск celery-процесса, наполнить контентом)
 
 
 
 - ДОДЕЛАТЬ:
-	Добавить в критерии поиска названия каналов, нормальный поиск видео (postgres-функция SearchRank, страницы книги Дронова 381-382; также можно попробовать TrigramSimilarity на 383)
 	Перемотка видеоплеера
-	Не забыть про автозаполнение слага при редактировании объекта
-	Анимацию фильтрации по тэгам на главной, одинаковая длина всех блоков видео, position: fixed для сайдбаров 
-	Стили для формы добавления видео
 '''
 
 
@@ -60,7 +52,7 @@ class Home(ErrorTrackerView, ListView):
 	paginate_by = 15
 
 	def get_queryset(self):
-		"""Return list of all videos (uploaded and youtube) sorted by pudlish time"""
+		"""Return list of all videos (uploaded and youtube) sorted by publish time"""
 		return sorted(
 			list( chain(self.get_videos(), self.get_youtube_videos()) ),
 			key=self.get_datetime_sort_value,
@@ -80,7 +72,6 @@ class Home(ErrorTrackerView, ListView):
 		return queryset
 
 	def get_datetime_sort_value(self, video_obj):
-
 		if isinstance(video_obj, Video):
 			return video_obj.created_at
 		else:
@@ -108,7 +99,7 @@ class SearchVideos(ErrorTrackerView, ListView):
 		return context
 
 	def get_queryset(self):
-		query = self.request.GET.get('q')
+		query = self.request.GET.get("q")
 
 		queried_videos = Video.objects.prefetch_related(
 			Prefetch('tags')
@@ -116,7 +107,8 @@ class SearchVideos(ErrorTrackerView, ListView):
 			Q(title__icontains=query) | 
 			Q(description__icontains=query) |
 			Q(tags__name__icontains=query) |
-			Q(theme__name__icontains=query)
+			Q(theme__name__icontains=query) | 
+			Q(author__username__icontains=query)
 		).distinct()
 
 		queried_youtube_videos = YoutubeVideo.objects.prefetch_related(
@@ -124,10 +116,12 @@ class SearchVideos(ErrorTrackerView, ListView):
 		).select_related('theme', 'added_by').filter(
 			Q(title__icontains=query) |
 			Q(tags__name__icontains=query) |
-			Q(theme__name__icontains=query)
+			Q(theme__name__icontains=query) | 
+			Q(added_by__username__icontains=query)
 		).distinct()
 
 		queryset = list( chain(queried_videos, queried_youtube_videos) )
+
 		return queryset
 
 

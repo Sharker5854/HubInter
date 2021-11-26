@@ -20,6 +20,7 @@ class UserAdmin(admin.ModelAdmin):
 	search_fields = ('username', 'email')
 	list_display = ('username', 'email', 'registered_at')
 	ordering = ('-registered_at',)
+	list_per_page = 30
 
 	def get_avatar(self, obj):
 		if obj.avatar:

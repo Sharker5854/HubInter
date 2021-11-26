@@ -227,3 +227,68 @@
 2021-10-12 20:50:14.826 | SUCCESS  | videos.utils:get_preview_file:39 - Successfully got preview for YouTube video 'https://www.youtube.com/watch?v=km1hasL6UBo'
 2021-10-12 20:50:14.870 | SUCCESS  | videos.views:form_valid:315 - Instance <YoutubeVideo 'SCHOOLBOY VS RUSSIAN GIANT KIRILL SARYCHEV | ARM WRESTLING'> saved successfully
 2021-10-12 20:50:14.941 | SUCCESS  | videos.views:form_valid:324 - M2M fields for <YoutubeVideo 'SCHOOLBOY VS RUSSIAN GIANT KIRILL SARYCHEV | ARM WRESTLING'> saved
+2021-10-13 21:32:30.525 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=oo'
+2021-10-13 21:33:22.823 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:34:35.040 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:37:39.067 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:38:26.722 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:39:01.692 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:39:51.521 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:44:14.750 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:45:49.537 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:46:03.764 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:47:37.222 | ERROR    | mixins:dispatch:19 - An error AttributeError("'SearchVideos' object has no attribute 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:49:11.240 | ERROR    | mixins:dispatch:19 - An error TypeError("'str' object is not callable") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-13 21:50:25.746 | ERROR    | mixins:dispatch:19 - An error NameError("name 'get_search_rank' is not defined") occurred in generic view when accessing the page 'GET /search/?q=a'
+2021-10-14 20:57:45.771 | ERROR    | mixins:dispatch:19 - An error ProgrammingError('ОШИБКА:  ошибка синтаксиса в tsquery: "ja lo"\n') occurred in generic view when accessing the page 'GET /search/?q=ja+lo'
+2021-10-14 20:58:15.160 | ERROR    | mixins:dispatch:19 - An error ProgrammingError('ОШИБКА:  ошибка синтаксиса в tsquery: "js lo"\n') occurred in generic view when accessing the page 'GET /search/?q=js+lo'
+2021-10-14 21:04:05.954 | ERROR    | mixins:dispatch:19 - An error TypeError("__init__() got an unexpected keyword argument 'search_rank'") occurred in generic view when accessing the page 'GET /search/?q=java'
+2021-10-15 19:10:25.958 | ERROR    | mixins:dispatch:19 - An error TypeError("object of type 'NoneType' has no len()") occurred in generic view when accessing the page 'GET /search/?q=ja'
+2021-10-23 00:44:54.447 | INFO     | videos.views:form_valid:249 - New instance <Video 'Testing перемотку'> created (not saved yet)
+2021-10-23 00:44:54.514 | SUCCESS  | videos.views:form_valid:257 - Instance <Video 'Testing перемотку'> saved successfully
+2021-10-23 00:44:54.578 | SUCCESS  | videos.views:form_valid:266 - M2M fields for <Video 'Testing перемотку'> saved
+2021-10-23 00:46:26.606 | INFO     | videos.views:form_valid:249 - New instance <Video 'Test ещё'> created (not saved yet)
+2021-10-23 00:46:26.643 | SUCCESS  | videos.views:form_valid:257 - Instance <Video 'Test ещё'> saved successfully
+2021-10-23 00:46:26.701 | SUCCESS  | videos.views:form_valid:266 - M2M fields for <Video 'Test ещё'> saved
+2021-10-23 00:47:28.862 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'Test ещё'
+2021-10-23 00:47:29.817 | INFO     | ajax.views:turn_off_marker:104 - User 'admin' turned off like under the video 'Test ещё'
+2021-10-23 00:47:30.807 | INFO     | ajax.views:unsubscribe:191 - User 'admin' unsubscribed from channel 'admin'
+2021-10-23 00:47:31.556 | INFO     | ajax.views:subscribe:156 - User 'admin' subscribed to channel 'admin'
+2021-10-24 22:33:18.571 | INFO     | accounts.views:form_valid:55 - User 'admin' logged in
+2021-11-22 18:53:14.860 | INFO     | accounts.views:form_valid:55 - User 'admin' logged in
+2021-11-24 16:05:43.031 | INFO     | videos.views:form_valid:248 - New instance <Video 'БЕБРУСЬКА'> created (not saved yet)
+2021-11-24 16:05:43.117 | SUCCESS  | videos.views:form_valid:256 - Instance <Video 'БЕБРУСЬКА'> saved successfully
+2021-11-24 16:05:43.183 | SUCCESS  | videos.views:form_valid:265 - M2M fields for <Video 'БЕБРУСЬКА'> saved
+2021-11-25 13:58:52.098 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'The best Battle Royals in 2021'
+2021-11-25 13:58:53.607 | INFO     | ajax.views:turn_on_marker:84 - User 'admin' disliked video 'The best Battle Royals in 2021'
+2021-11-25 13:58:55.356 | ERROR    | mixins:wrapper:35 - An error OperationalError('ОШИБКА:  обнаружена взаимоблокировка\nDETAIL:  Процесс 8280 ожидает в режиме ShareLock блокировку "транзакция 8670"; заблокирован процессом 956.\nПроцесс 956 ожидает в режиме ShareLock блокировку "транзакция 8673"; заблокирован процессом 8280.\nHINT:  Подробности запроса смотрите в протоколе сервера.\nCONTEXT:  при изменении кортежа (0,29) в отношении "accounts_user"\n') occurred in function view when accessing the page 'POST /ajax/turn_on_marker/'
+2021-11-25 13:58:56.303 | ERROR    | mixins:wrapper:35 - An error OperationalError('ОШИБКА:  обнаружена взаимоблокировка\nDETAIL:  Процесс 956 ожидает в режиме ShareLock блокировку "транзакция 8675"; заблокирован процессом 736.\nПроцесс 736 ожидает в режиме ShareLock блокировку "транзакция 8670"; заблокирован процессом 956.\nHINT:  Подробности запроса смотрите в протоколе сервера.\nCONTEXT:  при добавлении кортежа индекса (0,49) в отношении "accounts_user_disliked_videos"\n') occurred in function view when accessing the page 'POST /ajax/turn_on_marker/'
+2021-11-25 13:58:57.624 | ERROR    | mixins:wrapper:35 - An error OperationalError('ОШИБКА:  обнаружена взаимоблокировка\nDETAIL:  Процесс 8280 ожидает в режиме ShareLock блокировку "транзакция 8674"; заблокирован процессом 736.\nПроцесс 736 ожидает в режиме ShareLock блокировку "транзакция 8672"; заблокирован процессом 8280.\nHINT:  Подробности запроса смотрите в протоколе сервера.\nCONTEXT:  при изменении кортежа (0,29) в отношении "accounts_user"\n') occurred in function view when accessing the page 'POST /ajax/turn_on_marker/'
+2021-11-25 13:58:57.858 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'The best Battle Royals in 2021'
+2021-11-25 13:58:58.442 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'The best Battle Royals in 2021'
+2021-11-25 13:58:58.965 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'The best Battle Royals in 2021'
+2021-11-25 13:58:59.510 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'The best Battle Royals in 2021'
+2021-11-25 13:59:00.116 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'The best Battle Royals in 2021'
+2021-11-25 14:22:55.747 | INFO     | ajax.views:turn_on_marker:84 - User 'admin' disliked video 'The best Battle Royals in 2021'
+2021-11-25 14:22:57.271 | INFO     | ajax.views:turn_on_marker:82 - User 'admin' liked video 'The best Battle Royals in 2021'
+2021-11-26 16:15:12.844 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'Sharker'
+2021-11-26 16:15:12.845 | SUCCESS  | videos.tasks:send_email_notifications:38 - Sending notifications about new video on channel 'Sharker' is completed
+2021-11-26 16:15:12.895 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'admin'
+2021-11-26 16:15:12.896 | SUCCESS  | videos.tasks:send_email_notifications:38 - Sending notifications about new video on channel 'admin' is completed
+2021-11-26 16:15:12.949 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'admin'
+2021-11-26 16:15:12.950 | SUCCESS  | videos.tasks:send_email_notifications:38 - Sending notifications about new video on channel 'admin' is completed
+2021-11-26 16:15:13.099 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'admin'
+2021-11-26 16:15:13.101 | SUCCESS  | videos.tasks:send_email_notifications:38 - Sending notifications about new video on channel 'admin' is completed
+2021-11-26 16:15:13.150 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'admin'
+2021-11-26 16:15:13.151 | SUCCESS  | videos.tasks:send_email_notifications:38 - Sending notifications about new video on channel 'admin' is completed
+2021-11-26 16:18:55.191 | INFO     | ajax.views:subscribe:156 - User 'admin' subscribed to channel 'Sharker'
+2021-11-26 16:18:56.465 | INFO     | ajax.views:notify:229 - User 'admin' enabled notifications from channel 'Sharker'
+2021-11-26 16:18:59.153 | INFO     | ajax.views:unsubscribe:191 - User 'admin' unsubscribed from channel 'Sharker'
+2021-11-26 16:19:00.525 | INFO     | ajax.views:subscribe:156 - User 'admin' subscribed to channel 'Sharker'
+2021-11-26 16:19:02.051 | INFO     | ajax.views:notify:229 - User 'admin' enabled notifications from channel 'Sharker'
+2021-11-26 16:19:07.817 | INFO     | accounts.views:add_logout_msg:123 - User 'admin' logged out
+2021-11-26 16:19:12.661 | INFO     | accounts.views:save_social_authed_user:81 - User 'Sharker' logged in through google-oauth2
+2021-11-26 16:19:56.446 | INFO     | videos.views:form_valid:242 - New instance <Video 'Wassub NEFFEXXX'> created (not saved yet)
+2021-11-26 16:19:56.505 | SUCCESS  | videos.views:form_valid:250 - Instance <Video 'Wassub NEFFEXXX'> saved successfully
+2021-11-26 16:19:56.568 | SUCCESS  | videos.views:form_valid:259 - M2M fields for <Video 'Wassub NEFFEXXX'> saved
+2021-11-26 16:19:56.669 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'Sharker'

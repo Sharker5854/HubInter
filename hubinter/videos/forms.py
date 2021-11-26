@@ -54,11 +54,13 @@ class AddVideoForm(forms.ModelForm):
         	'preview' : forms.FileInput(
         		attrs={
         			'class' : 'margin-20',
+					'style' : 'display: none !important;'
         		}
         	),
         	'video' : forms.FileInput(
         		attrs={
         			'class' : 'margin-50',
+					'style': 'display: none !important;'
         		}
         	),
         }
@@ -68,7 +70,7 @@ class AddVideoForm(forms.ModelForm):
 			'theme' : 'Video Theme',
 			'tags' : 'Tags (hold down “Control” to select more than one)',
 			'preview' : 'Preview (Recommended: 1350x1060 px)',
-			'video' : 'Video',
+			'video' : 'Video (.mp4 or .webm formats only)',
 		}
 
 

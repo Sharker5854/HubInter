@@ -6,12 +6,12 @@
         </a>
     </div>
     <div id="oneArea" class="accordion-body collapse">
-        <div class="accordion-inner">
+        <div id="filters" class="accordion-inner option-set" data-option-key="filter">
             {% for tag in tags %}
-                <a onclick="show_videos_by_tag( '{{ tag.name | lower }}' )" 
-                id="tag-btn-{{ tag.name | lower }}" class="button button-mini tag-button {{ tag.theme }}">{{ tag.name }}</a>
+                <a onclick="show_videos_by_tag( '{{ tag.name | lower }}', '{{ tag.theme.name | lower }}' )" 
+                id="tag-btn-{{ tag.name | lower }}" class="button button-mini tag-button {{ tag.theme }}"
+                href="#filter" data-option-value=".{{ tag.name | lower }}">{{ tag.name }}</a>
             {% endfor %}
-            <p id="scroll-down-hint">If you can't see the videos, scroll down below &#9660;</p>
         </div>
     </div>
 </div>
