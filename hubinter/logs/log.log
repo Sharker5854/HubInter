@@ -292,3 +292,12 @@
 2021-11-26 16:19:56.505 | SUCCESS  | videos.views:form_valid:250 - Instance <Video 'Wassub NEFFEXXX'> saved successfully
 2021-11-26 16:19:56.568 | SUCCESS  | videos.views:form_valid:259 - M2M fields for <Video 'Wassub NEFFEXXX'> saved
 2021-11-26 16:19:56.669 | INFO     | videos.tasks:send_email_notifications:36 - Starting to send out notifications about new video on channel 'Sharker'
+2021-12-08 22:30:39.319 | INFO     | videos.descriptors:__set__:19 - URL for YouTube video 'https://www.youtube.com/watch?v=DNS6OcwcxV8' is correct
+2021-12-08 22:30:39.322 | SUCCESS  | videos.utils:get_iframe_code:30 - Iframe-code for YouTube video 'https://www.youtube.com/watch?v=DNS6OcwcxV8' compiled
+2021-12-08 22:30:39.353 | INFO     | videos.views:form_valid:291 - New instance <YoutubeVideo 'https://www.youtube.com/watch?v=DNS6OcwcxV8'> created (not saved yet)
+2021-12-08 22:30:39.569 | SUCCESS  | videos.utils:get_title:65 - Successfully got title for YouTube video 'https://www.youtube.com/watch?v=DNS6OcwcxV8'
+2021-12-08 22:30:39.974 | SUCCESS  | videos.utils:get_preview_file:40 - Successfully got preview for YouTube video 'https://www.youtube.com/watch?v=DNS6OcwcxV8'
+2021-12-08 22:30:40.021 | SUCCESS  | videos.views:form_valid:307 - Instance <YoutubeVideo 'Setting up a Django + MySQL Development Environment on AWS EC2 Linux 2'> saved successfully
+2021-12-08 22:30:40.088 | SUCCESS  | videos.views:form_valid:316 - M2M fields for <YoutubeVideo 'Setting up a Django + MySQL Development Environment on AWS EC2 Linux 2'> saved
+2021-12-08 22:30:46.933 | INFO     | ajax.views:unsubscribe:191 - User 'admin' unsubscribed from channel 'admin'
+2021-12-08 22:30:48.595 | INFO     | ajax.views:subscribe:156 - User 'admin' subscribed to channel 'admin'

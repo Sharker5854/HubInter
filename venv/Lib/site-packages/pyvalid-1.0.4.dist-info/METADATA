@@ -1,0 +1,64 @@
+Metadata-Version: 2.1
+Name: pyvalid
+Version: 1.0.4
+Summary: The module, which allows easily validate function's input/output values.
+Home-page: https://uzumaxy.github.io/pyvalid/
+Author: Max Hryshchuk
+Author-email: uzumaxy@gmail.com
+Maintainer: Max Hryshchuk
+Maintainer-email: uzumaxy@gmail.com
+License: MIT
+Download-URL: https://github.com/uzumaxy/pyvalid/releases
+Keywords: pyvalid,valid,validation,type,checking,check,decorator,runtime,debug,test
+Platform: Platform Independent
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.0
+Classifier: Programming Language :: Python :: 3.1
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: Implementation
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Debuggers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+Requires-Dist: six (~=1.15)
+
+pyvalid
+-------
+
+.. image:: https://img.shields.io/codecov/c/github/uzumaxy/pyvalid.svg?style=plastic
+.. image:: https://img.shields.io/github/workflow/status/uzumaxy/pyvalid/Python%20package?style=plastic
+
+pyvalid is a Python data validation tool.
+
+Documentation: `uzumaxy.github.io/pyvalid <https://uzumaxy.github.io/pyvalid/>`_.
+
+License
++++++++
+
+Note that this project is distributed under the `MIT License <LICENSE>`_.
+
+

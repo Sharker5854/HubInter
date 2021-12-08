@@ -10,7 +10,6 @@ from django.db import IntegrityError
 from django.views.generic import ListView, DetailView, TemplateView, FormView, CreateView, DeleteView
 from django.db.models import Q, Prefetch
 from django.db.models import Count
-from django.contrib.postgres.search import SearchRank, SearchVector, SearchQuery
 from django.core import files
 from django.contrib import messages
 
@@ -33,7 +32,7 @@ import uuid
 - ВЗАИМОДЕЙСТВИЕ:
 	Подключить ASGI сервак Uvicorn
 	*ДЕПЛОЙ* (после него: настроить авторизацию через соц. сети, 
-			пути в ссылках при нажатии Share под видео, https-протокол, 
+			пути в ссылках при нажатии Share под видео, https-протокол, переменные окружения,
 			бд на AWS, создать собственный email для сайта, отправка contact-msg с почты сайта на почту админа,
 			автозапуск celery-процесса, наполнить контентом)
 

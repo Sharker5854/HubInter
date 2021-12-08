@@ -1,0 +1,158 @@
+Metadata-Version: 2.1
+Name: pyspectator
+Version: 1.2.2
+Summary: pyspectator is a Python cross-platform tool for monitoring OS resources.
+Home-page: https://github.com/it-geeks-club/pyspectator
+Author: Maxim Grischuk
+Author-email: uzumaxy@gmail.com
+Maintainer: Maxim Grischuk
+Maintainer-email: uzumaxy@gmail.com
+License: BSD
+Download-URL: https://github.com/it-geeks-club/pyspectator/releases
+Keywords: pyspectator,spectator,monitoring,tool,statistic,stats,computer,pc,server,mem,memory,network,net,io,processor,cpu,hdd,hard,disk,drive
+Platform: Platform Independent
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Environment :: MacOS X
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: C
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.0
+Classifier: Programming Language :: Python :: 3.1
+Classifier: Programming Language :: Python :: 3.2
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: System :: Benchmark
+Classifier: Topic :: System :: Hardware
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: System :: Networking :: Monitoring
+Classifier: Topic :: System :: Networking
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Utilities
+Requires-Dist: psutil (>=2.1.1)
+Requires-Dist: netifaces (>=0.10.4)
+Requires-Dist: pyvalid (>=0.9)
+Requires-Dist: enum34 (>=1.0)
+
+=======
+Summary
+=======
+
+pyspectator is a Python cross-platform tool for monitoring resources of OS: CPU, memory, disk, network.
+
+
+============
+Requirements
+============
+
+- OS: Linux, Windows, FreeBSD, Solaris
+- Python version: 3.X
+- Packages: psutil, netifaces, wmi (only on Windows), enum34 (only on python 3.0.0 - 3.4.0)
+- For Windows OS Microsoft Visual C++ 10.0 or higher is required
+
+==============
+How to install
+==============
+
+Run as root user:
+
+.. code-block:: bash
+
+    pip install pyspectator
+
+
+
+================
+Example of usage
+================
+
+There is simple project named `pyspectator_tornado <https://github.com/uzumaxy/pyspectator_tornado>`_
+developed special for demonstration of pyspectator features.
+
+.. image:: http://i.imgur.com/yUjNlyQ.png
+    :target: http://i.imgur.com/LFMmfHu.png
+    :alt: General information
+
+.. image:: http://i.imgur.com/omNJhno.png
+    :target: http://i.imgur.com/r0RuV2m.png
+    :alt: CPU
+
+.. image:: http://i.imgur.com/qc3NwBa.png
+    :target: http://i.imgur.com/zA7mteS.png
+    :alt: Disk devices
+
+.. image:: http://i.imgur.com/Dugsnr6.png
+    :target: http://i.imgur.com/rDadDzn.png
+    :alt: Network
+
+
+
+==========
+How to use
+==========
+
+You can use pyspectator as module for your own project. Simple example of usage is presented in file "console.py".
+
+*NOTE: on Windows pyspectator can require elevated privileges.*
+
+Class "Computer"
+----------------
+
+.. code-block:: python
+
+    >>> from pyspectator.computer import Computer
+    >>> computer = Computer()
+    >>> computer.os
+    'Linux 3.14.4-1-MANJARO'
+    >>> computer.python_version
+    'CPython ver. 3.4.1'
+    >>> computer.uptime
+    '1:07:52'
+    >>> computer.processor.name
+    'Intel(R) Core(TM) i3-3110M CPU @ 2.40GHz'
+
+
+Class "Cpu"
+-----------
+
+
+.. code-block:: python
+
+    >>> from pyspectator.processor import Cpu
+    >>> from time import sleep
+    >>> cpu = Cpu(monitoring_latency=1)
+    >>> with cpu:
+    ...     for _ in range(8):
+    ...        cpu.load, cpu.temperature
+    ...        sleep(1.1)
+    ...
+    (22.6, 55)
+    (6.1, 55)
+    (5.5, 54)
+    (7.1, 54)
+    (5.6, 54)
+    (7.0, 54)
+    (10.2, 54)
+    (6.6, 54)
+
+
